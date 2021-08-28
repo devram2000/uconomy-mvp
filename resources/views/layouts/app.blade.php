@@ -16,16 +16,12 @@
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
         @livewireStyles
+        @yield('scripts');
+
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
-        {{-- <script>
-            $(document).ready(function(){
-                $('#checkbox').on('change', function(){
-                    $('#password').attr('type',$('#checkbox').prop('checked')==true?"text":"password"); 
-                });
-            });
-        </script> --}}
+    
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -51,6 +47,6 @@
         @stack('modals')
 
         @livewireScripts
-        @yield('scripts');
     </body>
+
 </html>

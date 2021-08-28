@@ -41,6 +41,14 @@ Route::get('/email/verify', function () {
 
 // });
 
+// Route::get('/verify', 'VerifyController@show')->name('verify');
+// Route::post('/verify', 'VerifyController@verify')->name('verify');
+
+
+// Route::get('/phone', [App\Http\Controllers\NexmoController::class, 'showStart'])
+//     ->middleware(['auth:'.config('fortify.guard')])
+//     ->name('nexmo');
+
 Route::get('/phone/verify', [App\Http\Controllers\NexmoController::class, 'show'])
     ->middleware(['auth:'.config('fortify.guard')])
     ->name('nexmo');
@@ -48,6 +56,9 @@ Route::get('/phone/verify', [App\Http\Controllers\NexmoController::class, 'show'
 Route::post('/phone/verify', [App\Http\Controllers\NexmoController::class, 'verify'])
     ->middleware(['auth:'.config('fortify.guard'), 'throttle:6,1'])
     ->name('nexmo');
+
+Route::post('/reset', [App\Http\Controllers\NexmoController::class, 'reset'])
+    ->name('reset');
     
 
 // Route::get('/nexmo', 'NexmoController@show')->name('nexmo');
@@ -57,4 +68,4 @@ Route::post('/phone/verify', [App\Http\Controllers\NexmoController::class, 'veri
 
 // });
 
-Route::get('products', ProductController::class);
+// Route::get('products', ProductController::class);
