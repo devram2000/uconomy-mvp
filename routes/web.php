@@ -68,4 +68,10 @@ Route::post('/reset', [App\Http\Controllers\NexmoController::class, 'reset'])
 
 // });
 
-// Route::get('products', ProductController::class);
+Route::get('products', ProductController::class)
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('products');
+
+
+
+
