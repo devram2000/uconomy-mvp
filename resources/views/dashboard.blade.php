@@ -28,19 +28,14 @@
                         {{ __('Phone Number Verified!') }}
                     </div>
                 @endif
+                
 
-
-                {{-- @if(Session::has('fail'))
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                        {{Session::get('fail')}}
-                    </div>
-                @endif --}}
 
 
                   
                 
-                <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-
+                <div class="p-6 sm:px-20 bg-white border-b border-gray-200" id="dash">
+                    @livewire('start-u-pay')
                 </div>
 
             </div>

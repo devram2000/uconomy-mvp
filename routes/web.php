@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NexmoSMSController;
 use App\Http\Livewire\ProductController;
+use App\Http\Controllers\UPayController;
+use App\Http\Controllers\CalendarController;
  
  
 
@@ -73,5 +75,22 @@ Route::get('products', ProductController::class)
     ->name('products');
 
 
+Route::get('upay', [UPayController::class, 'index'])
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('upay');
+
+Route::post('upayAjax', [UPayController::class, 'ajax'])
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('upayAjax');
+
+
+
+Route::get('calendar', [CalendarController::class, 'index'])
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('calendar');
+
+Route::post('calendarAjax', [CalendarController::class, 'ajax'])
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('calendarAjax');
 
 

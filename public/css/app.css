@@ -2351,6 +2351,10 @@ select {
 	.md\:border-l {
 		border-left-width: 1px;
 	}
+
+	.md\:p-6 {
+		padding: 1.5rem;
+	}
 }
 @media (min-width: 1024px) {
 
@@ -2363,4 +2367,5 @@ select {
 		padding-right: 2rem;
 	}
 }
+
 

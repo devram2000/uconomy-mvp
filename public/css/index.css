@@ -1,0 +1,14 @@
+#dash {
+	height: 65vh;
+}
+
+#upay {
+    display: flex;
+    justify-content: center;
+	align-items: center;
+	/* margin-left: 5rem; */
+}
+
+#upay-button {
+	height: 2.5rem;
+}

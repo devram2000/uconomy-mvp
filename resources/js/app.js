@@ -1,4 +1,6 @@
 require('./bootstrap');
+require('./calendar');
+
 
 import Alpine from 'alpinejs';
 

@@ -70,7 +70,12 @@
                 @endif
 
                 <!-- Settings Dropdown -->
-                <div class="ml-3 relative">
+                <div class="flex justify-between ml-3 relative">
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-jet-nav-link href="mailto:email@example.com">
+                            {{ __('help@uconomy.com') }}
+                        </x-jet-nav-link>
+                    </div>
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
