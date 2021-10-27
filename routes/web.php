@@ -20,10 +20,14 @@ use App\Http\Controllers\CalendarController;
 */
 
 Route::get('/', function () {
-    return redirect('/dashboard');
+    return redirect('/home');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+Route::get('/dashboard', function () {
+    return redirect('/home');
+});
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/home', function () {
     return view('dashboard');
 })->name('dashboard');
 

@@ -68,10 +68,10 @@ class Verification extends Component
             return redirect('/phone/verify');
             
         } catch(\Exception $e){
-            // if ($request_id == null) {
-            // dd($e);
+            if ($request_id == null) {
+            dd($e);
             return redirect('/dashboard?verified=0');
-            // }
+            }
             // $client = $this->getClient();
             // $request_id = session('request_id');
             // $this->cancel($client, $request_id);

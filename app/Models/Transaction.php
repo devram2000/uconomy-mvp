@@ -6,16 +6,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Jetstream\HasProfilePhoto;
 
-class Product extends Model
+class Transaction extends Model
 {
     use HasFactory;
     use HasProfilePhoto;
 
     protected $fillable = [
-        'name',
         'user',
+        'amount',
+        'remaining_balance',
+        'category',
         'description',
-        'price',
+        'photo',
+        'start_date',
+        'due_date',
+        'suggested_dates',
+        'suggested_amounts',
+        'zelle',
     ];
 
 }

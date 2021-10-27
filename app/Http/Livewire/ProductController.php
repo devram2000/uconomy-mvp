@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Auth;
 use Livewire\Component;
 use App\Models\Product;
 
@@ -13,7 +14,8 @@ class ProductController extends Component
 
     public function render()
     {
-        $this->products = Product::all();
+        $this->products = Product::where('user', Auth::id())->get();
+        
         return view('livewire.product-controller');
     }
 
@@ -46,6 +48,7 @@ class ProductController extends Component
         ]);
     
         Product::updateOrCreate(['id' => $this->product_id], [
+            'user' => Auth::id(),
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,

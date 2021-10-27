@@ -15,6 +15,8 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user')->unsigned();
+            $table->foreign('user')->references('id')->on('users');
             $table->string('name', 555);
             // $table->string('profile_photo_path', 2048)->nullable();
             $table->string('description', 555);
