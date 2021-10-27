@@ -35,7 +35,7 @@
             {{ __('UPay') }}
         </div>
         <div> 
-            {{ __('Your amount available to spend is: $') }}{{ $spending_amount }}
+            {{ __('Your amount available to spend is $') }}{{ $spending_amount }}
         </div>
         <div>
             <x-jet-button id="upay-button" type="button" wire:click="redirectUPay">
@@ -49,8 +49,8 @@
             {{ __('Total Remaining Balance: $') }}{{ $remaining_balance }}
         </div>
         <div> 
-            {{ __('Your upcoming payment dates') }}
-        </div> 
+            {{ __('Your upcoming payment dates') }} 
+        </div> </br> 
         <div id="calendar"> 
         </div>
     </section>
@@ -60,7 +60,7 @@
     <div id="upay-transactions">
         <div class="text-center"> 
             {{ __('Your transactions') }}
-        </div>
+        </div> </br>
         <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100">
@@ -74,11 +74,11 @@
                 <tbody>
                     @foreach($transactions as $item)
                     <tr>
-                        <td class="border px-4 py-2">{{ $item->start_date }}</td>
-                        <td class="border px-4 py-2">{{ $item->category }}</td>
-                        <td class="border px-4 py-2">{{ $item->description}}</td>
-                        <td class="border px-4 py-2">{{ $item->due_date}}</td>
-                        <td class="border px-4 py-2">{{ $item->amount}}</td>
+                        <td class="text-center border px-4 py-2">{{ date('m/d/Y', strtotime($item->start_date)) }}</td>
+                        <td class="text-center border px-4 py-2">{{ $item->category }}</td>
+                        <td class="text-center border px-4 py-2">{{ $item->description}}</td>
+                        <td class="text-center border px-4 py-2">{{ date('m/d/Y', strtotime($item->due_date))}}</td>
+                        <td class="text-center border px-4 py-2">{{ __('$') }}{{ $item->amount}}</td>
                     </tr>
                     @endforeach
                 </tbody>
