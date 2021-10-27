@@ -10,7 +10,7 @@
 
 
 #upay-buy {
-    min-height: 55vh;
+    min-height: 375px;
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-evenly;
@@ -20,11 +20,14 @@
 
 
 #upay-balance {
-    min-height: 55vh;
+    /* min-height: 400px; */
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     /* margin-left: 5rem; */
+    padding-bottom: 50px;
+    /* font-size: 20px; */
+
 }
 
 #upay-transactions {
@@ -32,7 +35,8 @@
     flex-flow: column nowrap;
     align-items: center;
     /* margin-left: 5rem; */
-    padding-bottom: 10vh;
+    padding-bottom: 50px;
+    
 }
 
 
@@ -41,14 +45,34 @@
     font-weight: 500px;
 }
 
+#transactions-title {
+    font-size: 24px;
+}
+
+#payment-title {
+    font-size: 24px;
+}
+
 #upay-button {
     height: 2.5rem;
 }
 
 #calendar {
-    height: 35vh;
+    height: 300px;
     width: 50vw;
     border-style: solid;
     border-width: 3px;
     border-color: black;
+}
+
+#transact1 {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.form-group {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
 }

@@ -22,12 +22,12 @@ class StartUPay extends Component
 
         $this->spending_amount = Auth::user()->limit - $this->remaining_balance;
 
-        $this->has_transactions = !empty($this->transactions);
+        $this->has_transactions = count($this->transactions);
         
         return view('livewire.start-u-pay');
     }
 
     public function redirectUPay() {
-        return redirect('/upay'); 
+        return redirect('transact'); 
     }
 }

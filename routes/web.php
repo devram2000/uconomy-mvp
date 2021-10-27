@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NexmoSMSController;
 use App\Http\Livewire\ProductController;
+use App\Http\Livewire\MakeTransaction;
 use App\Http\Controllers\UPayController;
 use App\Http\Controllers\CalendarController;
  
@@ -77,6 +78,10 @@ Route::post('/reset', [App\Http\Controllers\NexmoController::class, 'reset'])
 Route::get('products', ProductController::class)
     ->middleware(['auth:'.config('fortify.guard')])
     ->name('products');
+
+Route::get('transact', MakeTransaction::class)
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('transact');
 
 
 Route::get('upay', [UPayController::class, 'index'])
