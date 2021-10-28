@@ -75,9 +75,13 @@ Route::post('/reset', [App\Http\Controllers\NexmoController::class, 'reset'])
 // });
 
 
-Route::get('transact', MakeTransaction::class)
+Route::get('transact', MakeTransaction::class, 'index')
     ->middleware(['auth:'.config('fortify.guard')])
     ->name('transact');
+
+Route::post('transactAjax', [MakeTransaction::class, 'ajax'])
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('transactAjax');
 
 
 Route::get('upay', [UPayController::class, 'index'])

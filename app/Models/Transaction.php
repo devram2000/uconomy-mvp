@@ -22,7 +22,7 @@ class Transaction extends Model
         'due_date',
         'suggested_dates',
         'suggested_amounts',
-        'zelle',
+        // 'zelle',
     ];
 
 }

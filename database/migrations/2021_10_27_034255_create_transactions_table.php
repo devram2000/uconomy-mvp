@@ -26,7 +26,7 @@ class CreateTransactionsTable extends Migration
             $table->timestamp('due_date');
             $table->string('suggested_dates', 555)->nullable();
             $table->string('suggested_amounts', 555)->nullable();
-            $table->string('zelle', 100);
+            // $table->string('zelle', 100);
             $table->timestamps();
         });
     }

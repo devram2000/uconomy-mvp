@@ -60,14 +60,23 @@
     border-color: black;
 }
 
-#transact1 {
+#transact {
     display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
+    justify-content: center;
 }
 
 .form-group {
     display: flex;
     flex-flow: column nowrap;
+    justify-content: center;
     align-items: center;
+}
+
+#description {
+    width: 400px;
+    height: 100px;
+}
+
+#amount {
+    width: 150px;
 }
