@@ -11,8 +11,10 @@ use App\Models\Event;
 class MakeTransaction extends Component
 {
     public $amount;
+    public $remaining_amount;
     public $category;
     public $description;
+    public $events;
     public $categories = ['Retail', 'Service', 'Peer-to-Peer Marketplace', 'Bill', 'Other'];
 
     public $currentStep = 1;
@@ -34,13 +36,11 @@ class MakeTransaction extends Component
 
         $transactions = Transaction::where('user', Auth::id())->get();
 
-        $amount = 0;
+        $total_remaining = 0;
         foreach ($transactions as $t) {
-            $amount += $t->remaining_balance;
+            $total_remaining += $t->remaining_balance;
         }
-        $remaining_balance = $amount;
-
-        $spending_amount = Auth::user()->limit - $remaining_balance;
+        $spending_amount = Auth::user()->limit - $total_remaining;
 
         $limit = Auth::user()->limit;
         $validatedData = $this->validate([
@@ -50,7 +50,14 @@ class MakeTransaction extends Component
             // 'zelle' => 'required',
         ]);
 
- 
+        if ($this->remaining_amount != $this->amount) {
+            Event::where('user', Auth::id())->delete();
+        }
+
+        $this->remaining_amount = $this->amount;
+        $this->events = Event::where('user', Auth::id())->get();
+
+        
 
         $this->currentStep = 2;
 
@@ -72,6 +79,47 @@ class MakeTransaction extends Component
 
         $this->currentStep = 3;
 
+    }
+
+
+        /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function ajax(Request $request)
+    {
+        switch ($request->type) {
+           case 'add':
+              $event = Event::create([
+                  'title' => $request->title,
+                  'start' => $request->start,
+                  'user' => Auth::id(),
+              ]);
+  
+              return response()->json($event);
+             break;
+  
+           case 'update':
+              $event = Event::find($request->id)->update([
+                'title' => $request->title,
+                'start' => $request->start,
+                'user' => Auth::id(),
+            ]);
+ 
+              return response()->json($event);
+             break;
+  
+           case 'delete':
+              $event = Event::find($request->id)->delete();
+  
+              return response()->json($event);
+             break;
+             
+           default:
+             # code...
+             break;
+        }
     }
 
   
@@ -136,65 +184,22 @@ class MakeTransaction extends Component
 
         $this->description = '';
 
-        // $this->stock = '';
-
-        // $this->status = 1;
+        Event::where('user', Auth::id())->delete();
 
     }
 
     public function index()
     {
-    //     if($request->ajax()) {
+        if($request->ajax()) {
        
-    //         $data = Event::whereDate('start', '>=', $request->start)
-    //                   ->whereDate('end',   '<=', $request->end)
-    //                   ->get(['id', 'title', 'start', 'end']);
+            $data = Event::where('user', Auth::id())
+                      ->get(['id', 'title', 'start']);
  
-    //         return response()->json($data);
-    //    }
- 
+            return response()->json($data);
+       }
+
         return view('livewire.make-transaction');
     }
 
-        /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function ajax(Request $request)
-    {
- 
-        switch ($request->type) {
-           case 'add':
-              $event = Event::create([
-                  'title' => $request->title,
-                  'start' => $request->start,
-                  'end' => $request->end,
-              ]);
- 
-              return response()->json($event);
-             break;
-  
-           case 'update':
-              $event = Event::find($request->id)->update([
-                  'title' => $request->title,
-                  'start' => $request->start,
-                  'end' => $request->end,
-              ]);
- 
-              return response()->json($event);
-             break;
-  
-           case 'delete':
-              $event = Event::find($request->id)->delete();
-  
-              return response()->json($event);
-             break;
-             
-           default:
-             # code...
-             break;
-        }
-    }
 
 }

@@ -6,6 +6,7 @@ use Auth;
 use App\Models\Transaction;
 use Livewire\Component;
 
+
 class StartUPay extends Component
 {
     public $transactions, $remaining_balance, $spending_amount, $has_transactions;

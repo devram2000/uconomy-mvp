@@ -33,49 +33,8 @@
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
             <div class="p-6 sm:px-20 bg-white border-b border-gray-200" id="dash">
                 <section id="transact">
-                    @if(!empty($successMessage))
 
-                        <div class="alert alert-success">
-
-                        {{ $successMessage }}
-
-                        </div>
-
-                    @endif
-
-                    
-<!-- 
-                    <div class="stepwizard">
-
-                        <div class="stepwizard-row setup-panel">
-
-                            <div class="stepwizard-step">
-
-                                <a href="#step-1" type="button" class="btn btn-circle {{ $currentStep != 1 ? 'btn-default' : 'btn-primary' }}">1</a>
-
-                                <p>Step 1</p>
-
-                            </div>
-
-                            <div class="stepwizard-step">
-
-                                <a href="#step-2" type="button" class="btn btn-circle {{ $currentStep != 2 ? 'btn-default' : 'btn-primary' }}">2</a>
-
-                                <p>Step 2</p>
-
-                            </div>
-
-                            <div class="stepwizard-step">
-
-                                <a href="#step-3" type="button" class="btn btn-circle {{ $currentStep != 3 ? 'btn-default' : 'btn-primary' }}" disabled="disabled">3</a>
-
-                                <p>Step 3</p>
-
-                            </div>
-
-                        </div>
-
-                    </div> -->
+             
                     @if($currentStep==1)
 
                     <div class="row setup-content {{ $currentStep != 1 ? 'displayNone' : '' }}" id="step-1">
@@ -127,8 +86,11 @@
                             <div class="col-md-12">
 
 
-                                <section id="">
-                                    Suggested payment dates:
+                                <section id="suggested-payments">
+                                    <div id="payment-title"> 
+                                        {{ __('Suggested Payment Dates:') }} 
+                                    </div> 
+                                    {{ __('Your remaining balance is: $') }}{{ $remaining_amount }}
                                     <div id="calendar"> 
                                     </div>
                                     <script>
@@ -144,12 +106,19 @@
                                         
                                         var calendar = $('#calendar').fullCalendar({
                                                             events: SITEURL + "/transact",
-                                                            editable: true,
+                                                            editable: false,
                                                             defaultView: 'month',
                                                             header: {
                                                                 left:   'title',
                                                                 center: '',
                                                                 right:  'today prev,next month basicWeek'
+                                                            },
+
+                                                            validRange: function(nowDate) {
+                                                                return {
+                                                                    start: nowDate,
+                                                                    end: nowDate.clone().add(3, 'months')
+                                                                };
                                                             },
                                                     
                                                             eventRender: function (event, element, view) {
@@ -161,58 +130,56 @@
                                                             },
                                                             selectable: true,
                                                             selectHelper: true,
+                                                            selectOverlap: false,
                                                             select: function (start, end, allDay) {
                                                                 var title = prompt('How much would you like to pay on this day?');
-                                                                if (title) {
+                                                                if (!isNaN(title) && !isNaN(parseFloat(title)) && parseFloat(title) != 0 ) {
                                                                     var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
-                                                                    var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
                                                                     $.ajax({
                                                                         url: SITEURL + "/transactAjax",
                                                                         data: {
                                                                             title: title,
                                                                             start: start,
-                                                                            end: end,
                                                                             type: 'add'
                                                                         },
                                                                         type: "POST",
                                                                         success: function (data) {
-                                                                            displayMessage("Event Created Successfully");
+                                                                            displayMessage("Payment Date Created Successfully");
                                         
                                                                             calendar.fullCalendar('renderEvent',
                                                                                 {
                                                                                     id: data.id,
-                                                                                    title: title,
+                                                                                    title: "$" + title,
                                                                                     start: start,
-                                                                                    end: end,
                                                                                     allDay: allDay
                                                                                 },true);
                                         
                                                                             calendar.fullCalendar('unselect');
                                                                         }
                                                                     });
+                                                                } else {
+                                                                    displayError("Please Enter a Valid Payment Amount");
                                                                 }
                                                             },
                                                             eventDrop: function (event, delta) {
                                                                 var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD");
-                                                                var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD");
                                         
                                                                 $.ajax({
                                                                     url: SITEURL + '/transactAjax',
                                                                     data: {
                                                                         title: event.title,
                                                                         start: start,
-                                                                        end: end,
                                                                         id: event.id,
                                                                         type: 'update'
                                                                     },
                                                                     type: "POST",
                                                                     success: function (response) {
-                                                                        displayMessage("Event Updated Successfully");
+                                                                        displayMessage("Payment Date Updated Successfully");
                                                                     }
                                                                 });
                                                             },
                                                             eventClick: function (event) {
-                                                                var deleteMsg = confirm("Do you really want to delete?");
+                                                                var deleteMsg = confirm("Do you really want to remove this payment?");
                                                                 if (deleteMsg) {
                                                                     $.ajax({
                                                                         type: "POST",
@@ -223,7 +190,7 @@
                                                                         },
                                                                         success: function (response) {
                                                                             calendar.fullCalendar('removeEvents', event.id);
-                                                                            displayMessage("Event Deleted Successfully");
+                                                                            displayMessage("Payment Date Removed Successfully");
                                                                         }
                                                                     });
                                                                 }
@@ -236,15 +203,20 @@
                                         function displayMessage(message) {
                                             toastr.success(message, 'Event');
                                         } 
+
+                                        function displayError(message) {
+                                            toastr.warning(message, 'Event');
+
+                                        }
                                         
                                     </script>
 
                                 </section> 
 
+                                <button class="btn btn-danger nextBtn btn-lg pull-right" type="button" wire:click="back(1)">Back</button>
 
                                 <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" wire:click="secondStepSubmit">Next</button>
 
-                                <button class="btn btn-danger nextBtn btn-lg pull-right" type="button" wire:click="back(1)">Back</button>
 
                             </div>
 
@@ -262,11 +234,10 @@
 
                           
 
-                
+                                <button class="btn btn-danger nextBtn btn-lg pull-right" type="button" wire:click="back(2)">Back</button>
 
                                 <button class="btn btn-success btn-lg pull-right" wire:click="submitForm" type="button">Finish!</button>
 
-                                <button class="btn btn-danger nextBtn btn-lg pull-right" type="button" wire:click="back(2)">Back</button>
 
                             </div>
 

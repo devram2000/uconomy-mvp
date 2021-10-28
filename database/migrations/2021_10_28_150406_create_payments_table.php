@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEventsTable extends Migration
+class CreatePaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,23 +13,26 @@ class CreateEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->bigInteger('user')->unsigned();
             $table->foreign('user')->references('id')->on('users');
-            $table->integer('title')->unsigned();
-            $table->timestamp('start');
+            $table->bigInteger('transaction')->unsigned();
+            $table->foreign('transaction')->references('id')->on('transactions');
+            $table->integer('amount')->unsigned();
+            $table->timestamp('date');
+
         });
-    }  
-  
-    /** 
+    }
+
+    /**
      * Reverse the migrations.
      *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('payments');
     }
 }
