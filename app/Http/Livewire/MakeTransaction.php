@@ -14,10 +14,24 @@ class MakeTransaction extends Component
     public $category;
     public $description;
     public $categories = ['Retail', 'Service', 'Peer-to-Peer Marketplace', 'Bill', 'Other'];
-    // public $zelle;
-  
-    public function submit()
+
+    public $currentStep = 1;
+    public $successMessage = '';
+
+      /**
+
+     * Write code on Method
+
+     *
+
+     * @return response()
+
+     */
+
+    public function firstStepSubmit()
+
     {
+
         $transactions = Transaction::where('user', Auth::id())->get();
 
         $amount = 0;
@@ -35,7 +49,36 @@ class MakeTransaction extends Component
             'description' => 'required',
             // 'zelle' => 'required',
         ]);
-        $flight = Transaction::create([
+
+ 
+
+        $this->currentStep = 2;
+
+    }
+
+      /**
+
+     * Write code on Method
+
+     *
+
+     * @return response()
+
+     */
+
+    public function secondStepSubmit()
+
+    {
+
+        $this->currentStep = 3;
+
+    }
+
+  
+    public function submitForm()
+    {
+        
+        Transaction::create([
             'amount' => $this->amount,
             'remaining_balance' => $this->amount,
             'category' => $this->category,
@@ -45,19 +88,70 @@ class MakeTransaction extends Component
             'start_date' => date('Y-m-d H:i:s'),
             'due_date' => date('Y-m-d H:i:s', strtotime('+3 months')),
         ]);
+
+        $this->successMessage = 'Product Created Successfully.';
+        $this->clearForm();
+        $this->currentStep = 1;
+
         return redirect('/dashboard');
+    }
+
+       /**
+
+     * Write code on Method
+
+     *
+
+     * @return response()
+
+     */
+
+    public function back($step)
+
+    {
+
+        $this->currentStep = $step;    
+
+    }
+
+  
+
+    /**
+
+     * Write code on Method
+
+     *
+
+     * @return response()
+
+     */
+
+    public function clearForm()
+
+    {
+
+        $this->amount = '';
+
+        $this->category = '';
+
+        $this->description = '';
+
+        // $this->stock = '';
+
+        // $this->status = 1;
+
     }
 
     public function index()
     {
-        if($request->ajax()) {
+    //     if($request->ajax()) {
        
-            $data = Event::whereDate('start', '>=', $request->start)
-                      ->whereDate('end',   '<=', $request->end)
-                      ->get(['id', 'title', 'start', 'end']);
+    //         $data = Event::whereDate('start', '>=', $request->start)
+    //                   ->whereDate('end',   '<=', $request->end)
+    //                   ->get(['id', 'title', 'start', 'end']);
  
-            return response()->json($data);
-       }
+    //         return response()->json($data);
+    //    }
  
         return view('livewire.make-transaction');
     }

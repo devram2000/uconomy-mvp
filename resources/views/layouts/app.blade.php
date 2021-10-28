@@ -15,12 +15,18 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
+
+
+
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/index.css') }}" rel="stylesheet">
 
 
+
         @livewireStyles
         @stack('scripts')
+
+        
 
 
         <!-- Scripts -->
