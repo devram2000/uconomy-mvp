@@ -103,7 +103,8 @@
                                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                             }
                                         });
-                                        
+                                 
+
                                         var calendar = $('#calendar').fullCalendar({
                                                             events: SITEURL + "/transact",
                                                             editable: false,
@@ -116,7 +117,7 @@
 
                                                             validRange: function(nowDate) {
                                                                 return {
-                                                                    start: nowDate,
+                                                                    start: nowDate.clone().subtract(1, 'days'),
                                                                     end: nowDate.clone().add(3, 'months')
                                                                 };
                                                             },
