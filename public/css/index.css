@@ -44,7 +44,10 @@
 }
 
 #payment-title {
+    text-align: center;
     font-size: 24px;
+    margin: 10px;
+    margin-top: 0px;
 }
 
 #upay-button {
@@ -86,4 +89,27 @@
     flex-flow: column nowrap;
     justify-content: space-evenly;
     align-items: center;
+}
+
+#remaining {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+/* #hidden-button {
+    display: none;
+} */
+
+#transaction-heading {
+    display: flex;
+    justify-content: space-between;
+    width: 60vw;
+}
+
+#button-space {
+    width: 77.391px;
+}
+
+#button-space-payment {
+    width: 77.391px;
 }

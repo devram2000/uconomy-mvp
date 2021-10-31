@@ -6,11 +6,14 @@ use Auth;
 use App\Models\Transaction;
 use Livewire\Component;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use App\Models\Event;
+// use Illuminate\Support\Facades\Validator;
 
 class MakeTransaction extends Component
 {
     public $amount;
+    public $old_amount;
     public $remaining_amount;
     public $category;
     public $description;
@@ -19,6 +22,20 @@ class MakeTransaction extends Component
 
     public $currentStep = 1;
     public $successMessage = '';
+
+    public function updateRemainingAmount() {
+        $this->events = Event::where('user', Auth::id())
+        ->get(['id', 'title', 'start']);
+
+        $event_amount = 0;
+        
+        foreach($this->events as $event) {
+            $event_amount += floatval($event['title']);
+        }
+
+        $this->remaining_amount = $this->amount - $event_amount;
+
+    }
 
       /**
 
@@ -50,17 +67,22 @@ class MakeTransaction extends Component
             // 'zelle' => 'required',
         ]);
 
-        if ($this->remaining_amount != $this->amount) {
-            Event::where('user', Auth::id())->delete();
-        }
 
-        $this->remaining_amount = $this->amount;
-        $this->events = Event::where('user', Auth::id())->get();
-
-        
+        $this->updateEvents();
 
         $this->currentStep = 2;
 
+    }
+
+
+    public function updateEvents() {
+        if ($this->old_amount != $this->amount) {
+            Event::where('user', Auth::id())->delete();
+        }
+
+        $this->updateRemainingAmount();
+
+        $this->old_amount = $this->amount;
     }
 
       /**
@@ -76,6 +98,23 @@ class MakeTransaction extends Component
     public function secondStepSubmit()
 
     {
+
+        $this->updateRemainingAmount();
+
+        // if($this->remaining_amount != 0) {
+        //     return Redirect::back()->withErrors("Please add payments until your remaining balance is 0.");
+        // }
+        
+
+        // $input = [
+        //     'amount' => $this->remaining_amount,
+        // ];
+
+        // $validator = Validator::make($input, [
+        //     'amount' => 'min:0|max:0',
+        // ]);
+        
+
 
         $this->currentStep = 3;
 
@@ -93,6 +132,7 @@ class MakeTransaction extends Component
            case 'add':
               $event = Event::create([
                   'title' => $request->title,
+                //   'title' => $this->amount,
                   'start' => $request->start,
                   'user' => Auth::id(),
               ]);
@@ -157,7 +197,6 @@ class MakeTransaction extends Component
     public function back($step)
 
     {
-
         $this->currentStep = $step;    
 
     }
@@ -188,13 +227,13 @@ class MakeTransaction extends Component
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
         if($request->ajax()) {
-       
+    
             $data = Event::where('user', Auth::id())
-                      ->get(['id', 'title', 'start']);
- 
+                        ->get(['id', 'title', 'start']);
+
             return response()->json($data);
        }
 
