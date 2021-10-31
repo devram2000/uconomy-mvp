@@ -23,9 +23,9 @@
 @endpush
 
 <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+    <div class="font-semibold text-xl text-gray-800 leading-tight">
         {{ __('Uconomy') }}
-    </h2>
+    </div>
 </x-slot>
 
 <div class="py-12">
@@ -48,12 +48,12 @@
                                     <div id="payment-title"> 
                                         {{ __('Transaction Details') }} 
                                     </div> 
-                                    <button class="btn btn-primary nextBtn btn-lg pull-right" wire:click="firstStepSubmit" type="button" >Next</button>
+                                    <x-jet-button id="upay-button" wire:click="firstStepSubmit" type="button" >Next</x-jet-button>
                                 </section>
                                
 
                                 <div class="form-group">
-                                    <label for="purchaseAmount">Enter  Amount </label>
+                                    <label for="purchaseAmount">Enter  Amount ($)</label>
                                     <input type="text" id="amount" class="form-control" id="purchaseAmount" placeholder="{{ $amount }}" wire:model="amount">
                                     @error('amount') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
@@ -95,12 +95,12 @@
 
                                 <section id="suggested-payments">
                                     <section id="transaction-heading">
-                                        <button class="btn btn-danger nextBtn btn-lg pull-right" type="button" wire:click="back(1)">Back</button>
+                                        <x-jet-button id="upay-button" type="button" wire:click="back(1)">Back</x-jet-button>
                                         <div id="payment-title"> 
-                                            {{ __('Pick Your Payment Dates:') }} 
+                                            {{ __('Pick Your Payment Dates') }} 
                                         </div> 
                                         <div id="button-space-payment"></div>
-                                        <button id="hidden-button" class="btn btn-primary nextBtn btn-lg pull-right" type="button" wire:click="secondStepSubmit">Next</button>
+                                        <x-jet-button id="hidden-button" type="button" wire:click="secondStepSubmit">Next</x-jet-button>
                                     </section>
                                     <section id="remaining">
                                         <div>{{ __('Your remaining balance is: $') }}</div>
@@ -121,22 +121,18 @@
 
                                     </section>      
                                     <div> 
-                                        {{ __('Add payments until there is no more balance') }} 
+                                        {{ __('Add payments until there is no more balance (click to remove payments)') }} 
                                     </div> </br>
-                                    <div id="calendar"> 
+                                    <div class="calendar" id="calendar"> 
                                     </div>
-                                    <script>
-                                        //  document.getElementById("calendar").addEventListener('click', function() {
-                                        //     document.getElementById("remaining-variable").innerHTML = "hello";
-                                        // });
-                                    </script>
                                     <script>
                                         $(document).ready(viewCalendar());
                                         remainingAmountUpdate(0);
 
                                         function remainingAmountUpdate(amount) {
-                                            document.getElementById("remaining-variable").innerHTML -= amount;
-                                            if (document.getElementById("remaining-variable").innerHTML == 0) {
+                                            var previous_amount = document.getElementById("remaining-variable").innerHTML;
+                                            var current_amount = previous_amount - amount;
+                                            if (current_amount == 0) {
                                                 $("#hidden-button").show();
                                                 $("#button-space-payment").hide();
                                                 
@@ -144,6 +140,7 @@
                                                 $("#button-space-payment").show();
                                                 $("#hidden-button").hide();
                                             }
+                                            document.getElementById("remaining-variable").innerHTML = current_amount.toFixed(2);
                                         }
 
 
@@ -164,8 +161,10 @@
 
                                         var calendar = $('#calendar').fullCalendar({
                                                             // events: SITEURL + "/transact",
-                                                            events: @json($events),
+                                                            events: @json($events_and_fees),
                                                             editable: false,
+                                                            eventColor: '#7cd9edff',
+                                                            // eventBorderColor: 'black',
                                                             defaultView: 'month',
                                                             header: {
                                                                 left:   'title',
@@ -192,8 +191,21 @@
                                                             selectOverlap: false,
                                                             select: function (start, end, allDay) {
                                                                 var title = prompt('How much would you like to pay on this day?');
-                                                                if (!isNaN(title) && !isNaN(parseFloat(title)) && parseFloat(title) > 0 
-                                                                    && parseFloat(title) <= document.getElementById("remaining-variable").innerHTML) {
+                                                                var float_title = parseFloat(title);
+                                                                Number.prototype.countDecimals = function () {
+                                                                    if(Math.floor(this.valueOf()) === this.valueOf()) return 0;
+                                                                    return this.toString().split(".")[1].length || 0; 
+                                                                }       
+                                                                if (isNaN(title) || isNaN(float_title) 
+                                                                    || float_title.countDecimals() > 2 || float_title < 0) {
+                                                                    displayError("Please Enter a Valid Amount");
+                                                                } else if (float_title < 1) {
+                                                                    displayError("Please Enter an Amount Over $1");
+                                                                } else if (document.getElementById("remaining-variable").innerHTML == 0) {
+                                                                    displayError("Your Remaining Balance Is $0!");
+                                                                } else if (float_title > document.getElementById("remaining-variable").innerHTML) {
+                                                                    displayError("Please Enter " + document.getElementById("remaining-variable").innerHTML + " or Less");
+                                                                } else {
                                                                     var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
                                                                     $.ajax({
                                                                         url: SITEURL + "/transactAjax",
@@ -206,7 +218,7 @@
                                                                         success: function (data) {
                                                                             // document.getElementById("remaining-variable").innerHTML = @this.getRemainingAmount();
                                                                             remainingAmountUpdate(title);
-                                                                            displayMessage("Payment Date Created Successfully");
+                                                                            displayMessage("Payment Date Created");
                                     
 
                                                                             calendar.fullCalendar('renderEvent',
@@ -220,27 +232,25 @@
                                                                             calendar.fullCalendar('unselect');
                                                                         }
                                                                     });
-                                                                } else {
-                                                                    displayError("Please Enter a Valid Payment Amount");
                                                                 }
                                                             },
-                                                            eventDrop: function (event, delta) {
-                                                                var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD");
+                                                            // eventDrop: function (event, delta) {
+                                                            //     var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD");
                                         
-                                                                $.ajax({
-                                                                    url: SITEURL + '/transactAjax',
-                                                                    data: {
-                                                                        title: event.title,
-                                                                        start: start,
-                                                                        id: event.id,
-                                                                        type: 'update'
-                                                                    },
-                                                                    type: "POST",
-                                                                    success: function (response) {
-                                                                        displayMessage("Payment Date Updated Successfully");
-                                                                    }
-                                                                });
-                                                            },
+                                                            //     $.ajax({
+                                                            //         url: SITEURL + '/transactAjax',
+                                                            //         data: {
+                                                            //             title: event.title,
+                                                            //             start: start,
+                                                            //             id: event.id,
+                                                            //             type: 'update'
+                                                            //         },
+                                                            //         type: "POST",
+                                                            //         success: function (response) {
+                                                            //             displayMessage("Payment Date Updated");
+                                                            //         }
+                                                            //     });
+                                                            // },
                                                             eventClick: function (event) {
                                                                 var deleteMsg = confirm("Do you really want to remove this payment?");
                                                                 if (deleteMsg) {
@@ -254,7 +264,7 @@
                                                                         success: function (response) {
                                                                             remainingAmountUpdate(event.title * -1);
                                                                             calendar.fullCalendar('removeEvents', event.id);
-                                                                            displayMessage("Payment Date Removed Successfully");
+                                                                            displayMessage("Payment Date Removed");
                                                                         }
                                                                     });
                                                                 }
@@ -265,11 +275,11 @@
                                         }
                                         
                                         function displayMessage(message) {
-                                            toastr.success(message, 'Event');
+                                            toastr.success(message, 'Action Successful');
                                         } 
 
                                         function displayError(message) {
-                                            toastr.warning(message, 'Event');
+                                            toastr.warning(message, 'Action Unsuccessful');
 
                                         }
                                         
@@ -292,12 +302,70 @@
 
                             <div class="col-md-12">
 
+                                <section id="transaction-heading">
+                                    <x-jet-button id="upay-button" type="button" wire:click="back(2)">Back</x-jet-button>
+                                    <div id="payment-title"> 
+                                        {{ __('Confirm Your Payments') }} 
+                                    </div> 
+                                    <x-jet-button id="upay-button" type="button" wire:click="submitForm">Confirm</x-jet-button>
+                                </section>
+                                <div class="calendar" id="paymentsCalendar"> 
+                                </div>
+                                    <script>
+                                        $(document).ready(viewPayments());
 
-                          
+                                   
+                                        
+                                        function viewPayments() {
+                                        
+                                        var SITEURL = "{{ url('/') }}";
+                                        
+                                        $.ajaxSetup({
+                                            headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                            }
+                                        });
 
-                                <button class="btn btn-danger nextBtn btn-lg pull-right" type="button" wire:click="back(2)">Back</button>
+                                       
+    
+                                 
 
-                                <button class="btn btn-success btn-lg pull-right" wire:click="submitForm" type="button">Finish!</button>
+                                        var calendar = $('#paymentsCalendar').fullCalendar({
+                                                            // events: SITEURL + "/transact",
+                                                            events: @json($total_payments),
+                                                            editable: false,
+                                                            eventColor: '#7cd9edff',
+                                                            // eventBorderColor: 'black',
+                                                            defaultView: 'month',
+                                                            header: {
+                                                                left:   'title',
+                                                                center: '',
+                                                                right:  'today prev,next month basicWeek'
+                                                            },
+
+                                                            validRange: function(nowDate) {
+                                                                return {
+                                                                    start: nowDate.clone().subtract(1, 'days'),
+                                                                    end: nowDate.clone().add(3, 'months')
+                                                                };
+                                                            },
+                                                    
+                                                            eventRender: function (event, element, view) {
+                                                                if (event.allDay === 'true') {
+                                                                        event.allDay = true;
+                                                                } else {
+                                                                        event.allDay = false;
+                                                                }
+                                                            },
+                                                            selectable: false,
+                                        
+                                                        });
+                                        
+                                        }
+                                        
+                                      
+                                        
+                                    </script>
 
 
                             </div>
@@ -312,6 +380,7 @@
                         if (confirm()) return true;
                         else return false;
                     }
+                    
                 </script>
 
             </div>

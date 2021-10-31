@@ -1,8 +1,24 @@
 <x-app-layout>
+    @push('scripts')
+
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+
+    @endpush
+
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Uconomy') }}
-        </h2>
+    <div class="font-semibold text-xl text-gray-800 leading-tight">
+        {{ __('Uconomy') }}
+    </div>
     </x-slot>
 
     <div class="py-12">

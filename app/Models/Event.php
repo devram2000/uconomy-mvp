@@ -13,5 +13,6 @@ class Event extends Model
         'user',
         'title',
         'start',
+        'fee',
     ];
 }

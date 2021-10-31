@@ -17,15 +17,19 @@ class MakeTransaction extends Component
     public $remaining_amount;
     public $category;
     public $description;
+    public $start_date;
+    public $last_payment_date;
     public $events;
+    public $events_and_fees;
     public $categories = ['Retail', 'Service', 'Peer-to-Peer Marketplace', 'Bill', 'Other'];
 
     public $currentStep = 1;
     public $successMessage = '';
 
     public function updateRemainingAmount() {
-        $this->events = Event::where('user', Auth::id())
-        ->get(['id', 'title', 'start']);
+        $this->events = Event::where('user', Auth::id()) 
+                                ->where('fee', false)
+                                ->get(['id', 'title', 'start']);
 
         $event_amount = 0;
         
@@ -36,6 +40,36 @@ class MakeTransaction extends Component
         $this->remaining_amount = $this->amount - $event_amount;
 
     }
+
+    public function updateFees() {
+        Event::where('user', Auth::id())->where('fee', true)->delete();
+
+        $custom_payments = Event::where('user', Auth::id())
+        ->orderBy('start', 'ASC')
+        ->get(['title', 'start'])
+        ->toArray();
+
+        $this->start_date = date('Y-m-d');
+        $this->last_payment_date = $custom_payments[count($custom_payments) - 1]['start'];
+        $fee_date = $this->start_date;
+        $fee_payments = [];
+        $i = 0;
+        while($fee_date <= $this->last_payment_date) {
+            // array_push($fee_payments, [ "id" => $i, "title" => 5, "start" => $fee_date ]);
+            // // $fee_payments += [[ "title" => 5, "start" => $fee_date ]];
+            Event::create([
+                'title' => 5,
+                'start' => $fee_date,
+                'user' => Auth::id(),
+                'fee' => true,
+            ]);
+            $fee_date = date("Y-m-d", strtotime("+1 month", strtotime($fee_date)));
+            $i++;
+        }
+        $this->$events_and_fees = Event::where('user', Auth::id()) 
+                                        ->get(['id', 'title', 'start']);
+    }
+
 
       /**
 
@@ -61,7 +95,7 @@ class MakeTransaction extends Component
 
         $limit = Auth::user()->limit;
         $validatedData = $this->validate([
-            'amount' => "required|numeric|min:0|max:$spending_amount",
+            'amount' => "required|numeric|min:10|max:$spending_amount",
             'category' => 'required',
             'description' => 'required',
             // 'zelle' => 'required',
@@ -100,20 +134,8 @@ class MakeTransaction extends Component
     {
 
         $this->updateRemainingAmount();
-
-        // if($this->remaining_amount != 0) {
-        //     return Redirect::back()->withErrors("Please add payments until your remaining balance is 0.");
-        // }
         
-
-        // $input = [
-        //     'amount' => $this->remaining_amount,
-        // ];
-
-        // $validator = Validator::make($input, [
-        //     'amount' => 'min:0|max:0',
-        // ]);
-        
+        $this->updateFees();
 
 
         $this->currentStep = 3;
@@ -135,17 +157,18 @@ class MakeTransaction extends Component
                 //   'title' => $this->amount,
                   'start' => $request->start,
                   'user' => Auth::id(),
+                  'fee' => false,
               ]);
   
               return response()->json($event);
              break;
   
-           case 'update':
-              $event = Event::find($request->id)->update([
-                'title' => $request->title,
-                'start' => $request->start,
-                'user' => Auth::id(),
-            ]);
+        //    case 'update':
+        //       $event = Event::find($request->id)->update([
+        //         'title' => $request->title,
+        //         'start' => $request->start,
+        //         'user' => Auth::id(),
+        //     ]);
  
               return response()->json($event);
              break;
@@ -229,13 +252,13 @@ class MakeTransaction extends Component
 
     public function index(Request $request)
     {
-        if($request->ajax()) {
+    //     if($request->ajax()) {
     
-            $data = Event::where('user', Auth::id())
-                        ->get(['id', 'title', 'start']);
+    //         $data = Event::where('user', Auth::id())
+    //                     ->get(['id', 'title', 'start']);
 
-            return response()->json($data);
-       }
+    //         return response()->json($data);
+    //    }
 
         return view('livewire.make-transaction');
     }

@@ -37,7 +37,7 @@
                         <th class="px-4 py-2">Start Date</th>
                         <th class="px-4 py-2">Category</th>
                         <th class="px-4 py-2">Description</th>
-                        <th class="px-4 py-2">Due Date</th>
+                        <th class="px-4 py-2">Estimated Completion</th>
                         <th class="px-4 py-2">Remaining Balance</th>
                     </tr>
                 </thead>

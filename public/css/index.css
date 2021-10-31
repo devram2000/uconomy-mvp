@@ -46,15 +46,17 @@
 #payment-title {
     text-align: center;
     font-size: 24px;
-    margin: 10px;
-    margin-top: 0px;
 }
 
 #upay-button {
     height: 2.5rem;
 }
 
-#calendar {
+#hidden-button {
+    height: 2.5rem;
+}
+
+.calendar {
     /* height: 50vh; */
     padding: 20px;
     width: 50vw;
@@ -96,20 +98,32 @@
     flex-flow: row nowrap;
 }
 
-/* #hidden-button {
-    display: none;
-} */
-
 #transaction-heading {
+    margin-bottom: 5px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 60vw;
 }
 
 #button-space {
-    width: 77.391px;
+    width: 85.7px;
 }
 
 #button-space-payment {
     width: 77.391px;
+}
+
+.fc-content {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+@media screen and (max-width: 800px) {
+    #calendar {
+        width: 100%;
+        height: 100%
+    }
 }
