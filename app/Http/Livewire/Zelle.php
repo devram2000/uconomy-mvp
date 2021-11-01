@@ -27,7 +27,19 @@ class Zelle extends Component
         $this->saved = false;
         $this->phone_number = Auth::user()->phone_number;
         $this->email = Auth::user()->email;
-        $this->zelle = Auth::user()->zelle;
+        // $this->zelle = Auth::user()->zelle;
         return view('livewire.zelle');
     }
+
+    // @if($zelle == null) 
+    //         <select name="zelle" id="zelle" placeholder='' wire:model="zelle">
+    //             <option value=null selected="selected">{{ __('') }}</option>
+    //             <option value="email">{{ __('Email: ') }}{{ $email }}</option>
+    //             <option value="phone_number">        {{ __('Phone Number: ') }}{{ $phone_number }}</option>
+    //         </select>
+    //         @elseif($zelle = "phone_number")
+    //         {{ __('Phone Number: ') }}{{ $phone_number }}
+    //         @elseif($zelle = "email")
+    //         {{ __('Email: ') }}{{ $email }}
+    //         @endif
 }

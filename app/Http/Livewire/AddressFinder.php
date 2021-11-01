@@ -48,12 +48,12 @@ class AddressFinder extends Component
     {
         $previous_address = Address::where('user', Auth::id())->first();
         if($previous_address != null) {
-            $this->address =  $previous_address->address;
-            $this->zipCode =  $previous_address->zipCode;
-            $this->apt =  $previous_address->apt;
-            $this->country =  $previous_address->country;
-            $this->state =  $previous_address->state;
-            $this->city =  $previous_address->city;
+            // $this->address =  $previous_address->address;
+            // $this->zipCode =  $previous_address->zipCode;
+            // $this->apt =  $previous_address->apt;
+            // $this->country =  $previous_address->country;
+            // $this->state =  $previous_address->state;
+            // $this->city =  $previous_address->city;
         }
         return view('livewire.address');
     }

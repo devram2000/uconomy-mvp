@@ -18,27 +18,19 @@
 
             </br>
 
-            @if($zelle == null) 
             <select name="zelle" id="zelle" placeholder='' wire:model="zelle">
                 <option value=null selected="selected">{{ __('') }}</option>
                 <option value="email">{{ __('Email: ') }}{{ $email }}</option>
                 <option value="phone_number">        {{ __('Phone Number: ') }}{{ $phone_number }}</option>
             </select>
-            @elseif($zelle = "phone_number")
-            {{ __('Phone Number: ') }}{{ $phone_number }}
-            @elseif($zelle = "email")
-            {{ __('Email: ') }}{{ $email }}
-            @endif
         </div>
 
 
     </x-slot>
 
     <x-slot name="actions">
-        @if($zelle = null)
         <x-jet-button>
             {{ __('Save') }}
         </x-jet-button>
-        @endif
     </x-slot>
 </x-jet-form-section>
