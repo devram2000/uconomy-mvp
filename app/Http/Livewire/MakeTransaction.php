@@ -29,7 +29,7 @@ class MakeTransaction extends Component
     public function updateRemainingAmount() {
         $this->events = Event::where('user', Auth::id()) 
                                 ->where('fee', false)
-                                ->get(['id', 'title', 'start']);
+                                ->get(['id', 'title', 'start'])->toArray();
 
         $event_amount = 0;
         
@@ -66,8 +66,24 @@ class MakeTransaction extends Component
             $fee_date = date("Y-m-d", strtotime("+1 month", strtotime($fee_date)));
             $i++;
         }
-        $this->$events_and_fees = Event::where('user', Auth::id()) 
-                                        ->get(['id', 'title', 'start']);
+
+        $this->events = Event::where('user', Auth::id()) 
+                                ->where('fee', false)
+                                ->get(['id', 'title', 'start'])->toArray();
+
+        $fees = Event::where('user', Auth::id()) 
+                                ->where('fee', true)
+                                
+                                ->get(['id', 'title', 'start'])->toArray();
+        // $test = array_map(function ($a) { 
+        //     return $a[] = ["borderColor" => "black"];
+        // }, $this->fees);
+
+        for ($i = 0; $i < count($fees); $i++) {
+            $fees[$i]["borderColor"] = "black";
+        }
+
+        $this->events_and_fees = array_merge($fees, $this->events);
     }
 
 

@@ -42,8 +42,7 @@
                         <div class="col-xs-12">
 
                             <div class="col-md-12">
-                                <section id="transaction-heading">
-                                    <!-- <button class="btn btn-primary nextBtn btn-lg pull-right" wire:click="firstStepSubmit" type="button" >Back</button> -->
+                                <section class="transaction-heading">
                                     <div id="button-space"></div>
                                     <div id="payment-title"> 
                                         {{ __('Transaction Details') }} 
@@ -94,7 +93,7 @@
 
 
                                 <section id="suggested-payments">
-                                    <section id="transaction-heading">
+                                    <section class="transaction-heading">
                                         <x-jet-button id="upay-button" type="button" wire:click="back(1)">Back</x-jet-button>
                                         <div id="payment-title"> 
                                             {{ __('Pick Your Payment Dates') }} 
@@ -105,19 +104,6 @@
                                     <section id="remaining">
                                         <div>{{ __('Your remaining balance is: $') }}</div>
                                         <div id="remaining-variable">{{ $this->remaining_amount }}</div>
-                                        <!-- <div>{{ __('(add payments until there is no balance)') }}</div> -->
-                                      <!-- <div class="form-group">
-                                            <label for="purchaseAmount">Enter  Amount: </label>
-                                            <input type="text" id="amount" class="form-control" id="purchaseAmount"  wire:model="amount">
-                                            @error('amount') <span class="text-danger">{{ $message }}</span> @enderror
-                                        </div> -->
-
-                                        <!-- @if($errors->any())
-                                            {!! implode('', $errors->all('<div>:message</div>')) !!}
-                                        @endif -->
-                                        <!-- @error('firstname')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror -->
 
                                     </section>      
                                     <div> 
@@ -161,7 +147,7 @@
 
                                         var calendar = $('#calendar').fullCalendar({
                                                             // events: SITEURL + "/transact",
-                                                            events: @json($events_and_fees),
+                                                            events: @json($events),
                                                             editable: false,
                                                             eventColor: '#7cd9edff',
                                                             // eventBorderColor: 'black',
@@ -301,20 +287,20 @@
                         <div class="col-xs-12">
 
                             <div class="col-md-12">
-
-                                <section id="transaction-heading">
-                                    <x-jet-button id="upay-button" type="button" wire:click="back(2)">Back</x-jet-button>
-                                    <div id="payment-title"> 
-                                        {{ __('Confirm Your Payments') }} 
-                                    </div> 
-                                    <x-jet-button id="upay-button" type="button" wire:click="submitForm">Confirm</x-jet-button>
-                                </section>
-                                <div class="calendar" id="paymentsCalendar"> 
-                                </div>
+                                <section id="confirm-payments">
+                                    <section class="transaction-heading">
+                                        <x-jet-button id="upay-button" type="button" wire:click="back(2)">Back</x-jet-button>
+                                        <div id="payment-title"> 
+                                            {{ __('Confirm Your Payments') }} 
+                                        </div> 
+                                        <x-jet-button id="upay-button" type="button" wire:click="submitForm">Done</x-jet-button>
+                                    </section> </br>
+                                    <div class="calendar" id="paymentsCalendar"> 
+                                    </div>
                                     <script>
                                         $(document).ready(viewPayments());
 
-                                   
+                                    
                                         
                                         function viewPayments() {
                                         
@@ -326,16 +312,17 @@
                                             }
                                         });
 
-                                       
-    
-                                 
+                                        
+
+                                    
 
                                         var calendar = $('#paymentsCalendar').fullCalendar({
                                                             // events: SITEURL + "/transact",
-                                                            events: @json($total_payments),
+                                                            events: @json($events_and_fees),
                                                             editable: false,
                                                             eventColor: '#7cd9edff',
                                                             // eventBorderColor: 'black',
+
                                                             defaultView: 'month',
                                                             header: {
                                                                 left:   'title',
@@ -363,9 +350,10 @@
                                         
                                         }
                                         
-                                      
+                                        
                                         
                                     </script>
+                                </section>
 
 
                             </div>
@@ -376,10 +364,10 @@
                     @endif
                 </section>
                 <script type="text/javascript">
-                    window.onbeforeunload = function() {
-                        if (confirm()) return true;
-                        else return false;
-                    }
+                    // window.onbeforeunload = function() {
+                    //     if (confirm()) return true;
+                    //     else return false;
+                    // }
                     
                 </script>
 

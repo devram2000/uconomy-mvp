@@ -19,6 +19,7 @@ class CreateEventsTable extends Migration
             $table->foreign('user')->references('id')->on('users');
             $table->integer('title')->unsigned();
             $table->date('start');
+            $table->boolean('fee');
             $table->timestamps();
 
         });
