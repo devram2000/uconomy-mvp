@@ -5,6 +5,7 @@ use App\Http\Controllers\NexmoSMSController;
 use App\Http\Livewire\MakeTransaction;
 use App\Http\Controllers\UPayController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\AutoAddressController;
  
  
 
@@ -35,6 +36,7 @@ Route::get('/email/verify', function () {
     return view('auth.email-verify');
 });
 
+Route::get('auto-complete-address', [AutoAddressController::class, 'googleAutoAddress']);
 
 
 // Route::group(['middleware' => 'auth'], function() {

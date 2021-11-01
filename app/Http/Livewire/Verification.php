@@ -36,7 +36,8 @@ class Verification extends Component
             if ($request_id  == null) {
                 $verification = Nexmo::verify()->start([
                     'number' => '+1'.(int) auth()->user()->phone_number,
-                    'brand'  => 'Uconomy'
+                    'brand'  => 'Uconomy',
+                    'pin_expiry' => 120,
                 ]);
 
                 // session(['request_id' => $verification->getRequestId()]);

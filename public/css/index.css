@@ -86,6 +86,16 @@
     width: 150px;
 }
 
+#error {
+    color: red;
+}
+
+#profile-button {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
 #suggested-payments {
     display: flex;
     flex-flow: column nowrap;

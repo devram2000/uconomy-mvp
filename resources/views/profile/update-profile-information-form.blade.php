@@ -64,16 +64,28 @@
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="email" value="{{ __('Email') }}" />
+            @if($this->user->email_verified_at == null)
+
             <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
             <x-jet-input-error for="email" class="mt-2" />
+            @else
+            {{ $this->user->email }}
+            @endif
+
         </div> 
         
         <!-- Phone Number -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="phone_number" value="{{ __('Phone Number') }}" />
+            @if($this->user->phone_verified_at == null)
             <x-jet-input id="phone_number" type="tel" class="mt-1 block w-full" wire:model.defer="state.phone_number" />
             <x-jet-input-error for="phone_number" class="mt-2" />
+            @else
+            {{ $this->user->phone_number }}
+            @endif
+
         </div>
+
 
         {{-- {{ $this->user->email_verified_at }}
 

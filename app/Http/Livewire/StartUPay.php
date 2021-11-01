@@ -6,12 +6,15 @@ use Auth;
 use App\Models\Transaction;
 use App\Models\Payment;
 use App\Models\Fee;
+use App\Models\Address;
 use Livewire\Component;
 
 
 class StartUPay extends Component
 {
     public $transactions, $payments, $fees, $events_and_fees, $remaining_balance, $spending_amount, $has_transactions;
+    public $profile_completed = false;
+    public $profile_sections = "Verification, Zelle, and Address sections";
 
     public function render()
     {
@@ -55,10 +58,25 @@ class StartUPay extends Component
 
         $this->events_and_fees = array_merge($this->fees, $this->payments);
 
+        $zelle = Auth::user()->zelle;
+        $phone_verify = Auth::user()->phone_verified_at;
+        $email_verify = Auth::user()->email_verified_at;
+        $address = Address::where('user', Auth::id())->first();
+
+        if ($zelle != null && $email_verify != null
+        && $phone_verify != null && $address != null) {
+            $this->profile_completed = true;
+
+        }
+
         return view('livewire.start-u-pay');
     }
 
     public function redirectUPay() {
         return redirect('transact'); 
+    }
+
+    public function redirectProfile() {
+        return redirect('/user/profile'); 
     }
 }

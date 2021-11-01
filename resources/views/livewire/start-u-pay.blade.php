@@ -31,9 +31,19 @@
             {{ __('Your amount available to spend is $') }}{{ $spending_amount }}
         </div>
         <div>
+            @if($profile_completed)
             <x-jet-button id="upay-button" type="button" wire:click="redirectUPay">
                 {{ __('Create a Payment Plan') }}
             </x-jet-button>  
+            @else
+            <div id="profile-button">
+                <div> {{ __(' Please complete the ') }} {{ $profile_sections }} {{ __(' of your Profile before making your payment plan.') }} </div> </br>
+            
+                <x-jet-button id="upay-button" type="button" wire:click="redirectProfile">
+                    {{ __('Profile') }}
+                </x-jet-button>
+            </div>
+            @endif
         </div>
     </section>
     @if($remaining_balance)
