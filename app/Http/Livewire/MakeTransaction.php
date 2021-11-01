@@ -62,9 +62,10 @@ class MakeTransaction extends Component
                 ->orderBy('date', 'DESC')->first();
         if ($current_fees != null) {
             $last_fee_date = date("Y-m-d", strtotime("+1 month", strtotime($current_fees->date)));
-            if ($last_fee_date <= $this->last_payment_date) {
-                $fee_date = $last_fee_date;
-            }
+            // dd($last_fee_date);
+            // if ($last_fee_date <= $this->last_payment_date) {
+            $fee_date = $last_fee_date;
+            // }
         }
         while($fee_date <= $this->last_payment_date) {
             // array_push($fee_payments, [ "id" => $i, "title" => 5, "start" => $fee_date ]);
@@ -253,9 +254,12 @@ class MakeTransaction extends Component
 
         $this->successMessage = 'Product Created Successfully.';
         $this->clearForm();
-        $this->currentStep = 1;
+        $this->currentStep = 4;
 
-        return redirect('/dashboard');
+    }
+
+    public function redirectHome() {
+        return redirect('home'); 
     }
 
        /**

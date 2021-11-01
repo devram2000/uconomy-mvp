@@ -105,6 +105,14 @@
     flex-flow: row nowrap;
 }
 
+#fee-description {
+    width: 500px;
+    /* font-size: 15px; */
+    text-align: center;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
 .transaction-heading {
     margin-bottom: 5px;
     display: flex;
@@ -126,6 +134,11 @@
     justify-content: center;
     font-weight: bold;
     font-size: 12px;
+}
+
+#transaction-agreement {
+    text-align: center;
+    width: 60vw;
 }
 
 @media screen and (max-width: 800px) {

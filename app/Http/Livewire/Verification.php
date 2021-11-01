@@ -70,7 +70,7 @@ class Verification extends Component
         } catch(\Exception $e){
             if ($request_id == null) {
             dd($e);
-            return redirect('/dashboard?verified=0');
+            return redirect('/home?verified=0');
             }
             // $client = $this->getClient();
             // $request_id = session('request_id');
@@ -99,12 +99,12 @@ class Verification extends Component
             $result = $client->verify()->cancel($request_id);
         } catch(\Exception $e) {
             // dd($e);
-            return redirect('/dashboard?verified=0');
+            return redirect('/home?verified=0');
             // sleep(30);
             // try {
             //     $result = $client->verify()->cancel($request_id);
             // } catch(\Exception $e2) {
-            //     return redirect('/dashboard')->withFail('There was a problem with your verification. Please contact us if this issue persists.');
+            //     return redirect('/home')->withFail('There was a problem with your verification. Please contact us if this issue persists.');
             // }
         }
     }

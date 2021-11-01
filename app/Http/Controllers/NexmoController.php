@@ -52,7 +52,7 @@ class NexmoController extends Controller
             DB::table('users')->where('id', Auth::id())->update(['phone_request' => null]);
 
 
-            return redirect('/dashboard?verified=2');
+            return redirect('/home?verified=2');
         } catch (Nexmo\Client\Exception\Request $e) {
             return redirect()->back()->withErrors([
                 'code' => $e->getMessage()

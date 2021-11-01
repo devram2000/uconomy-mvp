@@ -294,7 +294,13 @@
                                             {{ __('Confirm Your Payments') }} 
                                         </div> 
                                         <x-jet-button id="upay-button" type="button" wire:click="submitForm">Done</x-jet-button>
+                                    </section> 
+                                    <section id="fee-description">
+                                        <div>{{ __('Uconomy charges a $5 subscription fee per month. If you 
+                                            pay off your balance early, you don\'t have to pay the fee for the next month(s)!') }}</div>
+
                                     </section> </br>
+
                                     <div class="calendar" id="paymentsCalendar"> 
                                     </div>
                                     <script>
@@ -361,6 +367,21 @@
                         </div>
 
                     </div>
+                    @endif
+                    @if($currentStep==4)
+                    <section id="upay-buy">
+                        <div id="upay-title"> 
+                            {{ __('Your transaction has been created!') }}
+                        </div>
+                        <div id="transaction-agreement"> 
+                            {{ __('The Uconomy Team will review this transaction, and a transaction agreement will be emailed to you in the next 24 hours. Once you agree, the money will be sent to your bank account using Zelle!') }}
+                        </div>
+                        <div>
+                            <x-jet-button id="upay-button" type="button" wire:click="redirectHome">
+                                {{ __('Return Home') }}
+                            </x-jet-button>  
+                        </div>
+                    </section>
                     @endif
                 </section>
                 <script type="text/javascript">
