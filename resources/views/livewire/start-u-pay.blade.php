@@ -1,3 +1,27 @@
+@push('scripts')
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
+
+@endpush
+
 <section id="upay">
     <section id="upay-buy">
         <div id="upay-title"> 
@@ -21,8 +45,65 @@
          <div>
             {{ __('Total Remaining Balance: $') }}{{ $remaining_balance }}
         </div></br>
-        <div id="calendar"> 
-        </div>
+        <div class="calendar" id="mainCalendar"> 
+                                    </div>
+                                    <script>
+                                        $(document).ready(viewDates());
+
+                                    
+                                        
+                                        function viewDates() {
+                                        
+                                        var SITEURL = "{{ url('/') }}";
+                                        
+                                        $.ajaxSetup({
+                                            headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                            }
+                                        });
+
+                                        
+
+                                    
+
+                                        var calendar = $('#mainCalendar').fullCalendar({
+                                                            // events: SITEURL + "/transact",
+                                                            events: @json($events_and_fees),
+                                                            editable: false,
+                                                            eventColor: '#7cd9edff',
+                                                            // eventBorderColor: 'black',
+
+                                                            defaultView: 'month',
+                                                            header: {
+                                                                left:   'title',
+                                                                center: '',
+                                                                right:  'today prev,next month basicWeek'
+                                                            },
+
+                                                            // validRange: function(nowDate) {
+                                                            //     return {
+                                                            //         start: nowDate.clone().subtract(1, 'days'),
+                                                            //         end: nowDate.clone().add(3, 'months')
+                                                            //     };
+                                                            // },
+                                                    
+                                                            eventRender: function (event, element, view) {
+                                                                if (event.allDay === 'true') {
+                                                                        event.allDay = true;
+                                                                } else {
+                                                                        event.allDay = false;
+                                                                }
+                                                            },
+                                                            selectable: false,
+                                        
+                                                        });
+                                        
+                                        }
+                                        
+                                        
+                                        
+                                    </script>
+
     </section>
 
     @endif
@@ -34,11 +115,11 @@
         <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100">
-                        <th class="px-4 py-2">Start Date</th>
-                        <th class="px-4 py-2">Category</th>
-                        <th class="px-4 py-2">Description</th>
-                        <th class="px-4 py-2">Estimated Completion</th>
-                        <th class="px-4 py-2">Remaining Balance</th>
+                        <th class="text-center px-4 py-2">Start Date</th>
+                        <th class="text-center px-4 py-2">Category</th>
+                        <th class="text-center px-4 py-2">Description</th>
+                        <th class="text-center px-4 py-2">Estimated Completion</th>
+                        <th class="text-center px-4 py-2">Remaining Balance</th>
                     </tr>
                 </thead>
                 <tbody>

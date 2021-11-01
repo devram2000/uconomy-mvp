@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use Auth;
 use App\Models\Transaction;
+use App\Models\Payment;
+use App\Models\Fee;
 use Livewire\Component;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -20,6 +22,7 @@ class MakeTransaction extends Component
     public $start_date;
     public $last_payment_date;
     public $events;
+    public $fees;
     public $events_and_fees;
     public $categories = ['Retail', 'Service', 'Peer-to-Peer Marketplace', 'Bill', 'Other'];
 
@@ -45,15 +48,24 @@ class MakeTransaction extends Component
         Event::where('user', Auth::id())->where('fee', true)->delete();
 
         $custom_payments = Event::where('user', Auth::id())
-        ->orderBy('start', 'ASC')
-        ->get(['title', 'start'])
-        ->toArray();
+                                ->orderBy('start', 'ASC')
+                                ->get(['title', 'start'])
+                                ->toArray();
 
         $this->start_date = date('Y-m-d');
         $this->last_payment_date = $custom_payments[count($custom_payments) - 1]['start'];
+        
         $fee_date = $this->start_date;
         $fee_payments = [];
-        $i = 0;
+
+        $current_fees = Fee::where('user', Auth::id()) 
+                ->orderBy('date', 'DESC')->first();
+        if ($current_fees != null) {
+            $last_fee_date = date("Y-m-d", strtotime("+1 month", strtotime($current_fees->date)));
+            if ($last_fee_date <= $this->last_payment_date) {
+                $fee_date = $last_fee_date;
+            }
+        }
         while($fee_date <= $this->last_payment_date) {
             // array_push($fee_payments, [ "id" => $i, "title" => 5, "start" => $fee_date ]);
             // // $fee_payments += [[ "title" => 5, "start" => $fee_date ]];
@@ -64,14 +76,15 @@ class MakeTransaction extends Component
                 'fee' => true,
             ]);
             $fee_date = date("Y-m-d", strtotime("+1 month", strtotime($fee_date)));
-            $i++;
         }
+
+
 
         $this->events = Event::where('user', Auth::id()) 
                                 ->where('fee', false)
                                 ->get(['id', 'title', 'start'])->toArray();
 
-        $fees = Event::where('user', Auth::id()) 
+        $this->fees = Event::where('user', Auth::id()) 
                                 ->where('fee', true)
                                 
                                 ->get(['id', 'title', 'start'])->toArray();
@@ -79,11 +92,15 @@ class MakeTransaction extends Component
         //     return $a[] = ["borderColor" => "black"];
         // }, $this->fees);
 
-        for ($i = 0; $i < count($fees); $i++) {
-            $fees[$i]["borderColor"] = "black";
-        }
+        $fee_view =$this->fees;
 
-        $this->events_and_fees = array_merge($fees, $this->events);
+        for ($i = 0; $i < count($fee_view ); $i++) {
+            $fee_view [$i]["borderColor"] = "black";
+            $fee_view [$i]["color"] = "white";
+        }
+       
+
+        $this->events_and_fees = array_merge($fee_view , $this->events);
     }
 
 
@@ -205,16 +222,34 @@ class MakeTransaction extends Component
     public function submitForm()
     {
         
-        Transaction::create([
+        $transaction = Transaction::create([
             'amount' => $this->amount,
             'remaining_balance' => $this->amount,
             'category' => $this->category,
             'description' => $this->description,
-            // 'zelle' => $this->zelle,
             'user' => Auth::id(),
-            'start_date' => date('Y-m-d H:i:s'),
-            'due_date' => date('Y-m-d H:i:s', strtotime('+3 months')),
+            'start_date' => $this->start_date,
+            'due_date' => $this->last_payment_date,
         ]);
+        foreach($this->events as $event) {
+            Payment::create([
+                'user' => Auth::id(),
+                'transaction' => $transaction->id,
+                'amount' => $event['title'],
+                'date' => $event['start'],
+                'completed' => false,
+            ]);
+        }
+        foreach($this->fees as $fee) {
+            Fee::create([
+                'user' => Auth::id(),
+                'transaction' => $transaction->id,
+                'amount' => $fee['title'],
+                'date' => $fee['start'],
+                'completed' => false,
+            ]);
+        }
+
 
         $this->successMessage = 'Product Created Successfully.';
         $this->clearForm();

@@ -20,8 +20,8 @@ class Transaction extends Model
         'photo',
         'start_date',
         'due_date',
-        'suggested_dates',
-        'suggested_amounts',
+        // 'suggested_dates',
+        // 'suggested_amounts',
         // 'zelle',
     ];
 
