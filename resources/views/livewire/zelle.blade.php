@@ -18,7 +18,7 @@
 
             </br>
 
-            <select name="zelle" id="zelle" placeholder='' wire:model="zelle">
+            <select name="zelle" id="zelle" wire:model="zelle">
                 <option value=null selected="selected">{{ __('') }}</option>
                 <option value="email">{{ __('Email: ') }}{{ $email }}</option>
                 <option value="phone_number">        {{ __('Phone Number: ') }}{{ $phone_number }}</option>

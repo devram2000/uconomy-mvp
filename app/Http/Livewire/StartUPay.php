@@ -14,7 +14,7 @@ class StartUPay extends Component
 {
     public $transactions, $payments, $fees, $events_and_fees, $remaining_balance, $spending_amount, $has_transactions;
     public $profile_completed = false;
-    public $profile_sections = "Verification, Zelle, and Address sections";
+    public $profile_sections;
 
     public function render()
     {
@@ -66,8 +66,26 @@ class StartUPay extends Component
         if ($zelle != null && $email_verify != null
         && $phone_verify != null && $address != null) {
             $this->profile_completed = true;
-
+        } else if ($zelle == null && ($email_verify == null
+        || $phone_verify == null) && $address == null) {
+            $this->profile_sections = "Verification, Zelle, and Address sections";
+        } else if ($zelle == null && ($email_verify == null
+        || $phone_verify == null)) {
+            $this->profile_sections = "Verification and Zelle sections";
+        } else if (($email_verify == null|| $phone_verify == null) && $address == null) {
+            $this->profile_sections = "Verification and Address sections";
+        } else if ($zelle == null && $address == null) {
+            $this->profile_sections = "Zelle and Address sections";
+        } else if ($zelle == null) {
+            $this->profile_sections = "Zelle section";
+        } else if ($address == null) {
+            $this->profile_sections = "Address section";
+        } else if ($email_verify == null|| $phone_verify == null) {
+            $this->profile_sections = "Verification section";
         }
+
+
+
 
         return view('livewire.start-u-pay');
     }
