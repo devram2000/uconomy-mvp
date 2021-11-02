@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Uconomy Beta Testing currently transacts with Zelle.') }} </br>
+        {{ __('Uconomy Beta Testing currently uses Zelle.') }} </br>
         {{ __('Make sure your Zelle account is connected to the email or phone number
             inputted to your Uconomy account.') }}
     </x-slot>
@@ -14,7 +14,7 @@
 
         <div class="col-span-6 sm:col-span-4">
             {{ __('Is your Zelle connected to your email or phone number?') }} </br>
-            @error('zelle') <span id="error" class="text-danger">{{ $message }}</span> @enderror
+            <x-jet-input-error for="zelle" class="mt-2" />
 
             </br>
 

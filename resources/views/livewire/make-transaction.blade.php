@@ -44,22 +44,23 @@
                             <div class="col-md-12">
                                 <section class="transaction-heading">
                                     <div id="button-space"></div>
-                                    <div id="payment-title"> 
-                                        {{ __('Transaction Details') }} 
-                                    </div> 
-                                    <x-jet-button id="upay-button" wire:click="firstStepSubmit" type="button" >Next</x-jet-button>
+                                    <x-jet-button id="upay-button" wire:click="firstStepSubmit" type="button" >Next</x-jet-button>          
                                 </section>
+                                <div id="payment-title"> 
+                                    {{ __('Transaction Details') }} 
+                                </div> 
                                
 
                                 <div class="form-group">
                                     <label for="purchaseAmount">Enter  Amount ($)</label>
+                                    <x-jet-input-error for="amount" class="mt-2" />
                                     <input type="text" id="amount" class="form-control" id="purchaseAmount" placeholder="{{ $amount }}" wire:model="amount">
-                                    @error('amount') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
 
                             
                                 <div class="form-group">
                                     <label for="category">Category</label>
+                                    <x-jet-input-error for="category" class="mt-2" />
                                     <select name="category" wire:model="category" 
                                         class="p-2 px-4 py-2 pr-8 leading-tight bg-white border border-gray-400 rounded  appearance-none hover:border-gray-500 focus:outline-none ">
                                         <option value=''>Choose a Category</option>
@@ -67,13 +68,13 @@
                                             <option value='{{ $c }}'>{{ $c }}</option>
                                         @endforeach 
                                     </select>
-                                    @error('category') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             
                                 <div class="form-group">
                                     <label for="description">Description (what are you planning to do with the money?)</label>
+                                    <x-jet-input-error for="description" class="mt-2" />
                                     <textarea id="description" class="form-control" id="description" placeholder="{{ $description }}" wire:model="description"></textarea>
-                                    @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+
                                 </div>
                 
 
@@ -95,18 +96,18 @@
                                 <section id="suggested-payments">
                                     <section class="transaction-heading">
                                         <x-jet-button id="upay-button" type="button" wire:click="back(1)">Back</x-jet-button>
-                                        <div id="payment-title"> 
-                                            {{ __('Pick Your Payment Dates') }} 
-                                        </div> 
                                         <div id="button-space-payment"></div>
-                                        <x-jet-button id="hidden-button" type="button" wire:click="secondStepSubmit">Next</x-jet-button>
+                                        <x-jet-button id="hidden-button" type="button" wire:click="secondStepSubmit">Next</x-jet-button> 
                                     </section>
+                                    <div id="payment-title"> 
+                                        {{ __('Pick Your Payment Dates') }} 
+                                    </div> 
                                     <section id="remaining">
                                         <div>{{ __('Your remaining balance is: $') }}</div>
                                         <div id="remaining-variable">{{ $this->remaining_amount }}</div>
 
                                     </section>      
-                                    <div> 
+                                    <div id="payment-description" class="text-center"> 
                                         {{ __('Add payments until there is no more balance (click to remove payments)') }} 
                                     </div> </br>
                                     <div class="calendar" id="calendar"> 
@@ -290,11 +291,12 @@
                                 <section id="confirm-payments">
                                     <section class="transaction-heading">
                                         <x-jet-button id="upay-button" type="button" wire:click="back(2)">Back</x-jet-button>
-                                        <div id="payment-title"> 
-                                            {{ __('Confirm Your Payments') }} 
-                                        </div> 
                                         <x-jet-button id="upay-button" type="button" wire:click="submitForm">Done</x-jet-button>
                                     </section> 
+                                    <div id="payment-title"> 
+                                            {{ __('Confirm Your Payments') }} 
+                                        </div> 
+
                                     <section id="fee-description">
                                         <div>{{ __('Uconomy charges a $5 subscription fee per month. If you 
                                             pay off your balance early, you don\'t have to pay the fee for the next month(s)!') }}</div>

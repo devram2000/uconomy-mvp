@@ -31,11 +31,11 @@
             {{ __('Your amount available to spend is $') }}{{ $spending_amount }}
         </div>
         <div>
-            @if($profile_completed)
+            @if($profile_completed && $spending_amount >= 10)
             <x-jet-button id="upay-button" type="button" wire:click="redirectUPay">
                 {{ __('Create a Payment Plan') }}
             </x-jet-button>  
-            @else
+            @elseif($spending_amount >= 10)
             <div id="profile-button">
                 <div> {{ __(' Please complete the ') }} {{ $profile_sections }} {{ __(' of your Profile before making your payment plan.') }} </div> </br>
             
@@ -121,31 +121,25 @@
     <section id="upay-transactions">
         <div id="transactions-title" class="text-center "> 
             {{ __('Your transactions') }}
-        </div> </br>
-        <table class="table-fixed w-full">
-                <thead>
-                    <tr class="bg-gray-100">
-                        <th class="text-center px-4 py-2">Start Date</th>
-                        <th class="text-center px-4 py-2">Category</th>
-                        <th class="text-center px-4 py-2">Description</th>
-                        <th class="text-center px-4 py-2">Estimated Completion</th>
-                        <th class="text-center px-4 py-2">Remaining Balance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($transactions as $item)
-                    <tr>
-                        <td class="text-center border px-4 py-2">{{ date('m/d/Y', strtotime($item->start_date)) }}</td>
-                        <td class="text-center border px-4 py-2">{{ $item->category }}</td>
-                        <td class="text-center border px-4 py-2">{{ $item->description}}</td>
-                        <td class="text-center border px-4 py-2">{{ date('m/d/Y', strtotime($item->due_date))}}</td>
-                        <td class="text-center border px-4 py-2">{{ __('$') }}{{ $item->amount}}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        </div>
+
+        <div id="transaction-list">
+            @foreach($transactions as $item)
+            <div id="transaction-item">
+                <div class="transaction-sub"><b>Start Date</b>: {{ date('m/d/Y', strtotime($item->start_date)) }}</div>
+                <div class="transaction-sub"><b>Category</b>: {{ $item->category }}</div>
+                <div class="transaction-sub"><b>Description</b>: {{ $item->description}}</div>
+                <div class="transaction-sub"><b>Estimated Completion</b>: {{ date('m/d/Y', strtotime($item->due_date))}}</div>
+                <div class="transaction-sub"><b>Remaining Balance</b>: {{ __('$') }}{{ $item->amount}}</div>
+            </div>
+            @endforeach
+
+        </div>
+        
 
     </div>
+
+    
     @endif
 </div>    
 
