@@ -9,7 +9,21 @@ use App\Models\Address;
 
 class AddressFinder extends Component
 {
-    public $address, $zipCode, $apt, $country, $state, $city;
+    public $address, $zipCode, $apt, $country, $state, $city, $saved;
+
+    public function __construct() {   
+        $previous_address = Address::where('user', Auth::id())->first();
+        if($previous_address != null) {
+            $this->address =  $previous_address->address;
+            $this->zipCode =  $previous_address->zipCode;
+            $this->apt =  $previous_address->apt;
+            $this->country =  $previous_address->country;
+            $this->state =  $previous_address->state;
+            $this->city =  $previous_address->city;
+        }
+
+        $this->saved = false;
+    }
 
     public function addressUpdate() {
         $validatedData = $this->validate([
@@ -41,20 +55,15 @@ class AddressFinder extends Component
                     'city' => $this->city,
                 ]);
         }
+
+        $this->saved = true;
+
       
     }
 
     public function render()
     {
-        $previous_address = Address::where('user', Auth::id())->first();
-        if($previous_address != null) {
-            // $this->address =  $previous_address->address;
-            // $this->zipCode =  $previous_address->zipCode;
-            // $this->apt =  $previous_address->apt;
-            // $this->country =  $previous_address->country;
-            // $this->state =  $previous_address->state;
-            // $this->city =  $previous_address->city;
-        }
+
         return view('livewire.address');
     }
 }

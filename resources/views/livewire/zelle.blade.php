@@ -18,8 +18,8 @@
 
             </br>
 
-            <select name="zelle" id="zelle" wire:model="zelle">
-                <option value=null selected="selected">{{ __('') }}</option>
+            <select name="zelle" id="zelle" wire:model="zelle" >
+                <option selected="selected">{{ __('') }}</option>
                 <option value="email">{{ __('Email: ') }}{{ $email }}</option>
                 <option value="phone_number">        {{ __('Phone Number: ') }}{{ $phone_number }}</option>
             </select>
@@ -29,6 +29,11 @@
     </x-slot>
 
     <x-slot name="actions">
+        @if($saved)
+        <div class="mr-3 text-sm text-gray-600">
+            {{ __('Saved.') }}
+        </div>
+        @endif
         <x-jet-button>
             {{ __('Save') }}
         </x-jet-button>

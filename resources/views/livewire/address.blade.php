@@ -83,6 +83,12 @@
           display: flex;
           justify-content: flex-end;
       }
+
+      .together {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+      }
       
     </style>
     <script>
@@ -164,13 +170,14 @@
                     <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
                     <span class="sb-title">Address Selection</span>
                 </div> -->
+
                 <input type="text" placeholder="Address" id="location" wire:model="address"/>
-                @error('address') <span id="error" class="text-danger">{{ $message }}</span> @enderror
+                <x-jet-input-error for="address" class="mt-2" />
 
                 <input type="text" placeholder="Apt, Suite, etc (optional)" wire:model="apt"/>
                 
                 <input type="text" placeholder="City" id="locality" wire:model="city"/>
-                @error('city') <span id="error" class="text-danger">{{ $message }}</span> @enderror
+                <x-jet-input-error for="city" class="mt-2" />
 
                 <div class="half-input-container">
                     <input type="text" class="half-input" placeholder="State/Province" id="administrative_area_level_1" wire:model="state"/>
@@ -178,12 +185,13 @@
                     <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code" wire:model="zipCode"/>
 
                 </div>
-                @error('state') <span id="error" class="text-danger">{{ $message }}</span> @enderror
-
-                @error('zipCode') <span id="error" class="text-danger">{{ $message }}</span> @enderror
+                <div class="together">
+                  <x-jet-input-error for="state" class="mt-2" />
+                  <x-jet-input-error for="zipCode" class="mt-2" />
+                </div>
 
                 <input type="text" placeholder="Country" id="country" wire:model="country"/>
-                @error('country') <span id="error" class="text-danger">{{ $message }}</span> @enderror
+                <x-jet-input-error for="country" class="mt-2" />
 
                 
 
@@ -194,7 +202,12 @@
 
     </x-slot>
     <x-slot name="actions">
-
+        @if($saved)
+        <div class="mr-3 text-sm text-gray-600">
+            {{ __('Saved.') }}
+        </div>
+        @endif
+        
         <x-jet-button>
             {{ __('Save') }}
         </x-jet-button>

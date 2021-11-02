@@ -9,7 +9,15 @@ use Illuminate\Support\Facades\Validator;
 
 class Zelle extends Component
 {
-    public $phone_number, $email, $zelle, $pzelle, $saved;
+    public $phone_number, $email;
+    public $saved = false;
+    public $zelle;
+
+    public function __construct()
+    {   
+        $this->zelle = Auth::user()->zelle;
+    }
+    
 
     public function zelleUpdate() {
 
@@ -24,10 +32,8 @@ class Zelle extends Component
 
     public function render()
     {
-        $this->saved = false;
         $this->phone_number = Auth::user()->phone_number;
         $this->email = Auth::user()->email;
-        // $this->zelle = Auth::user()->zelle;
         return view('livewire.zelle');
     }
 
