@@ -108,7 +108,7 @@
 
                                     </section>      
                                     <div id="payment-description" class="text-center"> 
-                                        {{ __('Add payments until there is no more balance (click to remove payments)') }} 
+                                        {{ __('Add payments until there is no more balance (click to add/remove payments)') }} 
                                     </div> </br>
                                     <div class="calendar" id="calendar"> 
                                     </div>
@@ -176,6 +176,7 @@
                                                             selectable: true,
                                                             selectHelper: true,
                                                             selectOverlap: false,
+                                                            longPressDelay: 1,
                                                             select: function (start, end, allDay) {
                                                                 var title = prompt('How much would you like to pay on this day?');
                                                                 var float_title = parseFloat(title);
