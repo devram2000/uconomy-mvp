@@ -150,6 +150,8 @@
                                                             // events: SITEURL + "/transact",
                                                             events: @json($events),
                                                             editable: false,
+                                                            height: 'auto',
+                                                            longPressDelay: 0,
                                                             eventColor: '#7cd9edff',
                                                             // eventBorderColor: 'black',
                                                             defaultView: 'month',
@@ -176,7 +178,6 @@
                                                             selectable: true,
                                                             selectHelper: true,
                                                             selectOverlap: false,
-                                                            longPressDelay: 1,
                                                             select: function (start, end, allDay) {
                                                                 var title = prompt('How much would you like to pay on this day?');
                                                                 var float_title = parseFloat(title);
@@ -330,6 +331,7 @@
                                                             events: @json($events_and_fees),
                                                             editable: false,
                                                             eventColor: '#7cd9edff',
+                                                            height: 'auto',
                                                             // eventBorderColor: 'black',
 
                                                             defaultView: 'month',

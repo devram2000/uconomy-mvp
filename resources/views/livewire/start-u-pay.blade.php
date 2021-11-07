@@ -81,6 +81,7 @@
                                                             events: @json($events_and_fees),
                                                             editable: false,
                                                             eventColor: '#7cd9edff',
+                                                            height: 'auto',
                                                             // eventBorderColor: 'black',
 
                                                             defaultView: 'month',

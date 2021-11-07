@@ -36,7 +36,7 @@ Route::get('/email/verify', function () {
     return view('auth.email-verify');
 });
 
-Route::get('auto-complete-address', [AutoAddressController::class, 'googleAutoAddress']);
+// Route::get('auto-complete-address', [AutoAddressController::class, 'googleAutoAddress']);
 
 
 // Route::group(['middleware' => 'auth'], function() {
@@ -86,22 +86,22 @@ Route::post('transactAjax', [MakeTransaction::class, 'ajax'])
     ->name('transactAjax');
 
 
-Route::get('upay', [UPayController::class, 'index'])
-    ->middleware(['auth:'.config('fortify.guard')])
-    ->name('upay');
+// Route::get('upay', [UPayController::class, 'index'])
+//     ->middleware(['auth:'.config('fortify.guard')])
+//     ->name('upay');
 
-Route::post('upayAjax', [UPayController::class, 'ajax'])
-    ->middleware(['auth:'.config('fortify.guard')])
-    ->name('upayAjax');
+// Route::post('upayAjax', [UPayController::class, 'ajax'])
+//     ->middleware(['auth:'.config('fortify.guard')])
+//     ->name('upayAjax');
 
 
 
-Route::get('calendar', [CalendarController::class, 'index'])
-    ->middleware(['auth:'.config('fortify.guard')])
-    ->name('calendar');
+// Route::get('calendar', [CalendarController::class, 'index'])
+//     ->middleware(['auth:'.config('fortify.guard')])
+//     ->name('calendar');
 
-Route::post('calendarAjax', [CalendarController::class, 'ajax'])
-    ->middleware(['auth:'.config('fortify.guard')])
-    ->name('calendarAjax');
+// Route::post('calendarAjax', [CalendarController::class, 'ajax'])
+//     ->middleware(['auth:'.config('fortify.guard')])
+//     ->name('calendarAjax');
 
 

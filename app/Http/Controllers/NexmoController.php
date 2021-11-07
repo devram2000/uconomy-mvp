@@ -52,7 +52,7 @@ class NexmoController extends Controller
             DB::table('users')->where('id', Auth::id())->update(['phone_request' => null]);
 
 
-            return redirect('/home?verified=2');
+            return redirect('/user/profile?verified=2');
         } catch (Nexmo\Client\Exception\Request $e) {
             return redirect()->back()->withErrors([
                 'code' => $e->getMessage()
@@ -65,7 +65,7 @@ class NexmoController extends Controller
         $request_id = auth()->user()->phone_request;
 
         if ($request_id == null) {
-            return redirect('/dashboard?verified=0');
+            return redirect('/user/profile?verified=0');
         }
 
         $client = Verification::getClient();
@@ -82,7 +82,7 @@ class NexmoController extends Controller
                     'code' => "You cannot reset within 30 seconds"
                 ]);
             } else {
-                return redirect('/dashboard?verified=0');
+                return redirect('/user/profile?verified=0');
             }
         }
 

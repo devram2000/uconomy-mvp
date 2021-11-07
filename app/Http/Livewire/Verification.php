@@ -71,7 +71,7 @@ class Verification extends Component
         } catch(\Exception $e){
             if ($request_id == null) {
             dd($e);
-            return redirect('/home?verified=0');
+            return redirect('/user/profile?verified=0');
             }
             // $client = $this->getClient();
             // $request_id = session('request_id');
@@ -100,7 +100,7 @@ class Verification extends Component
             $result = $client->verify()->cancel($request_id);
         } catch(\Exception $e) {
             // dd($e);
-            return redirect('/home?verified=0');
+            return redirect('/user/profile?verified=0');
             // sleep(30);
             // try {
             //     $result = $client->verify()->cancel($request_id);
