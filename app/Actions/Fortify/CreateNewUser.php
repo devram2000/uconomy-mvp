@@ -34,6 +34,7 @@ class CreateNewUser implements CreatesNewUsers
             'phone_number' => $input['phone_number'],
             'password' => Hash::make($input['password']),
             'limit' => 250,
+            'terms' => date_format(date_create(), 'Y-m-d H:i:s'),
         ]);
     }
 }

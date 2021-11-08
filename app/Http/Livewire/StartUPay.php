@@ -15,9 +15,22 @@ class StartUPay extends Component
     public $transactions, $payments, $fees, $events_and_fees, $remaining_balance, $spending_amount, $has_transactions;
     public $profile_completed = false;
     public $profile_sections;
+    public $terms;
+    public $agreements;
+
+    public function __construct() {   
+        $this->terms = Auth::user()->terms != NULL;
+        $this->agreements = $this->terms;
+    }
+
 
     public function render()
-    {
+    {        
+
+        if (!$this->terms) {
+            return view('livewire.terms-agreement');
+        }
+
         $this->transactions = Transaction::where('user', Auth::id())->get();
 
         $amount = 0;
@@ -25,6 +38,7 @@ class StartUPay extends Component
             $amount += $t->remaining_balance;
         }
         $this->remaining_balance = $amount;
+
 
         $this->spending_amount = Auth::user()->limit - $this->remaining_balance;
 
@@ -96,5 +110,17 @@ class StartUPay extends Component
 
     public function redirectProfile() {
         return redirect('/user/profile'); 
+    }
+
+
+    public function termsSubmit() {
+        $validatedData = $this->validate([
+            'agreements' => ['required', 'accepted'],
+
+        ]);
+        $date = date_format(date_create(), 'Y-m-d H:i:s');
+        Auth::user()->update(['terms' => $date]);
+
+        $this->terms = true;
     }
 }

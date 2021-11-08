@@ -29,6 +29,7 @@
         </div>
         <div> 
             {{ __('Your amount available to spend is $') }}{{ $spending_amount }}
+
         </div>
         <div>
             @if($profile_completed && $spending_amount >= 10)
