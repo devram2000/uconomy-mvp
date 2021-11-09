@@ -196,6 +196,12 @@
                                                                     displayError("Please Enter " + document.getElementById("remaining-variable").innerHTML + " or Less");
                                                                 } else {
                                                                     var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
+                                                                    var half_title = document.getElementById("remaining-variable").innerHTML - parseFloat(title);
+                                                                    
+                                                                    if (half_title < 1) {
+                                                                        title = document.getElementById("remaining-variable").innerHTML;
+                                                                    }
+
                                                                     $.ajax({
                                                                         url: SITEURL + "/transactAjax",
                                                                         data: {

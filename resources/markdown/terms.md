@@ -97,7 +97,7 @@ We reserve the right to correct any errors or mistakes in pricing, even if we ha
 **TRANSACTIONS** Before completing any transaction on your behalf through any Uconomy Services, Uconomy will secure your promise to pay by disclosing the terms and conditions applicable to that transaction and securing your affirmative consent to those terms for that transaction, including your promise to pay the Total Payments amount to Lender or its assigns, by asking you to click the button to confirm your loan.
 
 
-**Collections** You agree to allow Uconomy to send you payment reminders from time-to-time. Notwithstanding whether you have consented or withdrawn your consent to the Uconomy E-Sign Consent, you agree that payment reminders may take the form of any available communication, subject to applicable law. You also agree that if you fail to pay an amount owed to Uconomy pursuant to this Agreement, Uconomy may engage in collection efforts to recover such amounts from you. Uconomy may negotiate a grace period with you on a case-by-case basis, if you default to pay in this period, Uconomy will make collection these collection efforts. These collection efforts may involve contacting you directly, submitting your information to a collections agency, or taking legal action. 
+**COLLECTIONS** You agree to allow Uconomy to send you payment reminders from time-to-time. Notwithstanding whether you have consented or withdrawn your consent to the Uconomy E-Sign Consent, you agree that payment reminders may take the form of any available communication, subject to applicable law. You also agree that if you fail to pay an amount owed to Uconomy pursuant to this Agreement, Uconomy may engage in collection efforts to recover such amounts from you. Uconomy may negotiate a grace period with you on a case-by-case basis, if you default to pay in this period, Uconomy may engage in collection efforts. These collection efforts may involve contacting you directly, submitting your information to a collections agency, or taking legal action. 
 
   
 
@@ -207,9 +207,9 @@ The Site may invite you to chat, contribute to, or participate in blogs, message
 
 Any use of the Site in violation of the foregoing violates these Terms of Use and may result in, among other things, termination or suspension of your rights to use the Site.
 
-  
 
-  
+
+
 
 **CONTRIBUTION LICENSE**
 
@@ -459,7 +459,7 @@ In order to resolve a complaint regarding the Site or to receive further informa
 
 **251 Little Falls Drive**
 
-**Wilmington**, DE** **19807****
+**Wilmington, DE 19807**
 
 **United States**
 
