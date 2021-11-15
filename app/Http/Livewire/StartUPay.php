@@ -8,6 +8,7 @@ use App\Models\Payment;
 use App\Models\Fee;
 use App\Models\Address;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 
 class StartUPay extends Component
@@ -17,16 +18,21 @@ class StartUPay extends Component
     public $profile_sections;
     public $terms;
     public $agreements;
+    public $approved;
+    public $is_approved;
 
     public function __construct() {   
         $this->terms = Auth::user()->terms != NULL;
         $this->agreements = $this->terms;
+        $this->approved = array_map(function ($o) {
+            return $o->email;
+        }, DB::select('select email from approved'));
     }
 
 
     public function render()
-    {        
-
+    {    
+        $this->is_approved = in_array(Auth::user()->email, $this->approved);    
         if (!$this->terms) {
             return view('livewire.terms-agreement');
         }

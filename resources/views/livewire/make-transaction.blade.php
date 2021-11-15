@@ -135,6 +135,7 @@
                                         function viewCalendar() {
                                         
                                         var SITEURL = "{{ url('/') }}";
+                                        var window = {{ $this->window }}
                                         
                                         $.ajaxSetup({
                                             headers: {
@@ -164,7 +165,7 @@
                                                             validRange: function(nowDate) {
                                                                 return {
                                                                     start: nowDate.clone().subtract(1, 'days'),
-                                                                    end: nowDate.clone().add(3, 'months')
+                                                                    end: nowDate.clone().add(window, 'months')
                                                                 };
                                                             },
                                                     
@@ -321,6 +322,8 @@
                                         function viewPayments() {
                                         
                                         var SITEURL = "{{ url('/') }}";
+                                        var window = {{ $this->window }};
+
                                         
                                         $.ajaxSetup({
                                             headers: {
@@ -350,7 +353,7 @@
                                                             validRange: function(nowDate) {
                                                                 return {
                                                                     start: nowDate.clone().subtract(1, 'days'),
-                                                                    end: nowDate.clone().add(3, 'months')
+                                                                    end: nowDate.clone().add(window, 'months')
                                                                 };
                                                             },
                                                     
@@ -385,7 +388,7 @@
                             {{ __('Your transaction has been created!') }}
                         </div>
                         <div id="transaction-agreement"> 
-                            {{ __('The Uconomy Team will review this transaction, and a transaction agreement will be emailed to you in the next 24 hours. Once you agree, the money will be sent to your bank account using Zelle!') }}
+                            {{ __('The Uconomy Team will review this transaction within 24 hours. Once you are approved, the money will be sent to your bank account using Zelle!') }}
                         </div>
                         <div>
                             <x-jet-button id="upay-button" type="button" wire:click="redirectHome">

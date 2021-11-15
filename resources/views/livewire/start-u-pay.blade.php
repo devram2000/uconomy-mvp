@@ -27,23 +27,38 @@
         <div id="upay-title"> 
             {{ __('UPay') }}
         </div>
-        <div> 
-            {{ __('Your amount available to spend is $') }}{{ $spending_amount }}
+        @if(!$is_approved)
+            <div class="text-center"> 
+                {{ __('Thank you for signing up!') }}</br></br>
+                {{ __('To make a transaction with your $250 limit, please
+                    sign up for our ') }}<a href="https://www.uconomy.com">waitlist</a>{{ __('.') }}</br>
+                {{ __('If you are already signed up, you can fill out sections of your profile to boost
+                    your spot!') }}</br></br>
 
-        </div>
-        <div>
-            @if($profile_completed && $spending_amount >= 10)
-            <x-jet-button id="upay-button" type="button" wire:click="redirectUPay">
-                {{ __('Create a Payment Plan') }}
-            </x-jet-button>  
-            @elseif($spending_amount >= 10)
-            <div id="profile-button">
-                <div> {{ __(' Please complete the ') }} {{ $profile_sections }} {{ __(' of your Profile before making your payment plan.') }} </div> </br>
-            
-                <x-jet-button id="upay-button" type="button" wire:click="redirectProfile">
-                    {{ __('Profile') }}
-                </x-jet-button>
             </div>
+
+            <x-jet-button id="upay-button" type="button" wire:click="redirectProfile">
+                {{ __('Profile') }}
+            </x-jet-button>
+        @else
+            <div> 
+                {{ __('Your amount available to spend is $') }}{{ $spending_amount }}
+
+            </div>
+            <div>
+                @if($profile_completed && $spending_amount >= 10)
+                <x-jet-button id="upay-button" type="button" wire:click="redirectUPay">
+                    {{ __('Create a Payment Plan') }}
+                </x-jet-button>  
+                @elseif($spending_amount >= 10)
+                <div id="profile-button">
+                    <div> {{ __(' Please complete the ') }} {{ $profile_sections }} {{ __(' of your Profile before making your payment plan.') }} </div> </br>
+                
+                    <x-jet-button id="upay-button" type="button" wire:click="redirectProfile">
+                        {{ __('Profile') }}
+                    </x-jet-button>
+                </div>
+                @endif
             @endif
         </div>
     </section>

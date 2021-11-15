@@ -25,11 +25,17 @@ class MakeTransaction extends Component
     public $last_payment_date;
     public $events;
     public $fees;
+    public $window;
     public $events_and_fees;
     public $categories = ['Retail', 'Service', 'Peer-to-Peer Marketplace', 'Bill', 'Other'];
 
     public $currentStep = 1;
     public $successMessage = '';
+
+    public function __construct() {
+        
+
+    }
 
     public function updateRemainingAmount() {
         $this->events = Event::where('user', Auth::id()) 
@@ -128,6 +134,12 @@ class MakeTransaction extends Component
             $total_remaining += $t->remaining_balance;
         }
         $spending_amount = Auth::user()->limit - $total_remaining;
+
+        $this->window = Auth::user()->window;
+        
+        if ($this->window == NULL) {
+            $this->window = 3;
+        }
 
         $limit = Auth::user()->limit;
         $validatedData = $this->validate([
@@ -319,6 +331,7 @@ class MakeTransaction extends Component
 
         // $agent = new Agent();
         // $this->is_mobile = $agent->isMobile();
+
         return view('livewire.make-transaction');
     }
 
