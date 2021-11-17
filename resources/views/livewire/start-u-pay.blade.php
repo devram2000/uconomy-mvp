@@ -27,7 +27,8 @@
         <div id="upay-title"> 
             {{ __('UPay') }}
         </div>
-        @if(!$is_approved)
+        <?php
+    /* @if(!$is_approved)
             <div class="text-center"> 
                 {{ __('Thank you for signing up!') }}</br></br>
                 {{ __('To make a transaction with your $250 limit, please
@@ -40,7 +41,9 @@
             <x-jet-button id="upay-button" type="button" wire:click="redirectProfile">
                 {{ __('Profile') }}
             </x-jet-button>
-        @else
+        @else */
+?>
+        
             <div> 
                 {{ __('Your amount available to spend is $') }}{{ $spending_amount }}
 
@@ -59,7 +62,10 @@
                     </x-jet-button>
                 </div>
                 @endif
-            @endif
+                <?php
+    /*        @endif
+*/
+?>
         </div>
     </section>
     @if($remaining_balance)
