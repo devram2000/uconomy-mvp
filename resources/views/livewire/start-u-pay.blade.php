@@ -21,9 +21,22 @@
 
 
 @endpush
+@if($is_admin)
+    <section id="upay">
+        <section id="upay-buy">
 
+            <div id="upay-title"> 
+                {{ __('Admin Panel') }}
+            </div>
+            <x-jet-button id="upay-button" type="button" wire:click="redirectAdmin">
+                {{ __('View Payments') }}
+            </x-jet-button>
+        </section>
+    </section>
+@else
 <section id="upay">
     <section id="upay-buy">
+        
         <div id="upay-title"> 
             {{ __('UPay') }}
         </div>
@@ -165,6 +178,7 @@
     
     @endif
 </div>    
+@endif
 
 
 

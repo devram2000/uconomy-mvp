@@ -20,6 +20,7 @@ class StartUPay extends Component
     public $agreements;
     public $approved;
     public $is_approved;
+    public $is_admin;
 
     public function __construct() {   
         $this->terms = Auth::user()->terms != NULL;
@@ -33,6 +34,9 @@ class StartUPay extends Component
     public function render()
     {    
         $this->is_approved = in_array(Auth::user()->email, $this->approved);    
+
+        $this->is_admin = Auth::user()->email == "help@uconomy.com";    
+
         if (!$this->terms) {
             return view('livewire.terms-agreement');
         }
@@ -116,6 +120,10 @@ class StartUPay extends Component
 
     public function redirectProfile() {
         return redirect('/user/profile'); 
+    }
+
+    public function redirectAdmin() {
+        return redirect('/admin'); 
     }
 
 

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NexmoSMSController;
 use App\Http\Livewire\MakeTransaction;
+use App\Http\Livewire\Admin;
 use App\Http\Controllers\UPayController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\AutoAddressController;
@@ -84,6 +85,13 @@ Route::get('transact', MakeTransaction::class, 'index')
 Route::post('transactAjax', [MakeTransaction::class, 'ajax'])
     ->middleware(['auth:'.config('fortify.guard')])
     ->name('transactAjax');
+
+Route::get('admin', Admin::class, 'render')
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('admin');
+
+
+
 
 
 // Route::get('upay', [UPayController::class, 'index'])
