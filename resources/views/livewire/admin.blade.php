@@ -33,9 +33,71 @@
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
             <div class="p-6 sm:px-20 bg-white border-b border-gray-200" id="dash">
                 <section id="admin">
+                        <div>
+                        <h1> 
+                        {{ __('All Payments') }}
+                        </h1>{{ __('(User ID: Amount)') }}</div></br>
+                        <div class="calendar" id="total"> 
+                                    </div></br></br>
+                                    <script>
+                                        $(document).ready(viewDates());
+
+                                    
+                                        
+                                        function viewDates() {
+                                        
+                                        var SITEURL = "{{ url('/') }}";
+                                        
+                                        $.ajaxSetup({
+                                            headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                            }
+                                        });
+
+                                        
+
+                                    
+
+                                        var calendar = $('#total').fullCalendar({
+                                                            events: @json($this->combined_events),
+                                                            editable: false,
+                                                            eventColor: '#7cd9edff',
+                                                            height: 'auto',
+
+                                                            defaultView: 'month',
+                                                            header: {
+                                                                left:   'title',
+                                                                center: '',
+                                                                right:  'today prev,next month basicWeek'
+                                                            },
+
+                                                            // validRange: function(nowDate) {
+                                                            //     return {
+                                                            //         start: nowDate.clone().subtract(1, 'days'),
+                                                            //         end: nowDate.clone().add(3, 'months')
+                                                            //     };
+                                                            // },
+                                                    
+                                                            eventRender: function (event, element, view) {
+                                                                if (event.allDay === 'true') {
+                                                                        event.allDay = true;
+                                                                } else {
+                                                                        event.allDay = false;
+                                                                }
+                                                            },
+                                                            selectable: false,
+                                        
+                                                        });
+                                        
+                                        }
+                                        
+                                        
+                                        
+                                    </script>
+
                     @foreach($users as $u)
                         <h2> 
-                            {{ $u->name }}{{ __(' Payments') }}
+                        {{ $u->id }}{{ __(': ') }}{{ $u->name }}{{ __(' Payments') }}
                         </h2></br>
                         <div class="calendar" id="{{ $u->id }}"> 
                                     </div></br></br>

@@ -177,6 +177,7 @@
 
 #admin {
     display: flex;
+    text-align: center;
     flex-flow: column nowrap;
     align-items: center;
 }

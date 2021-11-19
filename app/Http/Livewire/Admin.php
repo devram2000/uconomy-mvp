@@ -13,6 +13,7 @@ class Admin extends Component
 {
     public $users; 
     public $events = [];
+    public $combined_events = [];
 
     public function render()
     {
@@ -31,7 +32,7 @@ class Admin extends Component
                     $fees[$i]["borderColor"] = "black";
                     $fees[$i]["color"] = "white";
                     $fees[$i]["id"] = $view_id;
-                    $fees[$i]["title"] = $fees[$i]["amount"];
+                    $fees[$i]["title"] = strval($u->id) . ": " . $fees[$i]["amount"];
                     $fees[$i]["start"] = $fees[$i]["date"];
 
                     $view_id++;
@@ -39,7 +40,7 @@ class Admin extends Component
 
                 for ($j = 0; $j < count($payments); $j++) {
                     $payments[$j]["id"] = $view_id;
-                    $payments[$j]["title"] = $payments[$j]["amount"];
+                    $payments[$j]["title"] = strval($u->id) . ": " . $payments[$j]["amount"];
                     $payments[$j]["start"] = $payments[$j]["date"];
 
                     $view_id++;
@@ -48,6 +49,8 @@ class Admin extends Component
                 $payments_and_fees = array_merge($fees, $payments);
 
                 $this->events[$u->id] = $payments_and_fees;
+
+                $this->combined_events = array_merge($this->combined_events, $payments_and_fees);
 
             }
         }
