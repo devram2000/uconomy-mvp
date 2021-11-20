@@ -86,12 +86,18 @@
 
         </div>
 
+        <!-- Date of Birth -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="date_of_birth" value="{{ __('Date of Birth') }}" />
+            @if($this->user->date_of_birth == null)
+            <x-jet-input id="date_of_birth" type="date" class="mt-1 block w-full" wire:model.defer="state.date_of_birth" />
+            <x-jet-input-error for="date_of_birth" class="mt-2" />
+            @else
+            {{ $this->user->date_of_birth }}
+            @endif
 
-        {{-- {{ $this->user->email_verified_at }}
+        </div>
 
-        <x-jet-button type="button" wire:click="verifyEmail">
-            Verify Email
-        </x-jet-button> --}}
     </x-slot>
 
     <x-slot name="actions">

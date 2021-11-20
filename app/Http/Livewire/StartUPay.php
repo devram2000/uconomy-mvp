@@ -86,30 +86,40 @@ class StartUPay extends Component
         $phone_verify = Auth::user()->phone_verified_at;
         $email_verify = Auth::user()->email_verified_at;
         $address = Address::where('user', Auth::id())->first();
+        $date_of_birth = Auth::user()->date_of_birth;
 
-        if ($zelle != null && $email_verify != null
-        && $phone_verify != null && $address != null) {
-            $this->profile_completed = true;
-        } else if ($zelle == null && ($email_verify == null
-        || $phone_verify == null) && $address == null) {
-            $this->profile_sections = "Verification, Zelle, and Address sections";
-        } else if ($zelle == null && ($email_verify == null
-        || $phone_verify == null)) {
-            $this->profile_sections = "Verification and Zelle sections";
-        } else if (($email_verify == null|| $phone_verify == null) && $address == null) {
-            $this->profile_sections = "Verification and Address sections";
-        } else if ($zelle == null && $address == null) {
-            $this->profile_sections = "Zelle and Address sections";
-        } else if ($zelle == null) {
-            $this->profile_sections = "Zelle section";
-        } else if ($address == null) {
-            $this->profile_sections = "Address section";
-        } else if ($email_verify == null|| $phone_verify == null) {
-            $this->profile_sections = "Verification section";
+        $sections_needed = array();
+        
+        if($zelle == null) {
+            $sections_needed[] = "Zelle";
+        }
+        if($email_verify == null || $phone_verify == null) {
+            $sections_needed[] = "Verification";
+        }
+        if($address == null) {
+            $sections_needed[] = "Address";
+        }
+        if($date_of_birth == null) {
+            $sections_needed[] = "Date of Birth";
         }
 
-
-
+        if(count($sections_needed) == 0) {
+            $this->profile_completed = true;
+        } else if(count($sections_needed) == 1) {
+            $this->profile_sections = $sections_needed[0] . " section";
+        } else if(count($sections_needed) == 2) {
+            $this->profile_sections = $sections_needed[0] . " and " . $sections_needed[1] . " sections";
+        } else {
+            $str = "";
+            for ($i = 0; $i < count($sections_needed); $i++) {
+                if ($i == count($sections_needed) - 1) {
+                    $str = $str . "and " . $sections_needed[$i] . " sections";
+                } else {
+                    $str = $str . $sections_needed[$i] . ", ";
+                }
+            }
+            $this->profile_sections = $str;
+        }
 
         return view('livewire.start-u-pay');
     }

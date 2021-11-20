@@ -34,7 +34,7 @@
             <div class="p-6 sm:px-20 bg-white border-b border-gray-200" id="dash">
                 <section id="admin">
                         <div>
-                        <h1> 
+                        <h1 class ="m-0"> 
                         {{ __('All Payments') }}
                         </h1>{{ __('(User ID: Amount)') }}</div></br>
                         <div class="calendar" id="total"> 

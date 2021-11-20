@@ -182,6 +182,16 @@
     align-items: center;
 }
 
+#one-form {
+    width: 100vw;
+}
+
+#two-form {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100vw;
+}
+
 @media screen and (max-width: 800px) {
     .calendar {
         margin: 0 5px 0 5px;
