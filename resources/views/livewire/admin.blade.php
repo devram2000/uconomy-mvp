@@ -64,7 +64,7 @@
                                                             eventColor: '#7cd9edff',
                                                             height: 'auto',
 
-                                                            defaultView: 'month',
+                                                            defaultView: 'basicWeek',
                                                             header: {
                                                                 left:   'title',
                                                                 center: '',
@@ -126,7 +126,7 @@
                                                             eventColor: '#7cd9edff',
                                                             height: 'auto',
 
-                                                            defaultView: 'month',
+                                                            defaultView: 'basicWeek',
                                                             header: {
                                                                 left:   'title',
                                                                 center: '',
