@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NexmoSMSController;
 use App\Http\Livewire\MakeTransaction;
+use App\Http\Livewire\AddIdentity;
 use App\Http\Livewire\Admin;
 use App\Http\Controllers\UPayController;
 use App\Http\Controllers\CalendarController;
@@ -69,14 +70,9 @@ Route::post('/phone/verify', [App\Http\Controllers\NexmoController::class, 'veri
 Route::post('/reset', [App\Http\Controllers\NexmoController::class, 'reset'])
     ->name('reset');
     
-
-// Route::get('/nexmo', 'NexmoController@show')->name('nexmo');
-// Route::post('/nexmo', 'NexmoController@verify')->name('nexmo');
-
-// Route::group(['middleware' => 'auth'], function() {
-
-// });
-
+Route::get('/identity/verify', AddIdentity::class, 'render')
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('identity');
 
 Route::get('transact', MakeTransaction::class, 'index')
     ->middleware(['auth:'.config('fortify.guard')])
@@ -89,27 +85,5 @@ Route::post('transactAjax', [MakeTransaction::class, 'ajax'])
 Route::get('admin', Admin::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
     ->name('admin');
-
-
-
-
-
-// Route::get('upay', [UPayController::class, 'index'])
-//     ->middleware(['auth:'.config('fortify.guard')])
-//     ->name('upay');
-
-// Route::post('upayAjax', [UPayController::class, 'ajax'])
-//     ->middleware(['auth:'.config('fortify.guard')])
-//     ->name('upayAjax');
-
-
-
-// Route::get('calendar', [CalendarController::class, 'index'])
-//     ->middleware(['auth:'.config('fortify.guard')])
-//     ->name('calendar');
-
-// Route::post('calendarAjax', [CalendarController::class, 'ajax'])
-//     ->middleware(['auth:'.config('fortify.guard')])
-//     ->name('calendarAjax');
 
 

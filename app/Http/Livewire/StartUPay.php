@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Auth;
 use App\Models\Transaction;
 use App\Models\Payment;
+use App\Models\Identification;
 use App\Models\Fee;
 use App\Models\Address;
 use Livewire\Component;
@@ -89,11 +90,14 @@ class StartUPay extends Component
         $date_of_birth = Auth::user()->date_of_birth;
 
         $sections_needed = array();
+
+        $identity_verify = count(Identification::where('user', Auth::id())->get());
+
         
         if($zelle == null) {
             $sections_needed[] = "Zelle";
         }
-        if($email_verify == null || $phone_verify == null) {
+        if($email_verify == null || $phone_verify == null || $identity_verify == 0) {
             $sections_needed[] = "Verification";
         }
         if($address == null) {

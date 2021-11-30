@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
             @if(request()->get('verified') == "0")
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    {{ __('There was a problem with your verification. Please try again after 5 minutes. Contact us if this issue persists.') }}
+                    {{ __('There was a problem with your verification. Please check your phone number and try again after 5 minutes. Contact us if this issue persists.') }}
                 </div>
             @elseif(request()->get('verified') == "1")
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">

@@ -94,11 +94,11 @@
                                         
                                         
                                     </script>
-
+                    <h1>{{ __('Users') }}</h1>
                     @foreach($users as $u)
-                        <h2> 
-                        {{ $u->id }}{{ __(': ') }}{{ $u->name }}{{ __(' Payments') }}
-                        </h2></br>
+                        <h4> 
+                        {{ $u->id }}{{ __(': ') }}{{ $u->name }}
+                        </h4></br>
                         <div class="calendar" id="{{ $u->id }}"> 
                                     </div></br></br>
                                     <script>

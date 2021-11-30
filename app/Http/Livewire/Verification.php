@@ -11,12 +11,20 @@ use Laravel\Fortify\Fortify;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Identification;
+
+
 
 
 
 class Verification extends Component
 {
     public $user;
+    public $identity_verify;
+
+    public function verifyIdentity() {
+        return redirect()->to('/identity/verify');
+    }
 
     public function verifyEmail()
     {
@@ -70,7 +78,6 @@ class Verification extends Component
             
         } catch(\Exception $e){
             if ($request_id == null) {
-            dd($e);
             return redirect('/user/profile?verified=0');
             }
             // $client = $this->getClient();
@@ -113,6 +120,7 @@ class Verification extends Component
 
     public function render()
     {
+        $this->identity_verify = count(Identification::where('user', Auth::id())->get());
         return view('livewire.verification');
     }
 }

@@ -4,11 +4,11 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Verify your email and/or phone number.') }}
+        {{ __('Verify your email, phone number, and identity.') }}
     </x-slot>
 
     <x-slot name="content">
-        <div id="verification" class="flex flex-wrap justify-center items-center">
+        <div id="verification" id="verification" class="">
             <div class="p-2">
                 @if($this->user->email_verified_at == null) 
                     <x-jet-button type="button" wire:click="verifyEmail">
@@ -29,14 +29,14 @@
                 @endif
             </div>
 
-            <div class="w-10">
+            <!-- <div class="w-10">
 
-            </div>
+            </div> -->
 
             <div class="p-2">
                 @if($this->user->phone_verified_at == null) 
                     <x-jet-button type="button" wire:click="verifyPhone">
-                        Verify Phone Number
+                        Verify Mobile
                     </x-jet-button>
                 @else 
                     <div class="flex items-center px-6 py-4">
@@ -44,7 +44,23 @@
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg></span>
-                        <p class="ml-2 text-medium">Phone Number Verified!</p>
+                        <p class="ml-2 text-medium">Mobile Verified!</p>
+                    </div>
+                @endif
+            </div>
+
+            <div class="p-2">
+                @if(!$this->identity_verify) 
+                    <x-jet-button type="button" wire:click="verifyIdentity">
+                        Verify Identity
+                    </x-jet-button>
+                @else 
+                    <div class="flex items-center px-6 py-4">
+                        <span><svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 " fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg></span>
+                        <p class="ml-2 text-medium">Identity Verified!</p>
                     </div>
                 @endif
             </div>

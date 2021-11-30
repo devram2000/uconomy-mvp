@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Event;
 // use Illuminate\Support\Facades\Validator;
-use Jenssegers\Agent\Agent;
 
 
 class MakeTransaction extends Component
@@ -329,8 +328,6 @@ class MakeTransaction extends Component
     //         return response()->json($data);
     //    }
 
-        // $agent = new Agent();
-        // $this->is_mobile = $agent->isMobile();
 
         return view('livewire.make-transaction');
     }

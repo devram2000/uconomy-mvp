@@ -166,7 +166,6 @@ return [
          * Package Service Providers...
          */
         Nexmo\Laravel\NexmoServiceProvider::class,
-        Jenssegers\Agent\AgentServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -233,7 +232,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Nexmo' => Nexmo\Laravel\Facade\Nexmo::class,
-        'Agent' => Jenssegers\Agent\Facades\Agent::class,
 
         
 
