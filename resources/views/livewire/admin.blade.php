@@ -99,8 +99,23 @@
                         <h4> 
                         {{ $u->id }}{{ __(': ') }}{{ $u->name }}
                         </h4></br>
-                        <div class="calendar" id="{{ $u->id }}"> 
-                                    </div></br></br>
+                        <div class="calendar" id="{{ $u->id }}"> </div>
+
+                        @if ($ids[$u->id] != NULL)  
+                         
+                            <div class="mt-2" id = "license-images">
+                                <img src="/storage/ids/{{ $ids[$u->id]['photo1'] }}" id="license-image" />
+                                @if ($ids[$u->id]['photo2'] != NULL)  
+                                <img src="/storage/ids/{{ $ids[$u->id]['photo2'] }}" id="license-image" />
+                                @endif
+                                    
+                            </div>
+
+                           
+
+                        @endif
+                                
+                                </br></br>
                                     <script>
                                         $(document).ready(viewDates());
 

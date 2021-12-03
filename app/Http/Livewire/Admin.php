@@ -7,12 +7,14 @@ use Auth;
 use App\Models\User;
 use App\Models\Fee;
 use App\Models\Payment;
+use App\Models\Identification;
 
 
 class Admin extends Component
 {
     public $users; 
     public $events = [];
+    public $ids = [];
     public $combined_events = [];
 
     public function render()
@@ -47,6 +49,19 @@ class Admin extends Component
                 }
 
                 $payments_and_fees = array_merge($fees, $payments);
+
+                $photos = Identification::where('user', $u->id)->first();
+
+                if ($photos == NULL) {
+                    $this->ids[$u->id] = NULL;
+                } else {
+                    $identification = [];
+                    $identification["photo1"] = $photos->photo1;
+                    $identification["photo2"] = $photos->photo2;
+
+                    $this->ids[$u->id] = $identification;
+                }
+
 
                 $this->events[$u->id] = $payments_and_fees;
 

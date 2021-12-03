@@ -20,6 +20,7 @@ class CreateIdentificationsTable extends Migration
             $table->string('type');
             $table->string('photo1', 2048);
             $table->string('photo2', 2048)->nullable();
+            $table->timestamps();
         });
     }
 

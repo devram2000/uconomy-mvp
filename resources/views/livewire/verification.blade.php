@@ -60,7 +60,7 @@
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg></span>
-                        <p class="ml-2 text-medium">Identity Verified!</p>
+                        <p class="ml-2 text-medium">Identity Submitted!</p>
                     </div>
                 @endif
             </div>

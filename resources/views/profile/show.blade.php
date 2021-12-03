@@ -19,8 +19,11 @@
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
                     {{ __('Phone Number Verified!') }}
                 </div>
-            @endif
-                
+            @elseif(request()->get('verified') == "3")
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+                    {{ __('Identity Verification Submitted.') }}
+                </div>
+            @endif                
             @if (Laravel\Fortify\Features::canUpdateProfileInformation())
                 @livewire('profile.update-profile-information-form')
 
