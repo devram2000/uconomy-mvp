@@ -1,4 +1,38 @@
-#dash {}
+#waitlist {
+    text-align: center;
+}
+
+#waitlist-data {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    height: 60vh;
+    overflow: scroll;
+}
+
+#waitlist-labels {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+}
+
+#waitlist-dates {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#waitlist-emails {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#admin-buttons {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
 #license-images {
     display: flex;
@@ -259,10 +293,20 @@
     #transaction-agreement {
         width: 100%
     }
+    #waitlist-data {
+        font-size: 12px;
+    }
 }
 
 @media screen and (max-width: 600px) {
     .transaction-heading {
         width: 100vw;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #waitlist-data {
+        font-size: 9px;
+        justify-content: space-between;
     }
 }

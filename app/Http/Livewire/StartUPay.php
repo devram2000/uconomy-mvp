@@ -140,6 +140,10 @@ class StartUPay extends Component
         return redirect('/admin'); 
     }
 
+    public function redirectWaitlist() {
+        return redirect('/waitlist'); 
+    }
+
 
     public function termsSubmit() {
         $validatedData = $this->validate([

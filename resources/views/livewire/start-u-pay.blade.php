@@ -28,9 +28,15 @@
             <div id="upay-title"> 
                 {{ __('Admin Panel') }}
             </div>
-            <x-jet-button id="upay-button" type="button" wire:click="redirectAdmin">
-                {{ __('View Payments') }}
-            </x-jet-button>
+            <div id="admin-buttons">
+                <x-jet-button id="upay-button" type="button" wire:click="redirectAdmin">
+                    {{ __('View Transactions') }}
+                </x-jet-button>
+
+                <x-jet-button class="mt-2" id="upay-button" type="button" wire:click="redirectWaitlist">
+                    {{ __('View Waitlist') }}
+                </x-jet-button>
+            </div>
         </section>
     </section>
 @else

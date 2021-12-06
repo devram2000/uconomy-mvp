@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NexmoSMSController;
 use App\Http\Livewire\MakeTransaction;
 use App\Http\Livewire\AddIdentity;
+use App\Http\Livewire\Waitlist;
 use App\Http\Livewire\Admin;
 use App\Http\Controllers\UPayController;
 use App\Http\Controllers\CalendarController;
@@ -85,5 +86,13 @@ Route::post('transactAjax', [MakeTransaction::class, 'ajax'])
 Route::get('admin', Admin::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
     ->name('admin');
+
+Route::get('waitlist', Waitlist::class, 'render')
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('waitlist');
+
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
+});
 
 

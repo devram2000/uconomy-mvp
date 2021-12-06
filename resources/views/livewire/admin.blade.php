@@ -94,9 +94,10 @@
                                         
                                         
                                     </script>
-                    <h1>{{ __('Users') }}</h1>
+                    <h1 class ="m-0">{{ __('Users') }}</h1>
+                    (ranked by latest transaction)
                     @foreach($users as $u)
-                        <h4> 
+                        <h4 class="mt-2"> 
                         {{ $u->id }}{{ __(': ') }}{{ $u->name }}
                         </h4></br>
                         <div class="calendar" id="{{ $u->id }}"> </div>

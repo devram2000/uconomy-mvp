@@ -35,7 +35,7 @@
                             </x-jet-secondary-button>
                             @if ($front_photo != NULL )
                                 <div class="mt-2">
-                                    {{ __('Front Picture Uploaded!') }}
+                                    {{ __('File Uploaded!') }}
                                 </div>
                             @endif
                             <x-jet-input-error for="front_photo" class="mt-2" />
@@ -47,7 +47,7 @@
                             </x-jet-secondary-button>
                             @if ($back_photo != NULL ) 
                                 <div class="mt-2">
-                                    {{ __('Back Picture Uploaded!') }}
+                                    {{ __('File Uploaded!') }}
                                 </div>
                             @endif
 
@@ -63,7 +63,7 @@
                             </x-jet-secondary-button>
                             @if ($front_photo != NULL )
                                 <div class="mt-2">
-                                    {{ __('Front Picture Uploaded!') }}
+                                    {{ __('File Uploaded!') }}
                                 </div>
                             @endif
                             <x-jet-input-error for="front_photo" class="mt-2" />
@@ -75,7 +75,7 @@
                             </x-jet-secondary-button>
                             @if ($back_photo != NULL ) 
                                 <div class="mt-2">
-                                    {{ __('Back Picture Uploaded!') }}
+                                    {{ __('File Uploaded!') }}
                                 </div>
                             @endif
 
@@ -90,7 +90,7 @@
                             </x-jet-secondary-button>
                             @if ($front_photo != NULL )
                                 <div class="mt-2">
-                                    {{ __('Information Page Picture Uploaded!') }}
+                                    {{ __('File Uploaded!') }}
                                 </div>
                             @endif
                             <x-jet-input-error for="front_photo" class="mt-2" />
