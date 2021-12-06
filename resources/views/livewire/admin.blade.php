@@ -36,9 +36,9 @@
                         <div>
                         <h1 class ="m-0"> 
                         {{ __('All Payments') }}
-                        </h1>{{ __('(User ID: Amount)') }}</div></br>
-                        <div class="calendar" id="total"> 
-                                    </div></br></br>
+                        </h1>{{ __('(User ID: Amount)') }}</div>
+                        <div class="calendar mt-2" id="total"> 
+                                    </div>
                                     <script>
                                         $(document).ready(viewDates());
 
@@ -94,86 +94,29 @@
                                         
                                         
                                     </script>
-                    <h1 class ="m-0">{{ __('Users') }}</h1>
-                    (ranked by latest transaction)
-                    @foreach($users as $u)
-                        <h4 class="mt-2"> 
-                        {{ $u->id }}{{ __(': ') }}{{ $u->name }}
-                        </h4></br>
-                        <div class="calendar" id="{{ $u->id }}"> </div>
-
-                        @if ($ids[$u->id] != NULL)  
-                         
-                            <div class="mt-2" id = "license-images">
-                                <img src="/storage/ids/{{ $ids[$u->id]['photo1'] }}" id="license-image" />
-                                @if ($ids[$u->id]['photo2'] != NULL)  
-                                <img src="/storage/ids/{{ $ids[$u->id]['photo2'] }}" id="license-image" />
-                                @endif
-                                    
+                    <div id="users-transactions">
+                        <div class ="mt-4" id="users-list-container">
+                            <h2 >{{ __('Users') }}</h2>
+                            <div id="user-list">
+                                @foreach($users as $u)
+                                    <h4 class=""> 
+                                    <a target="_blank"  href="/admin-user/{{ $u->id }}">{{ $u->id }}{{ __(': ') }}{{ $u->name }}</a>
+                                    </h4>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class ="mt-4" id="transactions-list-container">
+                            <h2 >{{ __('Latest Transactions') }}</h2>
+                            <div id="user-list">
+                                @foreach($transactions as $t)
+                                    <h4 class=""> 
+                                    {{ __('User ') }}{{ $t->user }}{{ __(': ') }}{{ $t->start_date }}
+                                    </h4>
+                                @endforeach
                             </div>
 
-                           
-
-                        @endif
-                                
-                                </br></br>
-                                    <script>
-                                        $(document).ready(viewDates());
-
-                                    
-                                        
-                                        function viewDates() {
-                                        
-                                        var SITEURL = "{{ url('/') }}";
-                                        
-                                        $.ajaxSetup({
-                                            headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                            }
-                                        });
-
-                                        
-
-                                    
-
-                                        var calendar = $('#{{ $u->id }}').fullCalendar({
-                                                            events: @json($this->events[$u->id]),
-                                                            editable: false,
-                                                            eventColor: '#7cd9edff',
-                                                            height: 'auto',
-
-                                                            defaultView: 'basicWeek',
-                                                            header: {
-                                                                left:   'title',
-                                                                center: '',
-                                                                right:  'today prev,next month basicWeek'
-                                                            },
-
-                                                            // validRange: function(nowDate) {
-                                                            //     return {
-                                                            //         start: nowDate.clone().subtract(1, 'days'),
-                                                            //         end: nowDate.clone().add(3, 'months')
-                                                            //     };
-                                                            // },
-                                                    
-                                                            eventRender: function (event, element, view) {
-                                                                if (event.allDay === 'true') {
-                                                                        event.allDay = true;
-                                                                } else {
-                                                                        event.allDay = false;
-                                                                }
-                                                            },
-                                                            selectable: false,
-                                        
-                                                        });
-                                        
-                                        }
-                                        
-                                        
-                                        
-                                    </script>
-
-                    @endforeach
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>

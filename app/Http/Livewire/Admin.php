@@ -8,11 +8,13 @@ use App\Models\User;
 use App\Models\Fee;
 use App\Models\Payment;
 use App\Models\Identification;
+use App\Models\Transaction;
 
 
 class Admin extends Component
 {
     public $users; 
+    public $transactions; 
     public $events = [];
     public $ids = [];
     public $combined_events = [];
@@ -23,6 +25,8 @@ class Admin extends Component
             $this->redirect('home');
         } else {
             $this->users = User::where('email', '!=', "help@uconomy.com")->get();
+            $this->transactions = Transaction::select('user', 'start_date')->orderByDesc('start_date')->get();
+
             foreach ($this->users as $u) {
                 $fees = Fee::where('user', $u->id)
                 ->get(['id', 'amount', 'date'])->toArray();
@@ -50,20 +54,20 @@ class Admin extends Component
 
                 $payments_and_fees = array_merge($fees, $payments);
 
-                $photos = Identification::where('user', $u->id)->first();
+                // $photos = Identification::where('user', $u->id)->first();
 
-                if ($photos == NULL) {
-                    $this->ids[$u->id] = NULL;
-                } else {
-                    $identification = [];
-                    $identification["photo1"] = $photos->photo1;
-                    $identification["photo2"] = $photos->photo2;
+                // if ($photos == NULL) {
+                //     $this->ids[$u->id] = NULL;
+                // } else {
+                //     $identification = [];
+                //     $identification["photo1"] = $photos->photo1;
+                //     $identification["photo2"] = $photos->photo2;
 
-                    $this->ids[$u->id] = $identification;
-                }
+                //     $this->ids[$u->id] = $identification;
+                // }
 
 
-                $this->events[$u->id] = $payments_and_fees;
+                // $this->events[$u->id] = $payments_and_fees;
 
                 $this->combined_events = array_merge($this->combined_events, $payments_and_fees);
 

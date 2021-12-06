@@ -172,7 +172,8 @@
                 <div class="transaction-sub"><b>Category</b>: {{ $item->category }}</div>
                 <div class="transaction-sub"><b>Description</b>: {{ $item->description}}</div>
                 <div class="transaction-sub"><b>Estimated Completion</b>: {{ date('m/d/Y', strtotime($item->due_date))}}</div>
-                <div class="transaction-sub"><b>Remaining Balance</b>: {{ __('$') }}{{ $item->amount}}</div>
+                <div class="transaction-sub"><b>Amount</b>: {{ __('$') }}{{ $item->amount}}</div>
+                <div class="transaction-sub"><b>Remaining Balance</b>: {{ __('$') }}{{ $item->remaining_balance}}</div>
             </div>
             @endforeach
 
