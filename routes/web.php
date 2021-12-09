@@ -8,6 +8,7 @@ use App\Http\Livewire\Waitlist;
 use App\Http\Livewire\UserView;
 use App\Http\Livewire\Admin;
 use App\Http\Controllers\UPayController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\AutoAddressController;
  
@@ -36,30 +37,14 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/home', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
+});
+
+
 Route::get('/email/verify', function () {
     return view('auth.email-verify');
 });
-
-// Route::get('auto-complete-address', [AutoAddressController::class, 'googleAutoAddress']);
-
-
-// Route::group(['middleware' => 'auth'], function() {
-//     Route::get('register-step2', 
-//         [\App\Http\Controllers\RegisterStepTwoController::class, 'create'])
-//         ->name('register-step2.create');
-//     Route::post('register-step2', 
-//         [\App\Http\Controllers\RegisterStepTwoController::class, 'store'])
-//         ->name('register-step2.post');
-
-// });
-
-// Route::get('/verify', 'VerifyController@show')->name('verify');
-// Route::post('/verify', 'VerifyController@verify')->name('verify');
-
-
-// Route::get('/phone', [App\Http\Controllers\NexmoController::class, 'showStart'])
-//     ->middleware(['auth:'.config('fortify.guard')])
-//     ->name('nexmo');
 
 Route::get('/phone/verify', [App\Http\Controllers\NexmoController::class, 'show'])
     ->middleware(['auth:'.config('fortify.guard')])
@@ -90,21 +75,19 @@ Route::get('admin', Admin::class, 'render')
 
 Route::get('/admin-user/{id}', UserView::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
-    ->name('userView');
-
-// Route::get('/user/{id}', function ($id) {
-//         return 'User '.$id;
-//     })->middleware(['auth:'.config('fortify.guard')])
-//     ->name('userView');
-
-    
+    ->name('userView'); 
 
 Route::get('waitlist', Waitlist::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
     ->name('waitlist');
 
-Route::get('/foo', function () {
-    Artisan::call('storage:link');
-});
+Route::get('stripe', [StripeController::class, 'stripe'])
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('stripe');
+
+Route::post('stripe', [StripeController::class, 'stripePost'])
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('stripe.post');
+    
 
 
