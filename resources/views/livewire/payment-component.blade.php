@@ -28,8 +28,14 @@
                         <div id="payment-text">
                             Fill out the form below to make a debit card payment
                         </div>
+                        <div id="error"></div>
+
+
                     </div>
-                   
+
+
+                    
+
                     <div id="card-form">
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -43,7 +49,6 @@
 
                         <div class="form-group">
                             <label for="card_info">Debit Card Information</label>
-                            <!-- Stripe Elements Placeholder -->
                             <div id="card-element" class="form-control"  wire:ignore></div>
                         </div>
 
@@ -59,7 +64,7 @@
                         
                     </div>
 
-                    <div id="stripe-use">
+                    <div id="stripe-use" class="mt-2">
                         <a href="https://stripe.com/" target="_blank"> <img 
                         src="https://thumbs.bfldr.com/at/rvgw5pc69nhv9wkh7rw8ckv/v/34943915?expiry=1639713391&fit=bounds&height=800&sig=ZDRlYjU3MDU1Y2MzNTdiMmRkNTQwNmY0OTY3NzRjNzEwNDFhZjUxYQ%3D%3D&width=1100"
                         width=100px alt="Powered by Stripe" ></a>
@@ -79,7 +84,34 @@
                         const cardHolderName = document.getElementById('card-holder-name');
                         const cardButton = document.getElementById('card-button');
                         const loader = document.getElementById('loader');
+                        const errorBox = document.getElementById('error');
+                        // const errorCharge = document.getElementById('chargeError');
                         const clientSecret = cardButton.dataset.secret;
+
+                        var getUrlParameter = function getUrlParameter(sParam) {
+                            var sPageURL = window.location.search.substring(1),
+                                sURLVariables = sPageURL.split('&'),
+                                sParameterName,
+                                i;
+
+                            for (i = 0; i < sURLVariables.length; i++) {
+                                sParameterName = sURLVariables[i].split('=');
+
+                                if (sParameterName[0] === sParam) {
+                                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                                }
+                            }
+                            return false;
+                        };
+
+                        var tech = getUrlParameter('message');
+                        if (tech) {
+                            errorBox.innerHTML = tech;
+                        }
+
+
+
+
 
                         cardButton.addEventListener('click', async (e) => {
                             cardButton.style.display = 'none'; 
@@ -96,11 +128,11 @@
                             if (error) {
                                 cardButton.style.display = 'block'; 
                                 loader.style.display = 'none'; 
-                                alert(error.message);
+                                errorBox.innerHTML = error.message;
+
                             } else {
                                 Livewire.emit('setPaymentMethod', setupIntent.payment_method);
                                 Livewire.emit('chargeCard');
-
                             }
                         });
 
@@ -109,7 +141,7 @@
                     @if($payment_completed)
                         <section id="upay-buy">
                             <div id="upay-title"> 
-                                {{ __('You have created a payment of $') }}{{ $payment_amount }}
+                                {{ __('You\'ve created a payment of $') }}{{ $payment_amount }}
                             </div>
                             <div id="transaction-agreement"> 
                                 {{ __('Thank you!') }}</br>
