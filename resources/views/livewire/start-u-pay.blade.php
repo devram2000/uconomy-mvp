@@ -91,11 +91,15 @@
     <section id="upay-balance">
        
         <div id="payment-title"> 
-            {{ __('Your upcoming payment dates') }} 
+            {{ __('Your Payments') }} 
         </div> 
          <div>
             {{ __('Total Remaining Balance: $') }}{{ $remaining_balance }}
-        </div></br>
+        </div>
+        <x-jet-secondary-button id="upay-button" class="mt-2" type="button" wire:click="redirectPayment">
+            {{ __('Make a Payment') }}
+        </x-jet-secondary-button>
+</br>
         <div class="calendar" id="mainCalendar"> 
                                     </div>
                                     <script>
@@ -162,7 +166,7 @@
     @if($has_transactions)
     <section id="upay-transactions">
         <div id="transactions-title" class="text-center "> 
-            {{ __('Your transactions') }}
+            {{ __('Your Transactions') }}
         </div>
 
         <div id="transaction-list">

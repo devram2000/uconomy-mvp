@@ -144,6 +144,10 @@ class StartUPay extends Component
         return redirect('/waitlist'); 
     }
 
+    public function redirectPayment() {
+        return redirect('/payment'); 
+    }
+
 
     public function termsSubmit() {
         $validatedData = $this->validate([

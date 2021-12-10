@@ -7,6 +7,7 @@ use App\Http\Livewire\AddIdentity;
 use App\Http\Livewire\Waitlist;
 use App\Http\Livewire\UserView;
 use App\Http\Livewire\Admin;
+use App\Http\Livewire\PaymentComponent;
 use App\Http\Controllers\UPayController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CalendarController;
@@ -63,6 +64,7 @@ Route::get('/identity/verify', AddIdentity::class, 'render')
 
 Route::get('transact', MakeTransaction::class, 'index')
     ->middleware(['auth:'.config('fortify.guard')])
+    ->middleware('validated')
     ->name('transact');
 
 Route::post('transactAjax', [MakeTransaction::class, 'ajax'])
@@ -71,23 +73,22 @@ Route::post('transactAjax', [MakeTransaction::class, 'ajax'])
 
 Route::get('admin', Admin::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
+    ->middleware('admin')
     ->name('admin');
 
 Route::get('/admin-user/{id}', UserView::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
+    ->middleware('admin')
     ->name('userView'); 
 
 Route::get('waitlist', Waitlist::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
+    ->middleware('admin')
     ->name('waitlist');
 
-Route::get('stripe', [StripeController::class, 'stripe'])
+Route::get('payment', PaymentComponent::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
-    ->name('stripe');
-
-Route::post('stripe', [StripeController::class, 'stripePost'])
-    ->middleware(['auth:'.config('fortify.guard')])
-    ->name('stripe.post');
-    
+    ->middleware('validated')
+    ->name('payment');
 
 
