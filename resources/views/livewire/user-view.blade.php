@@ -94,6 +94,7 @@
                     <div id="user-information">
                         <div class = "mt-4">{{ __('Limit: $') }}{{ $user->limit }}</div>
                         <div>{{ __('Remaining Balance Owed: $') }}{{ $remaining_balance }}</div>
+                        <div>{{ __('Spending Amount: $') }}{{ $spending_amount }}</div>
                         <div>
                             {{ __('Email: ') }}{{ $user->email }}
                             @if($user->email_verified_at == NULL)

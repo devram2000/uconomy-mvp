@@ -23,6 +23,7 @@ class UserView extends Component
     public $transactions;
     public $identification;
     public $remaining_balance;
+    public $spending_amount;
     public $events_and_fees;
 
     public function render(Request $request)
@@ -38,11 +39,23 @@ class UserView extends Component
 
             $this->transactions = Transaction::where('user', $this->user->id)->get();
 
+            $this->spending_amount = $this->user->limit;
+
             $amount = 0;
             foreach ($this->transactions as $t) {
                 $amount += $t->remaining_balance;
+                if ($t->remaining_balance != 0) {
+                    $this->spending_amount -= $t->amount;
+                }
             }
+
+            if ($this->spending_amount < 0) {
+                $this->spending_amount = 0;
+            }
+
             $this->remaining_balance = $amount;
+
+            // $this->spending_amount = Auth::user()->limit - $this->remaining_balance;
     
             
             $addressList = Address::where('user', $this->user->id)->get();

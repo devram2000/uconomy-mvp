@@ -88,7 +88,6 @@ Route::get('waitlist', Waitlist::class, 'render')
 
 Route::get('payment', PaymentComponent::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
-    ->middleware('validated')
     ->name('payment');
 
 

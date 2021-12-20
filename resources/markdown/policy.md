@@ -88,7 +88,7 @@ The personal information that we collect depends on the context of your interact
 
   
 
-**Personal Information Provided by You.** We collect email addresses; phone numbers; names; passwords; contact or authentication data; billing addresses; debit/credit card numbers; mailing addresses; usernames; contact preferences; and other similar information.
+**Personal Information Provided by You.** We collect email addresses; phone numbers; names; passwords; contact or authentication data; billing addresses; debit/credit card numbers; mailing addresses; usernames; contact preferences; government identification; banking information; and other similar information.
 
   
 

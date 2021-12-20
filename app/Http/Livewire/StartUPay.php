@@ -44,14 +44,19 @@ class StartUPay extends Component
 
         $this->transactions = Transaction::where('user', Auth::id())->get();
 
+        $this->spending_amount = Auth::user()->limit;
+
         $amount = 0;
         foreach ($this->transactions as $t) {
             $amount += $t->remaining_balance;
+            if ($t->remaining_balance != 0) {
+                $this->spending_amount -= $t->amount;
+            }
         }
         $this->remaining_balance = $amount;
 
 
-        $this->spending_amount = Auth::user()->limit - $this->remaining_balance;
+        // $this->spending_amount = Auth::user()->limit - $this->remaining_balance;
 
         $this->has_transactions = count($this->transactions);
 
