@@ -63,6 +63,17 @@
         @else */
 ?>
         
+        <?php
+    /* @if($spending_amount >= 10)
+            
+            <div class="text-center"> 
+                {{ __('Uconomy Beta Testing is currently closed for new transactions, but we plan on lauching soon! We apologize for the inconvenience.') }}</br></br>
+                {{ __('If you have any questions or concerns, please contact us at ') }}<a href="mailto:help@uconomy.com">help@uconomy.com</a>{{ __('.') }}
+
+            </div>
+            
+            @else  */
+?>
             <div> 
                 {{ __('Your amount available to spend is $') }}{{ $spending_amount }}
 
@@ -81,6 +92,10 @@
                     </x-jet-button>
                 </div>
                 @endif
+                <?php
+    /*        @endif
+*/
+?>
                 <?php
     /*        @endif
 */
