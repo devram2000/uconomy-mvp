@@ -187,10 +187,13 @@
                                                                     return this.toString().split(".")[1].length || 0; 
                                                                 }       
                                                                 if (isNaN(title) || isNaN(float_title) 
-                                                                    || float_title.countDecimals() > 2 || float_title < 0) {
+                                                                    || float_title.countDecimals() > 2) {
                                                                     displayError("Please Enter a Valid Amount");
-                                                                } else if (float_title < 1) {
-                                                                    displayError("Please Enter an Amount Over $1");
+                                                                } else if (float_title < 10 && document.getElementById("remaining-variable").innerHTML >= 10) {
+                                                                    displayError("Please Enter an Amount Over $10");
+                                                                // } else if (document.getElementById("remaining-variable").innerHTML <= 10
+                                                                //             && float_title != float_title) {
+                                                                //     displayError("Please Enter an Amount Equal to Your remaining ");
                                                                 } else if (document.getElementById("remaining-variable").innerHTML == 0) {
                                                                     displayError("Your Remaining Balance Is $0!");
                                                                 } else if (float_title > document.getElementById("remaining-variable").innerHTML) {

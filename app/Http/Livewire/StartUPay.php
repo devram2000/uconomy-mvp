@@ -55,6 +55,10 @@ class StartUPay extends Component
         }
         $this->remaining_balance = $amount;
 
+        if ($this->spending_amount < 0) {
+            $this->spending_amount = 0;
+        }
+
 
         // $this->spending_amount = Auth::user()->limit - $this->remaining_balance;
 
