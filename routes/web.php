@@ -48,12 +48,10 @@ Route::get('/email/verify', function () {
 });
 
 Route::get('/phone/verify', [App\Http\Controllers\NexmoController::class, 'show'])
-    ->middleware(['auth:'.config('fortify.guard')])
-    ->name('nexmo');
+    ->middleware(['auth:'.config('fortify.guard')]);
 
 Route::post('/phone/verify', [App\Http\Controllers\NexmoController::class, 'verify'])
-    ->middleware(['auth:'.config('fortify.guard'), 'throttle:6,1'])
-    ->name('nexmo');
+    ->middleware(['auth:'.config('fortify.guard'), 'throttle:6,1']);
 
 Route::post('/reset', [App\Http\Controllers\NexmoController::class, 'reset'])
     ->name('reset');
