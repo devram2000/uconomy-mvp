@@ -29,7 +29,10 @@
 
                 <x-jet-section-border />
             @endif
-
+            <div class="mt-10 sm:mt-0">
+                @livewire('k-y-c')
+            </div>
+            <x-jet-section-border />
 
             <div class="mt-10 sm:mt-0">
                 @livewire('verification', ['user' => $user])
@@ -45,6 +48,9 @@
                 @livewire('address-finder')
             </div>
             <x-jet-section-border />
+
+           
+
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
                 <div class="mt-10 sm:mt-0">
