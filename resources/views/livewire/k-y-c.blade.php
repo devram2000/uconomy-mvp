@@ -141,6 +141,7 @@
             </div>
         </div>
         </div>
+        {{ $message }}
 
     </x-slot>
     <x-slot name="actions">

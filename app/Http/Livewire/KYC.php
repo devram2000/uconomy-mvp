@@ -1,16 +1,18 @@
 <?php
 
 namespace App\Http\Livewire;
-
 use Auth;
+
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 
 
 class KYC extends Component
 {
     public $first_name, $last_name, $date_of_birth, $address, $city, $state, $zip, $ssn;
     public $address2 = "";
+    public $message = "";
 
     public function createCustomer() {
         $validatedData = $this->validate([
@@ -26,7 +28,7 @@ class KYC extends Component
 
         $response =  Http::withHeaders([
             'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-        ])->post('https://api-sandbox.synctera.com/v0/customers', [
+        ])->post(env('SYNCTERA_API') . '/v0/customers', [
             'status' => 'ACTIVE',
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
@@ -43,7 +45,7 @@ class KYC extends Component
             'email' => Auth::user()->email,
             'phone_number' => "+1" . Auth::user()->phone_number,
         ]);
-        
+
         if($response->failed()) {
             dd($response->body());
         }
@@ -59,18 +61,19 @@ class KYC extends Component
         // $customer_id = "800baad1-e3d5-4794-b1b0-d924a2939d72";
         $response =  Http::withHeaders([
             'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-        ])->post('https://api-sandbox.synctera.com/v0/customers/' . $customer_id . '/verify', [
+        ])->post(env('SYNCTERA_API') . '/v0/customers/' . $customer_id . '/verify', [
             'verification_type' => ['kyc'],
             'customer_consent' => true,
         ]);
-        dd($response->body());
 
+        DB::table('users')->where('id', Auth::id())->update(['synctera_id' => $customer_id]);
+
+        $this->message = $response->body();
 
     }
 
     public function render()
     {
-        // dd('Bearer ' . env('SYNCTERA_KEY'));
         return view('livewire.k-y-c');
     }
 }

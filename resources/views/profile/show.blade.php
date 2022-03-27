@@ -29,10 +29,17 @@
 
                 <x-jet-section-border />
             @endif
+
             <div class="mt-10 sm:mt-0">
                 @livewire('k-y-c')
             </div>
             <x-jet-section-border />
+
+            <div class="mt-10 sm:mt-0">
+                @livewire('virtual-card')
+            </div>
+            <x-jet-section-border />
+
 
             <div class="mt-10 sm:mt-0">
                 @livewire('verification', ['user' => $user])
