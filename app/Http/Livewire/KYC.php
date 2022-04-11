@@ -14,7 +14,7 @@ class KYC extends Component
     public $address2 = "";
     public $message = "";
 
-    public function createCustomer() {
+    public function createPerson() {
         $validatedData = $this->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -28,8 +28,9 @@ class KYC extends Component
 
         $response =  Http::withHeaders([
             'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-        ])->post(env('SYNCTERA_API') . '/v0/customers', [
+        ])->post(env('SYNCTERA_API') . '/v0/persons', [
             'status' => 'ACTIVE',
+            "is_customer" => true,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'dob' => $this->date_of_birth,
@@ -42,15 +43,17 @@ class KYC extends Component
                 'country_code' => 'US',
             ],
             'ssn' => $this->ssn,
-            'email' => Auth::user()->email,
-            'phone_number' => "+1" . Auth::user()->phone_number,
+            'email' => "example@example.com",
+            'phone_number' => "+14013332222",
+            // 'email' => Auth::user()->email,
+            // 'phone_number' => "+1" . Auth::user()->phone_number,
         ]);
 
         if($response->failed()) {
             dd($response->body());
         }
 
-        $customer_id = $response['id'];
+        $person_id = $response['id'];
 
         // $customer_id = "800baad1-e3d5-4794-b1b0-d924a2939d72";
         // $response =  Http::withHeaders([
@@ -61,14 +64,20 @@ class KYC extends Component
         // $customer_id = "800baad1-e3d5-4794-b1b0-d924a2939d72";
         $response =  Http::withHeaders([
             'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-        ])->post(env('SYNCTERA_API') . '/v0/customers/' . $customer_id . '/verify', [
-            'verification_type' => ['kyc'],
+        ])->post(env('SYNCTERA_API') . '/v0/customers/' . $person_id . '/verify', [
+            'verification_type' => [
+                'fraud', 'synthetic', 'emailrisk', 'phonerisk', 'addressrisk', 'kyc', 
+                //   'documentverification', 
+                'social', 'watchliststandard', 'alertlist', 'decision'
+            ],
             'customer_consent' => true,
         ]);
 
-        DB::table('users')->where('id', Auth::id())->update(['synctera_id' => $customer_id]);
+        DB::table('users')->where('id', Auth::id())->update(['synctera_id' => $person_id]);
 
         $this->message = $response->body();
+
+        
 
     }
 

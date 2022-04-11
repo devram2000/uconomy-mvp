@@ -94,13 +94,13 @@
     </style>
 @endpush
 
-<x-jet-form-section submit="createCustomer">
+<x-jet-form-section submit="createPerson">
     <x-slot name="title">
         {{ __('KYC') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Create a customer and do a KYC verification.') }}
+        {{ __('Create a person and do a KYC verification.') }}
     </x-slot>
 
     <x-slot name="form">
