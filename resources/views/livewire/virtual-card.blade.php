@@ -1,5 +1,5 @@
 @push('scripts')
-
+<script src="https://widgets.marqeta.com/marqetajs/1.1.0/marqeta.min.js" type="text/javascript"></script>
 <style>
       body {
         margin: 0;
@@ -10,6 +10,10 @@
         top: -12px;
         font-family: Roboto, sans-serif;
         font-weight: 500;
+      }
+
+      #client_token {
+          display: none;
       }
 
       .sb-title-icon {
@@ -110,12 +114,50 @@
 
         <div id="card-container">
             <div class="panel">
+            {{ $message }}
 
+            @if($pinWidgetURL != null)
+                <iframe src={{ $cardWidgetURL }} title="Card Widget Url" />
+            @endif
+
+            @if($client_token != null)
+            <div>
+                <div id="client_token" > {{ $client_token }}</div>
+
+                <div id="display-card-pan"></div>
+                <div id="display-card-cvv"></div>
+                <div id="display-card-exp"></div>
+            </div>
+            <script type="text/javascript">
+                
+                window.marqeta.bootstrap({
+                    clientAccessToken: document.getElementById("client_token").innerHTML,
+                    integrationType: "custom",
+                    showPan: {
+                        cardPan: { 
+                            domId: "display-card-pan", 
+                            format: true, 
+                        },
+                        cardExp: { domId: "display-card-exp", format: true },
+                        cardCvv: { domId: "display-card-cvv" },
+                    },
+                    callbackEvents: {
+                        onSuccess: () => console.log("Widget loaded!"),
+                        onFailure: () => console.warn("Widget failed to load."),
+                    },
+                });
+
+
+            </script>
+            @endif
 
             </div>
         </div>
         </div>
-        {{ $message }}
+        
+        
+
+
 
     </x-slot>
     <x-slot name="actions">
@@ -127,3 +169,4 @@
 
     </x-slot>
 </x-jet-form-section>
+

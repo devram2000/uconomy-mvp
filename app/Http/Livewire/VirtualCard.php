@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\DB;
 class VirtualCard extends Component
 {
     public $message = "";
+    public $pinWidgetURL = null;
+    public $cardWidgetURL = null;
+    public $client_token = null;
 
     public function createCard() {
 
@@ -74,7 +77,7 @@ class VirtualCard extends Component
         }
 
       
-
+        $card = null;
         $card_id = null;
 
         $response =  Http::withHeaders([
@@ -84,6 +87,7 @@ class VirtualCard extends Component
         ]);
 
         if (!empty($response['cards'])) {
+            $card = $response['cards'];
             $card_id = $response['cards'][0]['id'];
         }
 
@@ -98,13 +102,36 @@ class VirtualCard extends Component
                 'type' => 'DEBIT',
             ]);
 
+            $card = $response;
             $card_id = $response['id'];
         }
+        // $card =  Http::withHeaders([
+        //     'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
+        // ])->get(env('SYNCTERA_API') . '/v0/cards/:' . $card_id);
+
+        // dd($card->body());
         
+        // if (!$card['is_pin_set']) {
+        if (false) {
+            $response =  Http::withHeaders([
+                'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
+            ])->get(env('SYNCTERA_API') . '/v0/cards/card_widget_url', [
+                'account_id' => $account_id,
+                'card_id' => $card_id,
+                'customer_id' => Auth::user()->synctera_id,
+                'widget_type' => 'set_pin',
+            ]);
+    
+            $this->pinWidgetURL = $response['url'];
+    
+        }
 
+        $response =  Http::withHeaders([
+            'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
+        ])->post(env('SYNCTERA_API') . '/v0/cards/' . $card_id . '/client_token');
 
-        $this->message = $card_id;
-
+        $this->client_token = $response['client_token'];
+        // $this->message =  $this->client_token;
         
     }
     
