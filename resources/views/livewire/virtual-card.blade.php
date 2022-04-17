@@ -114,7 +114,6 @@
 
         <div id="card-container">
             <div class="panel">
-            {{ $message }}
 
             @if($pinWidgetURL != null)
                 <iframe src={{ $cardWidgetURL }} title="Card Widget Url" />
@@ -150,6 +149,9 @@
 
             </script>
             @endif
+
+            {{ $message }}
+
 
             </div>
         </div>
