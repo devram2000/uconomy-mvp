@@ -1,101 +1,5 @@
 @push('scripts')
 <script src="https://widgets.marqeta.com/marqetajs/1.1.0/marqeta.min.js" type="text/javascript"></script>
-<style>
-      body {
-        margin: 0;
-      }
-
-      .sb-title {
-        position: relative;
-        top: -12px;
-        font-family: Roboto, sans-serif;
-        font-weight: 500;
-      }
-
-      #client_token {
-          display: none;
-      }
-
-      .sb-title-icon {
-        position: relative;
-        top: -5px;
-      }
-
-      #card-container {
-        display: flex;
-        /* justify-content: center; */
-        /* min-height: 600px; */
-        width: 100%;
-      }
-
-
-      .panel {
-        background: white;
-        width: 80%;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-      }
-
-      .half-input-container {
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .half-input {
-        max-width: 50%;
-      }
-
-      h2 {
-        margin: 0;
-        font-family: Roboto, sans-serif;
-      }
-
-      input {
-        height: 30px;
-      }
-
-      input {
-        border: 0;
-        border-bottom: 1px solid black;
-        font-size: 14px;
-        font-family: Roboto, sans-serif;
-        font-style: normal;
-        font-weight: normal;
-      }
-
-      input:focus::placeholder {
-        color: white;
-      }
-
-      .button-cta {
-        
-        height: 40px;
-        width: 100px;
-        /* background: #3367d6;
-        color: white;
-        font-size: 15px;
-        text-transform: uppercase;
-        font-family: Roboto, sans-serif;
-        border: 0;
-        border-radius: 3px;
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.48); */
-        cursor: pointer;
-      }
-
-      .button-holder {
-          display: flex;
-          justify-content: flex-end;
-      }
-
-      .together {
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
-      }
-      
-    </style>
 @endpush
 
 <x-jet-form-section submit="createCard">
@@ -123,13 +27,15 @@
             <div>
                 <div id="client_token" > {{ $client_token }}</div>
 
-                <div id="display-card-pan"></div>
-                <div id="display-card-cvv"></div>
-                <div id="display-card-exp"></div>
+                Card Number: <div id="display-card-pan"></div>
+                Card CVV: <div id="display-card-cvv"></div>
+                Card Expiration: <div id="display-card-exp"></div>
+                Balance: ${{ $balance }}
             </div>
             <script type="text/javascript">
                 
                 window.marqeta.bootstrap({
+                    // clientAccessToken: @this.client_token,
                     clientAccessToken: document.getElementById("client_token").innerHTML,
                     integrationType: "custom",
                     showPan: {
