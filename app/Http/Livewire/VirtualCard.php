@@ -12,16 +12,24 @@ use Illuminate\Support\Facades\DB;
 class VirtualCard extends Component
 {
     public $message = "";
+    public $flipped = "";
     public $pinWidgetURL = null;
     public $cardWidgetURL = null;
     public $client_token = null;
     public $account_id = null;
     public $card_id = null;
+    public $last_four = null;
     public $balance = 0;
 
-    public function createCard() {      
+    public function toggleButton() {  
+        if ($this->flipped == "flipped") {
+            $this->flipped = "";
+        } else {
+            $this->flipped = "flipped";
+        }
+    }
 
-        
+    public function createCard() {      
         // $card =  Http::withHeaders([
         //     'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
         // ])->get(env('SYNCTERA_API') . '/v0/cards/:' . $card_id);
@@ -40,83 +48,23 @@ class VirtualCard extends Component
             ]);
     
             $this->pinWidgetURL = $response['url'];
+
+            $response =  Http::withHeaders([
+                'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
+            ])->post(env('SYNCTERA_API') . '/v0/cards/transaction_simulations/authorization', [
+                'card_id' => $this->card_id,
+                'amount' => 10.00 * 100,
+                'mid' => "12345",
+            ]);
     
         }
 
 
-
-       
-
-
-        if (false) {
-
-        $response =  Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-        ])->post(env('SYNCTERA_API') . '/v0/external_accounts/link_tokens', [
-            'customer_id' => Auth::user()->synctera_id,
-            'client_name' => "Test Test",
-            "country_codes" => [
-                "US"
-              ],
-              "type"  => "DEPOSITORY",
-              "language" => "EN",
-              "redirect_uri" => "https://oauth1.example.com/oauth-page.html"
-        ]);
-
-        dd($response->body());
-        $response =  Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-        ])->post(env('SYNCTERA_API') . '/v0/external_accounts', [
-             "account_identifiers" => [
-                "number" => "78277122"
-             ],
-             "account_owner_names" => [
-                "Test Test"
-              ],
-              'customer_id' => Auth::user()->synctera_id,
-              'customer_type' => "PERSONAL",
-              'type' => "CHECKING",
-              "verification" => [
-                "creation_time" => "2022-01-01T00:00:00.000Z",
-                "last_updated_time" => "2022-01-01T00:00:00.000Z",            
-                "status" => "VERIFIED",
-                "vendor" => "MANUAL",
-             ],
-             "routing_identifiers"  => [
-                "ach_routing_number" => "756392185",
-                "bank_countries" => [
-                "US"
-                ],
-                "bank_name" => "Chase",
-             ],
-        ]);
-
-        $response =  Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-        ])->patch(env('SYNCTERA_API') . '/v0/external_accounts/' . '33bc1a8b-f8b5-453b-afa6-dca41a6e13d0', [
-            "verification" => [
-                "creation_time" => "2022-01-01T00:00:00.000Z",
-                "last_updated_time" => "2022-01-01T00:00:00.000Z",            
-                "status" => "VERIFIED",
-                "vendor" => "MANUAL",
-             ],
-        ]);
-
-
-        
-    }
-
-    $response =  Http::withHeaders([
-        'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-    ])->post(env('SYNCTERA_API') . '/v0/cards/transaction_simulations/authorization', [
-        'card_id' => $this->card_id,
-        'amount' => 10.00 * 100,
-        'mid' => "12345",
-    ]);
-
-   
-
-       
+        if ($this->flipped == "flipped") {
+            $this->flipped = "";
+        } else {
+            $this->flipped = "flipped";
+        }
 
 
 
@@ -200,6 +148,7 @@ class VirtualCard extends Component
 
         if (!empty($response['cards'])) {
             $this->card_id = $response['cards'][0]['id'];
+            $this->last_four = $response['cards'][0]['last_four'];
         }
 
 
@@ -214,13 +163,16 @@ class VirtualCard extends Component
                 'type' => 'DEBIT',
             ]);
 
-            $this->card_id = $response['id'];    
+            $this->card_id = $response['id']; 
+            $this->last_four = $response['last_four'];
+   
         }
 
         $response =  Http::withHeaders([
             'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
         ])->post(env('SYNCTERA_API') . '/v0/cards/' . $this->card_id . '/client_token');
 
+        
         $this->client_token = $response['client_token'];
 
 

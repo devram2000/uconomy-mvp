@@ -16,7 +16,7 @@
     box-shadow: 0px 10px 15px -3px #0000001a;
 }
 
-#cardInner .flipped {
+.flipped {
     transform: rotateY(180deg);
 }
 
@@ -124,4 +124,10 @@
     top: 136px;
     left: 236px;
     position: absolute;
+}
+
+.flex5 {
+    display: flex;
+    flex-flow: column nowrap;
+    /* line-height: 1.25rem; */
 }

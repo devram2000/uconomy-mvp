@@ -21,7 +21,6 @@
 
             {{ $message }}
             @if($link_token != null)
-                <div id="link_token" > {{ $link_token }}</div>
                 <script>
                 const handler = Plaid.create({
                     token: @this.link_token,

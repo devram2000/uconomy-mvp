@@ -20,9 +20,9 @@
         <div id="card-container">
             <div class="panel">
 
-            <div className="m-2 flex flex-col">
+            <div class="m-2 flex flex-col">
                 <div id="cardContainer">
-                    <div id="cardInner" >
+                    <div id="cardInner" class="" >
                     <div id="cardFront" style="background-Color: #FFD100;" >
                         <div id="cardChipContainer">
                             <div id="cardVirtualChip">
@@ -31,16 +31,16 @@
                                 </svg>
                             </div>
                         </div>
-                        <div id="cardType"  className="bg-black">
+                        <div id="cardType"  class="bg-black">
                             <span style="color: #FFD100;" >VIRTUAL CARD</span>
                         </div>
                         <div id="cardLastFour">
-                        <span className="text-black"></span>
+                        <span class="text-black">**** **** **** {{ $last_four }}</span>
                         </div>
-                        <div id="cardEmbossName">
-                        <div className="flex flex-col leading-5">
-                            <span className="text-black">Cardholder Name</span>
-                            <span className="text-black">Company Name</span>
+                        <div id="cardEmbossName" >
+                        <div class="flex5">
+                            <span class="text-black">Test Test</span>
+                            <span class="text-black">Uconomy</span>
                         </div>
                         </div>
                         <div id="cardNetwork">
@@ -59,62 +59,68 @@
                         </div>
                     </div>
                     </div>
-                    <div id="cardBack" className="bg-white">
-                        <div id="cardStripe"></div>
+                    <div id="cardBack" class="bg-white">
+                    <div id="cardStripe"></div>
                         <div id="cardPAN">
-                        <div className="flex flex-col leading-5">
-                            <span className="text-gray-800 text-xs font-bold">PAN</span>
+                        <div class="flex5">
+                            <span class="text-gray-800 text-xs font-bold">PAN</span>
                             
-                            <div
-                    
-                            ></div>
+                            <div id="display-card-pan"></div>
+         
                         </div>
                     </div>
                         <div id="cardCVV">
-                        <div className="flex flex-col leading-5">
-                            <span className="text-gray-800 text-xs font-bold">CVV</span>
+                        <div class="flex5">
+                            <span class="text-gray-800 text-xs font-bold">CVV</span>
                       
-                            <div
-                            
-                            ></div>
+                            <div id="display-card-cvv"></div>
                         </div>
                     </div>
                         <div id="cardExpiryDate">
-                        <div className="flex flex-col leading-5">
-                            <span className="text-gray-800 text-xs font-bold">
+                        <div class="flex5">
+                            <span class="text-gray-800 text-xs  font-bold">
                             Expiry Date
                             </span>
-                            <div
-                            ></div>
+                            <div id="display-card-exp"></div>
                         </div>
                     </div>
                     </div>
                     </div>
                     </div>
 
-                <div className="mt-8">
-                    <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    >
+                <div class="mt-8">
+                    <button id="flippedBtn" type="button" onClick="switchClass()"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Toggle
                     </button>
                 </div>
                 </div>
 
+                <script>
+
+                    function switchClass() {
+                        console.log('hello');
+                        if ( document.getElementById("cardInner").className == "") {
+                            document.getElementById("cardInner").className = "flipped";
+                        } else {
+                            document.getElementById("cardInner").className = "";
+                            console.log('bye');
+                        }
+                    }
+                </script>
+
+
+
             @if($pinWidgetURL != null)
                 <iframe src={{ $cardWidgetURL }} title="Card Widget Url" />
             @endif
 
-            @if($client_token != null)
             <div>
                 <div id="client_token" > {{ $client_token }}</div>
 
-                Card Number: <div id="display-card-pan"></div>
-                Card CVV: <div id="display-card-cvv"></div>
-                Card Expiration: <div id="display-card-exp"></div>
                 Balance: ${{ $balance }}
             </div>
-            <script type="text/javascript">
+            <script>
                 
                 window.marqeta.bootstrap({
                     // clientAccessToken: @this.client_token,
@@ -136,7 +142,6 @@
 
 
             </script>
-            @endif
 
             {{ $message }}
 
