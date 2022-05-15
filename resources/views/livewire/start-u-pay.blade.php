@@ -114,6 +114,10 @@
         <x-jet-secondary-button id="upay-button" class="mt-2" type="button" wire:click="redirectPayment">
             {{ __('Make a Payment') }}
         </x-jet-secondary-button>
+
+        <x-jet-secondary-button id="upay-button" class="mt-2" type="button" wire:click="redirectReschedule">
+            {{ __('Reschedule Payment Dates') }}
+        </x-jet-secondary-button>
 </br>
         <div class="calendar" id="mainCalendar"> 
                                     </div>

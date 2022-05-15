@@ -157,6 +157,10 @@ class StartUPay extends Component
         return redirect('/payment'); 
     }
 
+    public function redirectReschedule() {
+        return redirect('/reschedule'); 
+    }
+
 
     public function termsSubmit() {
         $validatedData = $this->validate([
