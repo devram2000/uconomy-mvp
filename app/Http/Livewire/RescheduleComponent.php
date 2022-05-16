@@ -10,12 +10,56 @@ use App\Models\Event;
 use App\Models\Payment;
 use App\Models\Fee;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 class RescheduleComponent extends Component
 {
-    public $payments, $fees, $events_and_fees, $remaining_balance;
+    public $payments, $events, $remaining_balance;
     public $window;
+
+
+        /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function ajax(Request $request)
+    {
+        switch ($request->type) {
+           case 'add':
+              $event = Event::create([
+                  'title' => $request->title,
+                //   'title' => $this->amount,
+                  'start' => $request->start,
+                  'user' => Auth::id(),
+                  'fee' => false,
+              ]);
+  
+              return response()->json($event);
+             break;
+  
+        //    case 'update':
+        //       $event = Event::find($request->id)->update([
+        //         'title' => $request->title,
+        //         'start' => $request->start,
+        //         'user' => Auth::id(),
+        //     ]);
+ 
+              return response()->json($event);
+             break;
+  
+           case 'delete':
+              $event = Event::find($request->id)->delete();
+  
+              return response()->json($event);
+             break;
+             
+           default:
+             # code...
+             break;
+        }
+    }
 
 
     public function render()
@@ -23,21 +67,22 @@ class RescheduleComponent extends Component
         Event::where('user', Auth::id())->delete();
         $this->window = Auth::user()->window;
 
-        $fees = Fee::where('user', Auth::id())
-        ->get(['id', 'amount', 'date'])->toArray();
+        $this->transactions = Transaction::where('user', Auth::id())->get();
 
-        $payments = Payment::where('user', Auth::id())
+        $transaction;
+        foreach ($this->transactions as $t) {
+            // $amount += $t->remaining_balance;
+            if ($t->remaining_balance != 0) {
+                $transaction = $t;
+            }
+        }
+
+        $this->remaining_balance = $t->remaining_balance;
+
+        $payments = Payment::where('transaction', $transaction->id)
+                ->whereDate('date', '>=', date('Y-m-d'))
                 ->get(['id', 'amount', 'date'])->toArray();
 
-        for ($i = 0; $i < count($fees); $i++) {
-            $event = Event::create([
-                'title' => $fees[$i]["amount"],
-                'start' => $fees[$i]["date"],
-                'user' => Auth::id(),
-                'fee' => true,
-            ]);
-
-        }
 
         for ($j = 0; $j < count($payments); $j++) {
             $event = Event::create([
@@ -47,26 +92,14 @@ class RescheduleComponent extends Component
                 'fee' => false,
             ]);
 
+            $this->remaining_balance -=  $payments[$j]["amount"];
+
         }
 
         $this->events = Event::where('user', Auth::id()) 
                                 ->where('fee', false)
                                 ->get(['id', 'title', 'start'])->toArray();
 
-        $this->fees = Event::where('user', Auth::id()) 
-                                ->where('fee', true)
-                                
-                                ->get(['id', 'title', 'start'])->toArray();
-
-        $fee_view =$this->fees;
-
-        for ($i = 0; $i < count($fee_view ); $i++) {
-            $fee_view [$i]["borderColor"] = "black";
-            $fee_view [$i]["color"] = "white";
-        }
-       
-
-        $this->events_and_fees = array_merge($fee_view , $this->events);
 
         return view('livewire.reschedule-component');
     }

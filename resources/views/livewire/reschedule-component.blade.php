@@ -34,76 +34,81 @@
             <div class="p-6 sm:px-20 bg-white border-b border-gray-200" id="dash">
                 <section id="reschedule">
                 <div id="payment-title"> 
-                                            {{ __('Reschedule your Payment Dates') }} 
-                                        </div> 
+                    {{ __('Reschedule your Payment Dates') }} 
+                </div> 
+                <section id="remaining" class="flex justify-center">
+                    <div class="text-center">{{ __('Your remaining balance is: $') }}</div>
+                    <div id="remaining-variable">{{ $this->remaining_balance }}</div>
 
-                                    <section id="fee-description">
-                                        <div>{{ __('Uconomy charges a $5 subscription fee per month. If you 
-                                            pay off your balance early, you don\'t have to pay the fee for the next month(s)!') }}</div>
+                </section>      
+                <div id="payment-description" class="text-center"> 
+                    {{ __('Add payments until there is no more balance (click to add/remove payments)') }} 
+                </div> </br>
+                <div class="calendar" id="calendar" > 
+                </div>
 
-                                    </section> </br>
 
-                                    <div class="calendar" id="paymentsCalendar"> 
-                                    </div>
-                                    <script>
-                                        $(document).ready(viewPayments());
+                <div class="calendar" id="paymentsCalendar"> 
+                </div>
+                <script>
+                    $(document).ready(viewPayments());
 
-                                    
-                                        
-                                        function viewPayments() {
-                                        
-                                        var SITEURL = "{{ url('/') }}"
-                                        var window = {{ $this->window }}
+                
+                    
+                    function viewPayments() {
+                    
+                    var SITEURL = "{{ url('/') }}"
+                    var window = {{ $this->window }}
 
-                                        
-                                        $.ajaxSetup({
-                                            headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    
+                    $.ajaxSetup({
+                        headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    })
+
+                    
+
+                
+
+                    var calendar = $('#paymentsCalendar').fullCalendar({
+                                        // events: SITEURL + "/transact",
+                                        events: @json($events),
+                                        editable: false,
+                                        eventColor: '#7cd9edff',
+                                        height: 'auto',
+                                        // eventBorderColor: 'black',
+
+                                        defaultView: 'month',
+                                        header: {
+                                            left:   'title',
+                                            center: '',
+                                            right:  'today prev,next month basicWeek'
+                                        },
+
+                                        validRange: function(nowDate) {
+                                            return {
+                                                start: nowDate.clone().subtract(1, 'days'),
+                                                end: nowDate.clone().add(window, 'months')
+                                            };
+                                        },
+                                
+                                        eventRender: function (event, element, view) {
+                                            if (event.allDay === 'true') {
+                                                    event.allDay = true;
+                                            } else {
+                                                    event.allDay = false;
                                             }
-                                        })
-
-                                        
-
-                                    
-
-                                        var calendar = $('#paymentsCalendar').fullCalendar({
-                                                            // events: SITEURL + "/transact",
-                                                            events: @json($events_and_fees),
-                                                            editable: false,
-                                                            eventColor: '#7cd9edff',
-                                                            height: 'auto',
-                                                            // eventBorderColor: 'black',
-
-                                                            defaultView: 'month',
-                                                            header: {
-                                                                left:   'title',
-                                                                center: '',
-                                                                right:  'today prev,next month basicWeek'
-                                                            },
-
-                                                            validRange: function(nowDate) {
-                                                                return {
-                                                                    start: nowDate.clone().subtract(1, 'days'),
-                                                                    end: nowDate.clone().add(window, 'months')
-                                                                };
-                                                            },
-                                                    
-                                                            eventRender: function (event, element, view) {
-                                                                if (event.allDay === 'true') {
-                                                                        event.allDay = true;
-                                                                } else {
-                                                                        event.allDay = false;
-                                                                }
-                                                            },
-                                                            selectable: false,
-                                        
-                                                        });
-                                        
-                                        }
-                                        
-                                        
-                                        
-                                    </script>
+                                        },
+                                        selectable: false,
+                    
+                                    });
+                    
+                    }
+                    
+                    
+                    
+                </script>
 
                 </section>
             </div>
