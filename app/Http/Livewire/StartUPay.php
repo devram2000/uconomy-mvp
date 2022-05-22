@@ -77,6 +77,7 @@ class StartUPay extends Component
         if (!$open_transaction) {
             // Transaction wont be empty because of transaction with 0 remaining balance
             Payment::where('user', Auth::id())->where('transaction', null)->delete();
+            Fee::where('user', Auth::id())->where('completed', 0)->delete();
          }
 
         $this->payments = array_merge($this->payments , $ps);
@@ -93,6 +94,7 @@ class StartUPay extends Component
         $this->has_transactions = count($this->transactions);
 
         $this->fees = Fee::where('user', Auth::id())
+                        ->where('completed', 0)
                         ->get(['id', 'amount', 'date'])->toArray();
         // $this->events_and_fees = array_merge($this->fees, $this->payments)
         // $event_count = count($this->fees) + count($this->payments)
