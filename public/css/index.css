@@ -270,6 +270,13 @@
     align-items: center;
 }
 
+#reschedule {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 #confirm-payments {
     display: flex;
     flex-flow: column nowrap;

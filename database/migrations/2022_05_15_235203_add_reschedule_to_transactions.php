@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRescheduleToPayments extends Migration
+class AddRescheduleToTransactions extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddRescheduleToPayments extends Migration
      */
     public function up()
     {
-        Schema::table('payments', function (Blueprint $table) {
+        Schema::table('transactions', function (Blueprint $table) {
             $table->integer('reschedule')->nullable();;
         });
     }
@@ -25,7 +25,7 @@ class AddRescheduleToPayments extends Migration
      */
     public function down()
     {
-        Schema::table('payments', function (Blueprint $table) {
+        Schema::table('transactions', function (Blueprint $table) {
             $table->dropColumn('reschedule');
         });
     }

@@ -17,48 +17,72 @@ class RescheduleComponent extends Component
 {
     public $payments, $events, $remaining_balance;
     public $window;
+    public $reschedule;
+    public $transactions;
+
+    public function rescheduleSubmit() {
+        $this->events = Event::where('user', Auth::id()) 
+            ->where('fee', false)
+            ->get(['id', 'transaction', 'title', 'start'])->toArray();
+        Payment::where('user', Auth::id())->where('transaction', null)->delete();
 
 
-        /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function ajax(Request $request)
-    {
-        switch ($request->type) {
-           case 'add':
-              $event = Event::create([
-                  'title' => $request->title,
-                //   'title' => $this->amount,
-                  'start' => $request->start,
-                  'user' => Auth::id(),
-                  'fee' => false,
-              ]);
-  
-              return response()->json($event);
-             break;
-  
-        //    case 'update':
-        //       $event = Event::find($request->id)->update([
-        //         'title' => $request->title,
-        //         'start' => $request->start,
-        //         'user' => Auth::id(),
-        //     ]);
- 
-              return response()->json($event);
-             break;
-  
-           case 'delete':
-              $event = Event::find($request->id)->delete();
-  
-              return response()->json($event);
-             break;
-             
-           default:
-             # code...
-             break;
+        $i = 0;
+        $payment_amount = 0;
+        while (false) {
+            false;
         }
+
+        $null_events = array();
+
+        foreach($this->events as $event) {
+            $transaction_id = null;
+            $reschedule_number = null;
+            if ($event['transaction'] != null) {
+                $transaction_id = $event['transaction'];
+                $reschedule_number = $this->reschedule[$transaction_id];
+
+                if($reschedule_number == null) {
+                    $reschedule_number = 0;
+                }
+        
+                $reschedule_number++;
+
+                if(Transaction::where('id', $transaction_id)->get(['reschedule'])[0]['reschedule'] 
+                    != $reschedule_number) {
+                        $result = Transaction::where('id', $transaction_id)->update([
+                            'reschedule' => $reschedule_number,
+                        ]);
+                }
+                Payment::create([
+                    'user' => Auth::id(),
+                    'transaction' => $transaction_id,
+                    'amount' => $event['title'],
+                    'date' => $event['start'],
+                    'completed' => false,
+                    'reschedule' => $reschedule_number,
+                ]);
+            } else {
+                $null_events[] = $event;
+            } 
+        }
+
+        foreach($null_events as $event) {
+            Payment::create([
+                'user' => Auth::id(),
+                'transaction' => null,
+                'amount' => $event['title'],
+                'date' => $event['start'],
+                'completed' => false,
+                'reschedule' => null,
+            ]);
+        }
+     
+
+        Event::where('user', Auth::id())->delete();
+
+        return redirect('home'); 
+
     }
 
 
@@ -67,32 +91,49 @@ class RescheduleComponent extends Component
         Event::where('user', Auth::id())->delete();
         $this->window = Auth::user()->window;
 
-        $this->transactions = Transaction::where('user', Auth::id())->get();
-
-        $transaction;
-        foreach ($this->transactions as $t) {
-            // $amount += $t->remaining_balance;
+        $transacts = Transaction::where('user', Auth::id())->get();
+        $this->transactions = array();
+        $this->payments = array();
+        $this->reschedule = array();
+        $amount = 0;
+        foreach ($transacts as $t) {
             if ($t->remaining_balance != 0) {
-                $transaction = $t;
+                $amount += $t->remaining_balance;
+                $this->transactions[] = $t;
+                $pays = Payment::where('transaction', $t->id)
+                            ->where('reschedule', $t->reschedule)
+                            ->where('completed', 0)
+                            ->whereDate('date', '>=', date('Y-m-d'))
+                            ->get(['id', 'transaction', 'reschedule', 'amount', 'date'])->toArray();
+                $this->payments = array_merge($this->payments, $pays);
+                $this->reschedule[$t->id] = $t->reschedule;
             }
         }
+        $pays = Payment::where('transaction', null)
+            ->where('user', Auth::id())
+            ->where('completed', 0)
+            ->get(['id', 'transaction', 'reschedule', 'amount', 'date'])->toArray();
+        $this->payments = array_merge($this->payments, $pays);
 
-        $this->remaining_balance = $t->remaining_balance;
+        $this->remaining_balance = $amount;
 
-        $payments = Payment::where('transaction', $transaction->id)
-                ->whereDate('date', '>=', date('Y-m-d'))
-                ->get(['id', 'amount', 'date'])->toArray();
+        // $this->reschedule_number = $this->transaction->reschedule;
 
+        // $payments = Payment::where('transaction', $this->transaction->id)
+        //         ->where('reschedule', $this->reschedule_number)
+        //         ->whereDate('date', '>=', date('Y-m-d'))
+        //         ->get(['id', 'amount', 'date'])->toArray();
 
-        for ($j = 0; $j < count($payments); $j++) {
+        
+        for ($j = 0; $j < count($this->payments); $j++) {
             $event = Event::create([
-                'title' => $payments[$j]["amount"],
-                'start' => $payments[$j]["date"],
+                'title' => $this->payments[$j]["amount"],
+                'start' => $this->payments[$j]["date"],
+                'transaction' => $this->payments[$j]["transaction"],
                 'user' => Auth::id(),
                 'fee' => false,
             ]);
-
-            $this->remaining_balance -=  $payments[$j]["amount"];
+            $this->remaining_balance -=  $this->payments[$j]["amount"];
 
         }
 

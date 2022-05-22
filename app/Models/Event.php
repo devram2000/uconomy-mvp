@@ -14,5 +14,6 @@ class Event extends Model
         'title',
         'start',
         'fee',
+        'transaction',
     ];
 }

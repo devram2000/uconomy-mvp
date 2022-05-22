@@ -20,6 +20,7 @@ class Transaction extends Model
         'photo',
         'start_date',
         'due_date',
+        'reschedule',
         // 'suggested_dates',
         // 'suggested_amounts',
         // 'zelle',

@@ -15,6 +15,7 @@ class Payment extends Model
         'amount',
         'date',
         'completed',
+        'reschedule',
     ];
 
 }

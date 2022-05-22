@@ -93,7 +93,7 @@
                             <div class="col-md-12">
 
 
-                                <section id="suggested-payments">
+                                <section id="suggested-payments" >
                                     <section class="transaction-heading">
                                         <x-jet-button id="upay-button" type="button" wire:click="back(1)">Back</x-jet-button>
                                         <div id="button-space-payment"></div>

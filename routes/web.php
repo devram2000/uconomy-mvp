@@ -93,4 +93,3 @@ Route::get('reschedule', RescheduleComponent::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
     ->name('reschedule');
 
-

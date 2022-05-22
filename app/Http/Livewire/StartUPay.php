@@ -47,12 +47,40 @@ class StartUPay extends Component
         $this->spending_amount = Auth::user()->limit;
 
         $amount = 0;
+        $this->payments = [];
+        $open_transaction = false;
         foreach ($this->transactions as $t) {
             $amount += $t->remaining_balance;
             if ($t->remaining_balance != 0) {
+                $open_transaction = true;
+                $ps = Payment::where('transaction', $t->id)
+                        ->where('reschedule', $t->reschedule)
+                        ->where('completed', 0)
+                        ->get(['id', 'amount', 'date'])->toArray();
+
+                $this->payments = array_merge($this->payments , $ps);
+
+        
                 $this->spending_amount -= $t->amount;
             }
         }
+
+        
+
+
+        $ps = Payment::where('transaction', null)
+        ->where('user', Auth::id())
+        ->where('completed', 0)
+        ->get(['id', 'amount', 'date'])->toArray();
+
+
+        if (!$open_transaction) {
+            // Transaction wont be empty because of transaction with 0 remaining balance
+            Payment::where('user', Auth::id())->where('transaction', null)->delete();
+         }
+
+        $this->payments = array_merge($this->payments , $ps);
+
         $this->remaining_balance = $amount;
 
         if ($this->spending_amount < 0) {
@@ -65,9 +93,6 @@ class StartUPay extends Component
         $this->has_transactions = count($this->transactions);
 
         $this->fees = Fee::where('user', Auth::id())
-                        ->get(['id', 'amount', 'date'])->toArray();
-
-        $this->payments = Payment::where('user', Auth::id())
                         ->get(['id', 'amount', 'date'])->toArray();
         // $this->events_and_fees = array_merge($this->fees, $this->payments)
         // $event_count = count($this->fees) + count($this->payments)
