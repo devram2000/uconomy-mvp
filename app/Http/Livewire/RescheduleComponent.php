@@ -26,13 +26,6 @@ class RescheduleComponent extends Component
             ->get(['id', 'transaction', 'title', 'start'])->toArray();
         Payment::where('user', Auth::id())->where('transaction', null)->delete();
 
-
-        $i = 0;
-        $payment_amount = 0;
-        while (false) {
-            false;
-        }
-
         $null_events = array();
 
         foreach($this->events as $event) {
