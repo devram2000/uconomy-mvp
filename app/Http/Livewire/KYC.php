@@ -6,6 +6,7 @@ use Auth;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\SyncteraCalls;
 
 
 class KYC extends Component
