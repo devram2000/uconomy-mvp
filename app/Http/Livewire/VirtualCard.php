@@ -117,7 +117,8 @@ class VirtualCard extends Component
             }
         }
 
-        if ($account == null) {
+        if (false) {
+        // if ($account == null) {
             $response =  Http::withHeaders([
                 'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
             ])->post(env('SYNCTERA_API') . '/v0/accounts', [

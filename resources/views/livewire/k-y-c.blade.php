@@ -111,15 +111,6 @@
         <div id="card-container">
             <div class="panel">
 
-                <input type="text" placeholder="First Name" id="first_name" wire:model="first_name"/>
-                <x-jet-input-error for="first_name" class="mt-2" />
-
-                <input type="text" placeholder="Last Name" id="last_name" wire:model="last_name"/>
-                <x-jet-input-error for="last_name" class="mt-2" />
-
-                <input type="date" placeholder="Date of Birth" id="date_of_birth" wire:model="date_of_birth"/>
-                <x-jet-input-error for="date_of_birth" class="mt-2" />
-
                 <input type="text" placeholder="Address Line 1" id="address" wire:model="address"/>
                 <x-jet-input-error for="address" class="mt-2" />
 

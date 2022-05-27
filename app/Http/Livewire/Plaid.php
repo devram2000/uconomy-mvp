@@ -7,6 +7,7 @@ use Auth;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\SyncteraCalls;
 
 class Plaid extends Component
 {
@@ -15,46 +16,13 @@ class Plaid extends Component
 
 
     public function createLink() {
-        $response =  Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-        ])->post(env('SYNCTERA_API') . '/v0/external_accounts/link_tokens', [
-            'customer_id' => Auth::user()->synctera_id,
-            'client_name' => "Uconomy",
-            "country_codes" => [
-                "US"
-              ],
-              "type"  => "DEPOSITORY",
-              "language" => "EN",
-            //   "redirect_uri" => "https://oauth1.example.com/oauth-page.html"
-        ]);
-
-        $this->link_token = $response['link_token'];
-
+        $this->link_token = SyncteraCalls::createLink(Auth::user()->synctera_id);
         
     }
 
     public function createAccount($public_token, $metadata) {
-        $response =  Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-        ])->post(env('SYNCTERA_API') . '/v0/external_accounts/access_tokens', [
-            'customer_id' => Auth::user()->synctera_id,
-            'vendor_public_token' => $public_token,
-            'vendor_institution_id' => $metadata['institution']['institution_id'],
-        ]);
-        
+        $response = SyncteraCalls::createAccount(Auth::user()->synctera_id, $public_token, $metadata);
 
-        $response =  Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-        ])->post(env('SYNCTERA_API') . '/v0/external_accounts/add_vendor_accounts', [
-            'customer_id' => Auth::user()->synctera_id,
-            "customer_type"  => "PERSONAL",
-            "vendor"  => "PLAID",
-            // "verify_owner"  => true,
-            'vendor_access_token' => $response['vendor_access_token'],
-            "vendor_account_ids" => [
-                $metadata['account_id']
-              ],        
-            ]);
         $this->message = $response->body();
     }
 
