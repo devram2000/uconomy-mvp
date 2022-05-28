@@ -80,9 +80,7 @@
             </div>
             <div>
                 @if($profile_completed && $spending_amount >= 10)
-                <x-jet-button id="upay-button" type="button" wire:click="redirectUPay">
-                    {{ __('Create a Payment Plan') }}
-                </x-jet-button>  
+                    @livewire('virtual-card') 
                 @elseif($spending_amount >= 10)
                 <div id="profile-button">
                     <div> {{ __(' Please complete the ') }} {{ $profile_sections }} {{ __(' of your Profile before making your payment plan.') }} </div> </br>

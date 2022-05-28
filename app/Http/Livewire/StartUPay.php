@@ -10,6 +10,8 @@ use App\Models\Fee;
 use App\Models\Address;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\SyncteraCalls;
+
 
 
 class StartUPay extends Component
@@ -22,6 +24,17 @@ class StartUPay extends Component
     public $approved;
     public $is_approved;
     public $is_admin;
+    public $kyc;
+    public $plaid;
+    public $flipped = "";
+    public $pinWidgetURL = null;
+    public $cardWidgetURL = null;
+    public $client_token = null;
+    public $account_id = null;
+    public $card_id = null;
+    public $last_four = null;
+    public $balance = 0;
+
 
     public function __construct() {   
         $this->terms = Auth::user()->terms != NULL;
@@ -29,6 +42,14 @@ class StartUPay extends Component
         $this->approved = array_map(function ($o) {
             return $o->email;
         }, DB::select('select email from approved'));
+    }
+
+    public function toggleButton() {  
+        if ($this->flipped == "flipped") {
+            $this->flipped = "";
+        } else {
+            $this->flipped = "flipped";
+        }
     }
 
 
@@ -124,23 +145,54 @@ class StartUPay extends Component
         $email_verify = Auth::user()->email_verified_at;
         $address = Address::where('user', Auth::id())->first();
         $date_of_birth = Auth::user()->date_of_birth;
+        $kyc = Auth::user()->kyc;
+        $plaid = Auth::user()->plaid;
 
         $sections_needed = array();
 
         $identity_verify = count(Identification::where('user', Auth::id())->get());
 
         
-        if($zelle == null) {
-            $sections_needed[] = "Zelle";
+        // if($zelle == null) {
+        //     $sections_needed[] = "Zelle";
+        // }
+        // if($email_verify == null || $phone_verify == null || $identity_verify == 0) {
+        //     $sections_needed[] = "Verification";
+        // }
+        // if($address == null) {
+        //     $sections_needed[] = "Address";
+        // }
+        // if($date_of_birth == null) {
+        //     $sections_needed[] = "Date of Birth";
+        // }
+        if($kyc == null) {
+            $sections_needed[] = "KYC";
         }
-        if($email_verify == null || $phone_verify == null || $identity_verify == 0) {
-            $sections_needed[] = "Verification";
+        if($plaid == null) {
+            $sections_needed[] = "Plaid";
         }
-        if($address == null) {
-            $sections_needed[] = "Address";
-        }
-        if($date_of_birth == null) {
-            $sections_needed[] = "Date of Birth";
+
+        if($kyc && $plaid) {
+            $template_id = SyncteraCalls::getTemplateID();
+
+
+            $account = SyncteraCalls::getAccount(Auth::user()->synctera_id, $template_id);
+    
+            $this->account_id = $account['id'];
+    
+            foreach ( $account['balances'] as $b) {
+                if($b['type'] == 'AVAILABLE_BALANCE') {
+                    $this->balance = $b['balance'] / 100;
+                }
+            }
+    
+            $card = SyncteraCalls::getCard(Auth::user()->synctera_id, $this->account_id);
+    
+            $this->card_id = $card['id']; 
+            $this->last_four = $card['last_four'];
+    
+            $this->client_token = SyncteraCalls::getClientToken($this->card_id);
+    
         }
 
         if(count($sections_needed) == 0) {

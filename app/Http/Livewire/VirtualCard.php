@@ -7,6 +7,7 @@ use Auth;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\SyncteraCalls;
 
 
 class VirtualCard extends Component
@@ -74,108 +75,28 @@ class VirtualCard extends Component
     
     public function render()
     {
-        $template_id = null;
+        $template_id = SyncteraCalls::getTemplateID();
 
-        $response =  Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-        ])->get(env('SYNCTERA_API') . '/v0/accounts/templates');
-        
-        foreach ( $response['account_templates'] as $template) {
-            if($template['name'] == "Uconomy Card Template") {
-                $template_id = $template['id'];
+
+        $account = SyncteraCalls::getAccount(Auth::user()->synctera_id, $template_id);
+
+        $this->account_id = $account['id'];
+
+        foreach ( $account['balances'] as $b) {
+            if($b['type'] == 'AVAILABLE_BALANCE') {
+                $this->balance = $b['balance'] / 100;
             }
         }
 
-        if ($template_id == null) {
-            $response =  Http::withHeaders([
-                'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-            ])->post(env('SYNCTERA_API') . '/v0/accounts/templates', [
-                'is_enabled' => true,
-                'name' => 'Uconomy Card Template',
-                'template' => [
-                    'account_type' => "CHECKING",
-                    'bank_country' => 'US',
-                    'currency' => 'USD',
-                    "is_ach_enabled" => true,
-                    "is_card_enabled" => true,
-                    "is_p2p_enabled" => true,            
-                ],
-            ]);
-            $template_id = $response['id'];
-        }
+        $card = SyncteraCalls::getCard(Auth::user()->synctera_id, $this->account_id);
 
-        $account = null;
+        $this->card_id = $card['id']; 
+        $this->last_four = $card['last_four'];
 
-        $response =  Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-        ])->get(env('SYNCTERA_API') . '/v0/accounts');
+        $this->client_token = SyncteraCalls::getClientToken($this->card_id);
 
 
-        foreach ( $response['accounts'] as $a) {
-            if($a['customer_ids'][0] == Auth::user()->synctera_id) {
-                $account = $a;
-            }
-        }
 
-        if (false) {
-        // if ($account == null) {
-            $response =  Http::withHeaders([
-                'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-            ])->post(env('SYNCTERA_API') . '/v0/accounts', [
-                'account_template_id' => $template_id,
-                'relationships' => [
-                    [
-                        'relationship_type' => "ACCOUNT_HOLDER",
-                        'person_id' => Auth::user()->synctera_id,    
-                    ]
-                ],
-            ]);
-            $account = $response;
-
-            $this->account_id = $account['id'];
-
-            foreach ( $account['balances'] as $b) {
-                if($b['type'] == 'AVAILABLE_BALANCE') {
-                    $this->balance = $b['balance'] / 100;
-                }
-            }
-    
-            $response =  Http::withHeaders([
-                'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-            ])->get(env('SYNCTERA_API') . '/v0/cards', [
-                'account_id' => $this->account_id,
-            ]);
-    
-            if (!empty($response['cards'])) {
-                $this->card_id = $response['cards'][0]['id'];
-                $this->last_four = $response['cards'][0]['last_four'];
-            }
-    
-    
-            if ($this->card_id == null) {
-                $response =  Http::withHeaders([
-                    'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-                ])->post(env('SYNCTERA_API') . '/v0/cards', [
-                    'account_id' => $account_id,
-                    'customer_id' => Auth::user()->synctera_id,
-                    'card_product_id' => 'ed892847-8bed-4a5f-ac04-6c4dddc00e92',
-                    'form' => 'VIRTUAL',
-                    'type' => 'DEBIT',
-                ]);
-    
-                $this->card_id = $response['id']; 
-                $this->last_four = $response['last_four'];
-       
-            }
-    
-            $response =  Http::withHeaders([
-                'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),
-            ])->post(env('SYNCTERA_API') . '/v0/cards/' . $this->card_id . '/client_token');
-    
-            
-            $this->client_token = $response['client_token'];
-    
-        }
 
         return view('livewire.virtual-card');
     }

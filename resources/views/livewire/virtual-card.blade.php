@@ -3,24 +3,15 @@
 @endpush
 <link rel="stylesheet" href="{{ asset('css/card.css') }}">
 
-<x-jet-form-section submit="createCard">
-    <x-slot name="title">
-        {{ __('Virtual Card') }}
-    </x-slot>
 
-    <x-slot name="description">
-        {{ __('Create a Virtual Card.') }}
-    </x-slot>
-
-    <x-slot name="form">
      
 
-        <div class="col-span-6 sm:col-span-4">
+        <div class="mt-2 col-span-6 sm:col-span-4">
 
         <div id="card-container">
             <div class="panel">
 
-            <div class="m-2 flex flex-col">
+            <div class="m-2 flex flex-col items-center">
                 <div id="cardContainer">
                     <div id="cardInner" class="" >
                     <div id="cardFront" style="background-Color: #FFD100;" >
@@ -88,23 +79,24 @@
                     </div>
                     </div>
 
-                <div class="mt-8">
-                    <button id="flippedBtn" type="button" onClick="switchClass()"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Toggle
-                    </button>
+                
                 </div>
+
+                <div class="mt-4 flex justify-end">
+                    <button id="flippedBtn" type="button" onClick="switchClass()"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Back</button> 
                 </div>
 
                 <script>
 
                     function switchClass() {
-                        console.log('hello');
                         if ( document.getElementById("cardInner").className == "") {
                             document.getElementById("cardInner").className = "flipped";
+                            document.getElementById("flippedBtn").innerHTML = "Front";
+
                         } else {
                             document.getElementById("cardInner").className = "";
-                            console.log('bye');
+                            document.getElementById("flippedBtn").innerHTML = "Back";
                         }
                     }
                 </script>
@@ -116,9 +108,8 @@
             @endif
 
             <div>
-                <div id="client_token" > {{ $client_token }}</div>
+                <div class="invisible" id="client_token" > {{ $client_token }}</div>
 
-                Balance: ${{ $balance }}
             </div>
             <script>
                 
@@ -152,16 +143,4 @@
         
         
 
-
-
-    </x-slot>
-    <x-slot name="actions">
-   
-        
-        <x-jet-button>
-            {{ __('Submit') }}
-        </x-jet-button>
-
-    </x-slot>
-</x-jet-form-section>
 

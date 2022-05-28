@@ -38,13 +38,16 @@
             <div class="mt-10 sm:mt-0">
                 @livewire('plaid')
             </div>
-
             <x-jet-section-border />
+
+            <?php /* 
+
             <div class="mt-10 sm:mt-0">
                 @livewire('virtual-card')
             </div>
             <x-jet-section-border />
 
+            
 
             <div class="mt-10 sm:mt-0">
                 @livewire('verification', ['user' => $user])
@@ -60,6 +63,7 @@
                 @livewire('address-finder')
             </div>
             <x-jet-section-border />
+            */ ?> 
 
            
 
