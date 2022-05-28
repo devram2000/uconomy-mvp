@@ -67,6 +67,10 @@ class SyncteraCalls extends Controller
             'customer_consent' => true,
         ]);
 
+        if($response['kyc_status'] != 'ACCEPTED') {
+            $response = SyncteraCalls::kyc($person_id);
+        }
+
         return $response;
 
     }

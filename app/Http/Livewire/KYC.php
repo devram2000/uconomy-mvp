@@ -31,6 +31,12 @@ class KYC extends Component
 
         $this->message = SyncteraCalls::kyc($person_id)->body();
 
+        $user = Auth::user();
+        $user->kyc = True;
+        $user->save();
+
+
+
     }
 
     public function render()

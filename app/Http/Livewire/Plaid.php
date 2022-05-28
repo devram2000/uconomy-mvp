@@ -24,6 +24,10 @@ class Plaid extends Component
         $response = SyncteraCalls::createAccount(Auth::user()->synctera_id, $public_token, $metadata);
 
         $this->message = $response->body();
+
+        $user = Auth::user();
+        $user->plaid = True;
+        $user->save();
     }
 
 

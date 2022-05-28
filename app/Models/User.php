@@ -38,6 +38,8 @@ class User extends Authenticatable
         'zelle',
         'terms',
         'synctera_id',
+        'kyc',
+        'plaid',
     ];
 
     /**
