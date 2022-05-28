@@ -18,7 +18,7 @@
 
         <div id="card-container">
             <div class="panel">
-
+                <div class=""> Connect your bank account with Plaid! </div>
             {{ $message }}
             @if($link_token != null)
                 <script>
@@ -68,7 +68,7 @@
    
         
         <x-jet-button>
-            {{ __('Submit') }}
+            {{ __('Start') }}
         </x-jet-button>
 
     </x-slot>

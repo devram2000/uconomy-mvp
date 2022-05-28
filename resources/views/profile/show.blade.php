@@ -31,6 +31,13 @@
             @endif
 
             <div class="mt-10 sm:mt-0">
+                @livewire('onboarding')
+            </div>
+            <x-jet-section-border />
+
+            <?php /* 
+
+             <div class="mt-10 sm:mt-0">
                 @livewire('k-y-c')
             </div>
             <x-jet-section-border />
@@ -40,7 +47,6 @@
             </div>
             <x-jet-section-border />
 
-            <?php /* 
 
             <div class="mt-10 sm:mt-0">
                 @livewire('virtual-card')

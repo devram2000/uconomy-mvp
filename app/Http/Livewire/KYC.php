@@ -35,6 +35,7 @@ class KYC extends Component
         $user->kyc = True;
         $user->save();
 
+        return redirect('/user/profile'); 
 
 
     }

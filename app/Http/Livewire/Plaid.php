@@ -28,6 +28,9 @@ class Plaid extends Component
         $user = Auth::user();
         $user->plaid = True;
         $user->save();
+
+        return redirect('home'); 
+
     }
 
 
