@@ -1,13 +1,12 @@
 @push('scripts')
 <script src="https://widgets.marqeta.com/marqetajs/1.1.0/marqeta.min.js" type="text/javascript"></script>
 @endpush
-<link rel="stylesheet" href="{{ asset('css/card.css') }}">
 
 
      
 
         <div class="mt-2 col-span-6 sm:col-span-4">
-
+        <link rel="stylesheet" href="{{ asset('css/card.css') }}">
         <div id="card-container">
             <div class="panel">
 

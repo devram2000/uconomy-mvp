@@ -34,6 +34,7 @@ class StartUPay extends Component
     public $card_id = null;
     public $last_four = null;
     public $balance = 0;
+    public $simulated_amount = null;
 
 
     public function __construct() {   
@@ -50,6 +51,88 @@ class StartUPay extends Component
         } else {
             $this->flipped = "flipped";
         }
+    }
+
+    public function simulateSubmit(){
+        $validatedData = $this->validate([
+            'simulated_amount' => "required|numeric|min:10|max:$this->spending_amount",
+        ]);
+        $start_date = date('Y-m-d');
+
+        $transaction = Transaction::create([
+            'amount' => $this->simulated_amount,
+            'remaining_balance' => $this->simulated_amount,
+            'category' => 'Other',
+            'description' => 'Test',
+            'user' => Auth::id(),
+            'start_date' => $start_date,
+            'due_date' => date('Y.m.d', strtotime('+1 week')),
+        ]);
+        $a = $this->simulated_amount;
+        $date = $start_date;
+        while($a != 0) {
+            $payment_amount = 0;
+            if ($a < 25) {
+                $payment_amount = $a;
+            } else {
+                $payment_amount = 25;
+            }
+            $date = date("Y-m-d", strtotime($date . "+1 week"));
+            Payment::create([
+                'user' => Auth::id(),
+                'transaction' => $transaction->id,
+                'amount' => $payment_amount,
+                'date' => $date,
+                'completed' => false,
+            ]);
+            $a -= $payment_amount;
+        }
+
+        $transaction->due_date = $date;
+        $transaction->save();
+
+        // foreach($this->events as $event) {
+            // Payment::create([
+            //     'user' => Auth::id(),
+            //     'transaction' => $transaction->id,
+            //     'amount' => $this->simulated_amount,
+            //     'date' => date('Y.m.d', strtotime('+1 week')),
+            //     'completed' => false,
+            // ]);
+        // }
+        // foreach($this->fees as $fee) {
+            $this->last_payment_date = $date;
+        
+            $fee_date = $start_date;
+            $fee_payments = [];
+    
+            $current_fees = Fee::where('user', Auth::id()) 
+                    ->orderBy('date', 'DESC')->first();
+            if ($current_fees != null) {
+                $last_fee_date = date("Y-m-d", strtotime("+1 month", strtotime($current_fees->date)));
+                // dd($last_fee_date);
+                // if ($last_fee_date <= $this->last_payment_date) {
+                $fee_date = $last_fee_date;
+                // }
+            }
+            while($fee_date <= $this->last_payment_date) {
+                // array_push($fee_payments, [ "id" => $i, "title" => 5, "start" => $fee_date ]);
+                // // $fee_payments += [[ "title" => 5, "start" => $fee_date ]];
+                Fee::create([
+                    'user' => Auth::id(),
+                    'transaction' => $transaction->id,
+                    'amount' => '9.99',
+                    'date' => $fee_date,
+                    'completed' => false,
+                ]);
+                $fee_date = date("Y-m-d", strtotime("+1 month", strtotime($fee_date)));
+            }
+    
+            
+        // }
+        return redirect('home'); 
+
+
     }
 
 

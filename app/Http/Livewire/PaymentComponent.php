@@ -37,17 +37,19 @@ class PaymentComponent extends Component
     
     public function render()
     {
-        if (Auth::user()->stripe_id == NULL) {
-            $stripeCustomer = Auth::user()->createAsStripeCustomer();
-        } else {
-            $stripeCustomer = Auth::user()->asStripeCustomer();
-        }
-        // Auth::user()->deletePaymentMethods();
-        // dd(Auth::user()->defaultPaymentMethod());
+        // if (Auth::user()->stripe_id == NULL) {
+        //     $stripeCustomer = Auth::user()->createAsStripeCustomer();
+        // } else {
+        //     $stripeCustomer = Auth::user()->asStripeCustomer();
+        // }
+        // // Auth::user()->deletePaymentMethods();
+        // // dd(Auth::user()->defaultPaymentMethod());
 
-        return view('livewire.payment-component', [
-            'intent' => Auth::user()->createSetupIntent()
-        ]);
+        // return view('livewire.payment-component', [
+        //     'intent' => Auth::user()->createSetupIntent()
+        // ]);
+
+        return null;
         
     }
 

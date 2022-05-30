@@ -27,6 +27,7 @@ class RescheduleComponent extends Component
         Payment::where('user', Auth::id())->where('transaction', null)->delete();
 
         $null_events = array();
+        
 
         foreach($this->events as $event) {
             $transaction_id = null;
@@ -41,12 +42,12 @@ class RescheduleComponent extends Component
         
                 $reschedule_number++;
 
-                if(Transaction::where('id', $transaction_id)->get(['reschedule'])[0]['reschedule'] 
-                    != $reschedule_number) {
-                        $result = Transaction::where('id', $transaction_id)->update([
-                            'reschedule' => $reschedule_number,
-                        ]);
-                }
+                // if(Transaction::where('id', $transaction_id)->get(['reschedule'])[0]['reschedule'] 
+                //     != $reschedule_number) {
+                //         $result = Transaction::where('id', $transaction_id)->update([
+                //             'reschedule' => $reschedule_number,
+                //         ]);
+                // }
                 Payment::create([
                     'user' => Auth::id(),
                     'transaction' => $transaction_id,
@@ -58,6 +59,22 @@ class RescheduleComponent extends Component
             } else {
                 $null_events[] = $event;
             } 
+
+            $transactions = Transaction::where('user', Auth::id())->get();
+
+            foreach($transactions as $t) {
+                $reschedule_number = $this->reschedule[$t['id']];
+
+                if($reschedule_number == null) {
+                    $reschedule_number = 0;
+                }
+        
+                $reschedule_number++;
+
+                $result = $t->update([
+                    'reschedule' => $reschedule_number,
+                ]);
+            }
         }
 
         foreach($null_events as $event) {
@@ -84,6 +101,14 @@ class RescheduleComponent extends Component
         Event::where('user', Auth::id())->delete();
         $this->window = Auth::user()->window;
 
+        if($this->window == null) {
+            $this->window = 3;
+            $user = Auth::user();
+            $user->window = $this->window;
+            $user->save();
+    
+        }
+
         $transacts = Transaction::where('user', Auth::id())->get();
         $this->transactions = array();
         $this->payments = array();
@@ -102,6 +127,7 @@ class RescheduleComponent extends Component
                 $this->reschedule[$t->id] = $t->reschedule;
             }
         }
+
         $pays = Payment::where('transaction', null)
             ->where('user', Auth::id())
             ->where('completed', 0)

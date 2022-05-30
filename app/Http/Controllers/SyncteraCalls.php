@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class SyncteraCalls extends Controller
-{
+{    
     public static function createPerson($first_name, $last_name, $dob, $email, $phone_number) {
         $response =  Http::withHeaders([
             'Authorization' => 'Bearer ' . env('SYNCTERA_KEY'),

@@ -81,10 +81,21 @@
             <div>
                 @if($profile_completed && $spending_amount >= 10)
                     @livewire('virtual-card') 
+
+                    <div class="form-group">
+                        <label for="purchaseAmount">Simulate Transaction ($)</label>
+                        <div class="flex justify-center mt-2 w-15">
+                            <input type="text" id="simulated_amount" class="w-15" id="purchaseAmount" placeholder="{{ $simulated_amount }}" wire:model="simulated_amount">
+                            <x-jet-button class="ml-2" id="upay-button" wire:click="simulateSubmit" type="button" >Submit</x-jet-button>   
+                        </div>
+                        <x-jet-input-error for="simulate_amount" class="mt-2" />       
+
+                    </div>
+
                 @elseif($spending_amount >= 10)
                 <div id="profile-button">
                     <div> {{ __(' Please complete the ') }} {{ $profile_sections }} {{ __(' of your Profile before making your payment plan.') }} </div> </br>
-                
+
                     <x-jet-button id="upay-button" type="button" wire:click="redirectProfile">
                         {{ __('Profile') }}
                     </x-jet-button>

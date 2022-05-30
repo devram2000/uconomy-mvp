@@ -10,7 +10,6 @@ use App\Http\Livewire\Admin;
 use App\Http\Livewire\PaymentComponent;
 use App\Http\Livewire\RescheduleComponent;
 use App\Http\Controllers\UPayController;
-use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\AutoAddressController;
  
