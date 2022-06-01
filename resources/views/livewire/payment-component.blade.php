@@ -23,10 +23,10 @@
                     @if(!$payment_completed)
                     <div>
                         <div id="payment-title"> 
-                            {{ __('Make a Payment') }} 
+                            {{ __('Add your Debit Card') }} 
                         </div> 
                         <div id="payment-text">
-                            Fill out the form below to make a debit card payment
+                            Fill out the form below to make add your debit card
                         </div>
                         <div id="error"></div>
 
@@ -38,14 +38,10 @@
 
                     <div id="card-form">
                         <div class="form-group">
-                            <label for="name">Name</label>
+                            <label for="name">Cardholder Full Name</label>
                             <input id="card-holder-name" class="form-control" value="{{ Auth::user()->name }}" type="text">
                         </div>
 
-                        <div class="form-group">
-                            <label for="payment_amount">Payment Amount ($)</label>
-                            <input type="number" step="0.01"  placeholder='0.00'  id="payment_amount" class="form-control" wire:model="payment_amount">
-                        </div>
 
                         <div class="form-group">
                             <label for="card_info">Debit Card Information</label>
@@ -56,7 +52,7 @@
                         <div id="payment-button" class="mt-4">
                             <div>
                             <x-jet-button id="card-button" data-secret="{{ $intent->client_secret }}">
-                                Confirm Payment
+                                Submit
                             </x-jet-button></div>
                             <div><div id="loader" class="loader"></div></div>
 

@@ -40,6 +40,7 @@ class User extends Authenticatable
         'synctera_id',
         'kyc',
         'plaid',
+        'debit',
     ];
 
     /**

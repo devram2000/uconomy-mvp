@@ -30,6 +30,10 @@ Route::get('/', function () {
     return redirect('/home');
 });
 
+Route::get('/payment', function () {
+    return redirect('/debit_verification');
+});
+
 Route::get('/dashboard', function () {
     return redirect('/home');
 })->name('home');

@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class PaymentComponent extends Component
 {
     public $payment_method;
-    public $payment_amount;
+    public $payment_amount = 0.50;
     public $error_message = NULL;
     public $payment_completed = false;
     
@@ -37,19 +37,19 @@ class PaymentComponent extends Component
     
     public function render()
     {
-        // if (Auth::user()->stripe_id == NULL) {
-        //     $stripeCustomer = Auth::user()->createAsStripeCustomer();
-        // } else {
-        //     $stripeCustomer = Auth::user()->asStripeCustomer();
-        // }
-        // // Auth::user()->deletePaymentMethods();
-        // // dd(Auth::user()->defaultPaymentMethod());
+        if (Auth::user()->stripe_id == NULL) {
+            $stripeCustomer = Auth::user()->createAsStripeCustomer();
+        } else {
+            $stripeCustomer = Auth::user()->asStripeCustomer();
+        }
+        // Auth::user()->deletePaymentMethods();
+        // dd(Auth::user()->defaultPaymentMethod());
 
-        // return view('livewire.payment-component', [
-        //     'intent' => Auth::user()->createSetupIntent()
-        // ]);
+        return view('livewire.payment-component', [
+            'intent' => Auth::user()->createSetupIntent()
+        ]);
 
-        return null;
+        // return null;
         
     }
 
@@ -69,11 +69,11 @@ class PaymentComponent extends Component
         $error_message = "";
 
         if($this->payment_amount == NULL) {
-            $error_message = "The payment amount field is required";
-        } else if ($this->payment_amount < 1) {
-            $error_message = "The payment amount field should be above $1";
+            $error_message = "The verification amount field is required";
+        // } else if ($this->payment_amount < 1) {
+        //     $error_message = "The payment amount field should be above $1";
         } else if ($this->payment_amount > $transaction_limit) {
-            $error_message = "The payment amount field should be below $" . $transaction_limit;
+            $error_message = "The verification amount field should be below $" . $transaction_limit;
         }
 
         if ($error_message != "") {
@@ -89,16 +89,20 @@ class PaymentComponent extends Component
                 'off_session' => true,
             ]);
             if($single_charge->status == 'succeeded') {
+                $user = Auth::user();
+                $user->debit = True;
+                $user->save();
+    
                 $this->payment_completed = true;
             } else {
-                $error_message = "Your payment stopped with the status of " . $single_charge->status;
+                $error_message = "Your verification stopped with the status of " . $single_charge->status;
                 // throw ValidationException::withMessages(['field_name' => $error_message]);
             }
         } catch (\Stripe\Exception\CardException $e) {
             $card = Auth::user()->defaultPaymentMethod()->card;
             // dd($e->error);
             if($card->funding != "debit") {
-                $error_message = "Please use a debit card for your payment.";
+                $error_message = "Please use a debit card for your verification.";
             } else if ($card->country != "US") {
                 $error_message = "Please use a US based debit card.";
             } else {
@@ -107,7 +111,8 @@ class PaymentComponent extends Component
             // throw ValidationException::withMessages(['field_name' => $error_message]);
 
         } catch (\Throwable $e) {
-            $error_message = "Your payment failed. Please contact us if this issue persists.";
+            dd($e);
+            $error_message = "Your verification failed. Please contact us if this issue persists.";
             // $this->dispatchBrowserEvent('say-goodbye', []);
             // throw ValidationException::withMessages(['field_name' => $error_message]);
 
@@ -116,6 +121,8 @@ class PaymentComponent extends Component
         if (!$this->payment_completed) {
             return redirect("/payment?message=".$error_message); 
         }
+
+        $this->redirectHome();
 
        
     }
