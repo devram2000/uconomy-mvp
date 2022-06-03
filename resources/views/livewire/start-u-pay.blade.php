@@ -83,7 +83,7 @@
                     @livewire('virtual-card') 
 
                     <div class="form-group">
-                        <label for="purchaseAmount">Simulate Transaction ($)</label>
+                        <label for="purchaseAmount">Simulate a Test Transaction ($)</label>
                         <div class="flex justify-center mt-2 w-15">
                             <input type="text" id="simulated_amount" class="w-15" id="purchaseAmount" placeholder="{{ $simulated_amount }}" wire:model="simulated_amount">
                             <x-jet-button class="ml-2" id="upay-button" wire:click="simulateSubmit" type="button" >Submit</x-jet-button>   

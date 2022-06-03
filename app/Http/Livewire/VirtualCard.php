@@ -20,6 +20,7 @@ class VirtualCard extends Component
     public $account_id = null;
     public $card_id = null;
     public $last_four = null;
+    public $name = null;
     public $balance = 0;
 
     public function toggleButton() {  
@@ -76,6 +77,8 @@ class VirtualCard extends Component
     public function render()
     {
         $template_id = SyncteraCalls::getTemplateID();
+
+        $this->name = Auth::user()->name;
 
 
         $account = SyncteraCalls::getAccount(Auth::user()->synctera_id, $template_id);

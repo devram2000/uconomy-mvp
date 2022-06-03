@@ -8,6 +8,7 @@ use App\Models\Payment;
 use App\Models\Identification;
 use App\Models\Fee;
 use App\Models\Address;
+use App\Models\DefaultSchedule;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\SyncteraCalls;
@@ -230,6 +231,9 @@ class StartUPay extends Component
         $date_of_birth = Auth::user()->date_of_birth;
         $kyc = Auth::user()->kyc;
         $plaid = Auth::user()->plaid;
+        $debit = Auth::user()->debit;
+        $schedule = DefaultSchedule::where('user', Auth::id())->first();
+
 
         $sections_needed = array();
 
@@ -248,12 +252,18 @@ class StartUPay extends Component
         // if($date_of_birth == null) {
         //     $sections_needed[] = "Date of Birth";
         // }
-        if($kyc == null) {
-            $sections_needed[] = "KYC";
+        if ($kyc == null || $kyc == false) {
+            $sections_needed[] = "Verification (Identity, Bank Account, and Debit Card)";
+        } else if ($plaid == null || $plaid == false) {
+            $sections_needed[] = "Verification (Bank Account and Debit Card)";
+        } else if ($debit == null || $debit == false) {
+            $sections_needed[] = "Verification (Debit Card)";
         }
-        if($plaid == null) {
-            $sections_needed[] = "Plaid";
+
+        if($schedule == null) {
+            $sections_needed[] = "Default Payment Schedule";
         }
+        
 
         if($kyc && $plaid) {
             $template_id = SyncteraCalls::getTemplateID();

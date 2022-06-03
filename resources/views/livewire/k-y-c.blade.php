@@ -96,11 +96,11 @@
 
 <x-jet-form-section submit="createPerson">
     <x-slot name="title">
-        {{ __('KYC') }}
+        {{ __('Identity Verification') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Create a person and do a KYC verification.') }}
+        {{ __('Please input your information to have your identity verified using Socure's secure KYC verification.') }}
     </x-slot>
 
     <x-slot name="form">

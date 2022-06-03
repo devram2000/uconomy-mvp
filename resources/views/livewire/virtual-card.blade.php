@@ -29,7 +29,7 @@
                         </div>
                         <div id="cardEmbossName" >
                         <div class="flex5">
-                            <span class="text-black">Test Test</span>
+                            <span class="text-black">{{ $name }}</span>
                             <span class="text-black">Uconomy</span>
                         </div>
                         </div>

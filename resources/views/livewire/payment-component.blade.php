@@ -66,7 +66,12 @@
                         width=100px alt="Powered by Stripe" ></a>
                     </div>
                  
-
+                    <div class="text-center">
+                        <i >
+                            For testing purposes, you can use the following debit card number with an arbitrary expiration, CVC, and zipcode: <b>4000056655665556</b><br>
+                            You can find other Stripe testing cards at this link: <a href="https://stripe.com/docs/testing">https://stripe.com/docs/testing</a>
+                        </i>
+                    </div>
                     <script src="https://js.stripe.com/v3/"></script>
 
                     <script>
