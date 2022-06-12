@@ -18,6 +18,7 @@ class CreateDefaultSchedulesTable extends Migration
             $table->bigInteger('user')->unsigned();
             $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
             $table->string('payment_length');
+            $table->integer('payment_months');
             $table->integer('date')->nullable();
             $table->boolean('monday')->nullable();
             $table->boolean('tuesday')->nullable();

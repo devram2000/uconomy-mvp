@@ -88,7 +88,7 @@
                             <input type="text" id="simulated_amount" class="w-15" id="purchaseAmount" placeholder="{{ $simulated_amount }}" wire:model="simulated_amount">
                             <x-jet-button class="ml-2" id="upay-button" wire:click="simulateSubmit" type="button" >Submit</x-jet-button>   
                         </div>
-                        <x-jet-input-error for="simulate_amount" class="mt-2" />       
+                        <x-jet-input-error for="simulated_amount" class="mt-2" />       
 
                     </div>
 

@@ -18,7 +18,7 @@ class CreateFeesTable extends Migration
             $table->timestamps();
             $table->bigInteger('user')->unsigned();
             $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('amount')->unsigned();
+            $table->double('amount')->unsigned();
             $table->boolean('completed');
             $table->date('date');
 

@@ -55,11 +55,11 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             ])->save();         
         } 
 
-        if ($input['date_of_birth'] !== $user->date_of_birth) {
-            $user->forceFill([
-                'date_of_birth' => $input['date_of_birth'],
-            ])->save();         
-        } 
+        // if ($input['date_of_birth'] !== $user->date_of_birth) {
+        //     $user->forceFill([
+        //         'date_of_birth' => $input['date_of_birth'],
+        //     ])->save();         
+        // } 
     }
     
     /**

@@ -14,6 +14,7 @@ class DefaultPayments extends Component
     public $days;
     public $biweekly;
     public $monthly;
+    public $payment_months;
 
     public function __construct() {   
         $this->saved = false;
@@ -22,6 +23,7 @@ class DefaultPayments extends Component
         if($schedule != null) {
 
             $this->payment_length = $schedule['payment_length'];
+            $this->payment_months = $schedule['payment_months'];
             if ($this->payment_length == "weekly") {
                 $this->days = [$schedule['monday'], $schedule['tuesday'], $schedule['wednesday'], $schedule['thursday'], $schedule['friday'], $schedule['saturday'], $schedule['sunday'], ];
             } else if ($this->payment_length == "biweekly") {
@@ -60,6 +62,7 @@ class DefaultPayments extends Component
             DefaultSchedule::where('user', Auth::id())->delete();
             DefaultSchedule::create([
                 'user' => Auth::id(),
+                'payment_months' => $this->payment_months,
                 'payment_length' => $this->payment_length,
                 'date' => $this->monthly,
             ]);
@@ -71,6 +74,7 @@ class DefaultPayments extends Component
             DefaultSchedule::where('user', Auth::id())->delete();
             DefaultSchedule::create([
                 'user' => Auth::id(),
+                'payment_months' => $this->payment_months,
                 'payment_length' => $this->payment_length,
                 $this->biweekly => 1,
             ]);
@@ -95,6 +99,7 @@ class DefaultPayments extends Component
                 DefaultSchedule::where('user', Auth::id())->delete();
                 DefaultSchedule::create([
                     'user' => Auth::id(),
+                    'payment_months' => $this->payment_months,
                     'payment_length' => $this->payment_length,
                     'monday' => $this->days[0],
                     'tuesday' => $this->days[1],

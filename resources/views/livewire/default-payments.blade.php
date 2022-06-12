@@ -12,10 +12,15 @@
 
         <div class="col-span-6 sm:col-span-4">
 
-        <div id="card-container">
-            <div class="panel">
+        <div id="">
+            <div class="">
                 <div id="" class="flex flex-col flex-nowrap justify-center">
-                    {{ __('How would you like your payments to be set?') }} 
+                    
+
+                    <div class="" >
+                        {{ __('How would you like your payments to be set?') }} 
+                    </div>
+
                     <x-jet-input-error for="payment_length" class="mt-2" />
 
                     <select class="mt-2" name="payment_length" id="" wire:model="payment_length" wire:change="">
@@ -123,6 +128,18 @@
                         </div>
 
                     @endif
+
+                    <div class="mt-2" >
+                        {{ __('How long would you like your payments to default over? Uconomy charges a subscription fee per month you hold a balance.') }} 
+                    </div>
+                    <x-jet-input-error for="payment_months" class="mt-2" />
+
+                    <select class="mt-2" name="payment_months" id="" wire:model="payment_months" wire:change="">
+                        <option selected="selected">{{ __('') }}</option>
+                        <option value="1">{{ __('~1 Month') }}</option>
+                        <option value="2">        {{ __('~2 Months') }}</option>
+                        <option value="3">        {{ __('~3 Months') }}</option>
+                    </select>
                 </div>
 
             </div>

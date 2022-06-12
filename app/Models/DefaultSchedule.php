@@ -12,6 +12,7 @@ class DefaultSchedule extends Model
     protected $fillable = [
         'user',
         'payment_length',
+        'payment_months',
         'date',
         'monday',
         'tuesday',

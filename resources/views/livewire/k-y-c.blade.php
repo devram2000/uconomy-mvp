@@ -53,7 +53,7 @@
       }
 
       input {
-        border: 0;
+        /* border: 0; */
         border-bottom: 1px solid black;
         font-size: 14px;
         font-family: Roboto, sans-serif;
@@ -100,7 +100,7 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Please input your information to have your identity verified using Socure's secure KYC verification.') }}
+        {{ __('Please input your information to have your identity verified using Socure\'s secure KYC verification.') }}
     </x-slot>
 
     <x-slot name="form">
