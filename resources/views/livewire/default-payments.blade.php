@@ -1,3 +1,4 @@
+<div class="mt-10 sm:mt-0">
 <x-jet-form-section submit="saveDefault">
     <x-slot name="title">
         {{ __('Default Payment Schedule') }}
@@ -167,3 +168,6 @@
     </x-slot>
 </x-jet-form-section>
 
+
+</div>
+<x-jet-section-border />

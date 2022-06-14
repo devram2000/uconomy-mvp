@@ -29,7 +29,7 @@ class Plaid extends Component
         $user->plaid = True;
         $user->save();
 
-        return redirect('home'); 
+        return redirect('/user/profile'); 
 
     }
 

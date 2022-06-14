@@ -68,8 +68,8 @@ class StartUPay extends Component
         $transaction = Transaction::create([
             'amount' => $this->simulated_amount,
             'remaining_balance' => $this->simulated_amount,
-            'category' => 'Other',
-            'description' => 'Test',
+            // 'category' => 'Other',
+            // 'description' => 'Test',
             'user' => Auth::id(),
             'start_date' => $start_date,
             'due_date' => date('Y.m.d', strtotime('+1 week')),

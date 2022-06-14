@@ -34,11 +34,9 @@
                 @livewire('onboarding')
             </div>
             <x-jet-section-border />
+           
+            @livewire('default-payments')
 
-            <div class="mt-10 sm:mt-0">
-                @livewire('default-payments')
-            </div>
-            <x-jet-section-border />
 
             <?php /* 
 

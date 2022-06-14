@@ -118,6 +118,11 @@ class DefaultPayments extends Component
 
     public function render()
     {
-        return view('livewire.default-payments');
+        $this->debit = Auth::user()->debit;
+        if($this->debit == null) {
+            return view('livewire.empty');
+        } else {
+            return view('livewire.default-payments');
+        }
     }
 }

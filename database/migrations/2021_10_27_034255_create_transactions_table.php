@@ -19,8 +19,8 @@ class CreateTransactionsTable extends Migration
             $table->integer('amount')->unsigned();
             $table->integer('remaining_balance')->unsigned();
             $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
-            $table->string('category', 100);
-            $table->string('description', 555);
+            $table->string('category', 100)->nullable();
+            $table->string('description', 555)->nullable();
             $table->string('photo', 2048)->nullable();
             $table->date('start_date');
             $table->date('due_date');
