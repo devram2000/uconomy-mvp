@@ -45,7 +45,7 @@ class StartUPay extends Component
             return $o->email;
         }, DB::select('select email from approved'));
 
-
+        
     }
 
     public function toggleButton() {  
@@ -62,6 +62,8 @@ class StartUPay extends Component
         ]);
 
         $start_date = date('Y-m-d');
+        $schedule = DefaultSchedule::where('user', Auth::id())->first();
+        
 
         $transaction = Transaction::create([
             'amount' => $this->simulated_amount,
@@ -74,7 +76,6 @@ class StartUPay extends Component
         ]);
         $a = $this->simulated_amount;
         $date = $start_date;
-        $schedule = DefaultSchedule::where('user', Auth::id())->first();
 
         if ($schedule['payment_length'] == 'monthly') {
             $i = $schedule['payment_months'];
@@ -181,26 +182,65 @@ class StartUPay extends Component
                 $i--;
             }
 
+        } else if ($schedule['payment_length'] == 'weekly') {
+            $weekdays = [$schedule['sunday'], $schedule['monday'], $schedule['tuesday'], $schedule['wednesday'], $schedule['thursday'], $schedule['friday'], $schedule['saturday']];
+            $true_count = 0;
+
+            foreach ($weekdays as $d) {
+                if ($d == true) {
+                    $true_count++;
+                }
+            }
+
+            $i = $schedule['payment_months'] * 4 * $true_count;
+
+            $payamo = floor(($a / $i) * 100) / 100;
+
+            while ($payamo < 10 && $i > 1) {
+                $i--;
+                $payamo = floor(($a / $i) * 100) / 100;
+            }
+
+            $remainder = $a - ($payamo * $i);
+
+            $dayX = date('Y-m-d', strtotime('+1 day', time()));;
+            $start_weekday = date('w') + 1;
+            // dd($dayX . ': ' . $start_weekday);
+            if ($start_weekday == 7) {
+                $start_weekday = 0;
+            }
+            $j = $start_weekday;
+
+            while ($i > 0) {
+                
+                if ($weekdays[$j] == true) {
+
+                    $payment_amount = $payamo;
+                    if($i == 1) {
+                        $payment_amount += $remainder;
+                    }
+
+                    $date = $dayX;
+                    Payment::create([
+                        'user' => Auth::id(),
+                        'transaction' => $transaction->id,
+                        'amount' => $payment_amount,
+                        'date' => $date,
+                        'completed' => false,
+                    ]);
+                    $i--;
+                }
+                if ($j == 6) {
+                    $j = 0;
+                } else {
+                    $j++;
+                }
+                $dayX = date('Y-m-d', strtotime('+1 day', strtotime($dayX)));;
+            }
+
         }
 
 
-        // while($a != 0) {
-        //     $payment_amount = 0;
-        //     if ($a < 25) {
-        //         $payment_amount = $a;
-        //     } else {
-        //         $payment_amount = 25;
-        //     }
-        //     $date = date("Y-m-d", strtotime($date . "+1 week"));
-        //     Payment::create([
-        //         'user' => Auth::id(),
-        //         'transaction' => $transaction->id,
-        //         'amount' => $payment_amount,
-        //         'date' => $date,
-        //         'completed' => false,
-        //     ]);
-        //     $a -= $payment_amount;
-        // }
 
         $transaction->due_date = $date;
         $transaction->save();

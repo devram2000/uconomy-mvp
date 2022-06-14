@@ -54,6 +54,7 @@ class DefaultPayments extends Component
     public function saveDefault() {
         $validatedData = $this->validate([
             'payment_length' => "required",
+            'payment_months' => "required",
         ]);
         if ($this->payment_length == "monthly"){
             $validatedData = $this->validate([
