@@ -36,6 +36,8 @@ class StartUPay extends Component
     public $last_four = null;
     public $balance = 0;
     public $simulated_amount = null;
+    public $transaction_info = [];
+    public $categories = ['Retail', 'Service', 'Peer-to-Peer Marketplace', 'Bill', 'Other'];
 
 
     public function __construct() {   
@@ -44,8 +46,25 @@ class StartUPay extends Component
         $this->approved = array_map(function ($o) {
             return $o->email;
         }, DB::select('select email from approved'));
+        $this->transactions = Transaction::where('user', Auth::id())->get();
+        $i = 1;
+        foreach ($this->transactions as $t) {
+            $this->transaction_info[$t->id] = [$t->category, $t->description, false, $i];
+            $i++;
+        }
+
+        // dd($this->transaction_info);
+
 
         
+    }
+
+    public function saveTransaction($t_id) {
+        $transaction = Transaction::where('id', $t_id)->first();
+        $transaction->category = $this->transaction_info[$t_id][0];
+        $transaction->description = $this->transaction_info[$t_id][1];
+        $transaction->save();
+        $this->transaction_info[$t_id][2] = true;
     }
 
     public function toggleButton() {  
@@ -300,7 +319,6 @@ class StartUPay extends Component
             return view('livewire.terms-agreement');
         }
 
-        $this->transactions = Transaction::where('user', Auth::id())->get();
 
         $this->spending_amount = Auth::user()->limit;
 

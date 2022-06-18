@@ -200,12 +200,42 @@
         <div id="transaction-list">
             @foreach($transactions as $item)
             <div id="transaction-item">
-                <div class="transaction-sub"><b>Start Date</b>: {{ date('m/d/Y', strtotime($item->start_date)) }}</div>
-                <div class="transaction-sub"><b>Category</b>: {{ $item->category }}</div>
-                <div class="transaction-sub"><b>Description</b>: {{ $item->description}}</div>
+                <div class="font-bold text-xl mb-2">Transaction #{{ $transaction_info[$item->id][3] }}</div>
+                <div class="transaction-sub"><b>Transaction Creation</b>: {{ date('m/d/Y h:i:s', strtotime($item->created_at)) }}</div>
                 <div class="transaction-sub"><b>Estimated Completion</b>: {{ date('m/d/Y', strtotime($item->due_date))}}</div>
                 <div class="transaction-sub"><b>Amount</b>: {{ __('$') }}{{ $item->amount}}</div>
                 <div class="transaction-sub"><b>Remaining Balance</b>: {{ __('$') }}{{ $item->remaining_balance}}</div>
+
+                <div class="">
+                    <label for="category"><b>Category:</b></label>
+                    <x-jet-input-error for="category" class="mt-2" />
+                    <select name="category" class='m-1' wire:model="transaction_info.{{ $item->id }}.0" 
+                        class="p-2 px-4 py-2 pr-8 leading-tight bg-white border border-gray-400 rounded  appearance-none hover:border-gray-500 focus:outline-none ">
+                        <option value=''>Choose a Category</option>
+                        @foreach($categories as $c)
+                            <option value='{{ $c }}'>{{ $c }}</option>
+                        @endforeach 
+                    </select>
+                </div>
+            
+                <div class="">
+                    <label for="description"><b>Transaction Description:</b></label>
+                    <x-jet-input-error for="description" class="mt-2" />
+                    <textarea id="description" class="form-control" id="description"  wire:model="transaction_info.{{ $item->id }}.1"></textarea>
+
+                </div>
+
+                <div class='flex justify-end'>
+                    @if($transaction_info[$item->id][2])
+                    <div class="mr-3 text-sm text-gray-600">
+                        {{ __('Saved.') }}
+                    </div>
+                    @endif
+                    
+                    <x-jet-button wire:click='saveTransaction({{ $item->id }})'>
+                        {{ __('Save') }}
+                    </x-jet-button>
+                </div>
             </div>
             @endforeach
 
