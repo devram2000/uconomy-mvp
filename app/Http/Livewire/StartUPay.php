@@ -36,6 +36,7 @@ class StartUPay extends Component
     public $last_four = null;
     public $balance = 0;
     public $simulated_amount = null;
+    public $submit_disabled = false;
     public $transaction_info = [];
     public $categories = ['Retail', 'Service', 'Peer-to-Peer Marketplace', 'Bill', 'Other'];
 
@@ -76,6 +77,7 @@ class StartUPay extends Component
     }
 
     public function simulateSubmit(){
+        $this->submit_disabled = true;
         $validatedData = $this->validate([
             'simulated_amount' => "required|numeric|min:10|max:$this->spending_amount",
         ]);

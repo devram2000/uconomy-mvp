@@ -20,7 +20,7 @@ class KYC extends Component
             'address' => 'required',
             'city' => 'required',
             'state' => 'required',
-            'zip' => 'required',
+            'zip' => 'required|digits:5',
             'ssn' => 'required|regex:/^\d{3}-\d{2}-\d{4}$/',
         ]);
 

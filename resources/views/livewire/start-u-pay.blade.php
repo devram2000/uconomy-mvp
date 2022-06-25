@@ -86,7 +86,10 @@
                         <label for="purchaseAmount">Simulate a Test Transaction ($)</label>
                         <div class="flex justify-center mt-2 w-15">
                             <input type="text" id="simulated_amount" class="w-15" id="purchaseAmount" placeholder="{{ $simulated_amount }}" wire:model="simulated_amount">
-                            <x-jet-button class="ml-2" id="upay-button" wire:click="simulateSubmit" type="button" >Submit</x-jet-button>   
+                            <x-jet-button class="ml-2" id="simulate-submit-button" wire:click="simulateSubmit" onclick="this.disabled=true" 
+                            type="button"  >Submit</x-jet-button>
+
+                            
                         </div>
                         <x-jet-input-error for="simulated_amount" class="mt-2" />       
 
@@ -120,73 +123,20 @@
          <div>
             {{ __('Total Remaining Balance: $') }}{{ $remaining_balance }}
         </div>
+ 
+
+        <?php /* 
         <x-jet-secondary-button id="upay-button" class="mt-2" type="button" wire:click="redirectPayment">
             {{ __('Make a Payment') }}
         </x-jet-secondary-button>
+
+        */ ?> 
 
         <x-jet-secondary-button id="upay-button" class="mt-2" type="button" wire:click="redirectReschedule">
             {{ __('Reschedule Payment Dates') }}
         </x-jet-secondary-button>
 </br>
-        <div class="calendar" id="mainCalendar"> 
-                                    </div>
-                                    <script>
-                                        $(document).ready(viewDates());
-
-                                    
-                                        
-                                        function viewDates() {
-                                        
-                                        var SITEURL = "{{ url('/') }}";
-                                        
-                                        $.ajaxSetup({
-                                            headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                            }
-                                        });
-
-                                        
-
-                                    
-
-                                        var calendar = $('#mainCalendar').fullCalendar({
-                                                            // events: SITEURL + "/transact",
-                                                            events: @json($events_and_fees),
-                                                            editable: false,
-                                                            eventColor: '#7cd9edff',
-                                                            height: 'auto',
-                                                            // eventBorderColor: 'black',
-
-                                                            defaultView: 'month',
-                                                            header: {
-                                                                left:   'title',
-                                                                center: '',
-                                                                right:  'today prev,next month basicWeek'
-                                                            },
-
-                                                            // validRange: function(nowDate) {
-                                                            //     return {
-                                                            //         start: nowDate.clone().subtract(1, 'days'),
-                                                            //         end: nowDate.clone().add(3, 'months')
-                                                            //     };
-                                                            // },
-                                                    
-                                                            eventRender: function (event, element, view) {
-                                                                if (event.allDay === 'true') {
-                                                                        event.allDay = true;
-                                                                } else {
-                                                                        event.allDay = false;
-                                                                }
-                                                            },
-                                                            selectable: false,
-                                        
-                                                        });
-                                        
-                                        }
-                                        
-                                        
-                                        
-                                    </script>
+        @livewire('view-calendar', ['events_and_fees' => $events_and_fees])
 
     </section>
 
