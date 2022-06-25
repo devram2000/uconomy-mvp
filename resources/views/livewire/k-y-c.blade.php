@@ -119,17 +119,22 @@
         <div id="card-container">
             <div class="panel">
 
-                <input type="text" placeholder="Address Line 1" id="address" wire:model="address"/>
-                <x-jet-input-error for="address" class="mt-2" />
+                <x-jet-label for="address" value="{{ __('Address Line 1') }}" />
+                <x-jet-input-error for="address" class="" />
+                <input type="text" id="address" wire:model="address"/>
 
-                <input type="text" placeholder="Address Line 2" id="address2" wire:model="address2"/>
-                <x-jet-input-error for="address2" class="mt-2" />
+                <x-jet-label class="mt-2" for="address2" value="{{ __('Address Line 2') }}" />
+                <x-jet-input-error for="address2" class="" />
+                <input type="text" id="address2" wire:model="address2"/>
 
-                <input type="text" placeholder="City" id="locality" wire:model="city"/>
-                <x-jet-input-error for="city" class="mt-2" />
+                <x-jet-label class="mt-2" for="city" value="{{ __('City') }}" />
+                <x-jet-input-error for="city" class="" />
+                <input type="text" id="locality" wire:model="city"/>
 
+                <x-jet-label class="mt-2" for="state" value="{{ __('State') }}" />
+                <x-jet-input-error for="state" class="" />
                 <select type="text" name="state" id="" wire:model="state">
-                  <option value="" id='disabled' class='text-gray'>Select Your State...</option>
+                  <option value="" id='disabled' class='text-gray'>Please select...</option>
                   <option value="AK">Alaska</option>
                   <option value="AL">Alabama</option>
                   <option value="AR">Arkansas</option>
@@ -187,13 +192,14 @@
                   <option value="WV">West Virginia</option>
                   <option value="WY">Wyoming</option>    
                   </select>
-                <x-jet-input-error for="state" class="mt-2" />
 
+                <x-jet-label class="mt-2" for="zip" value="{{ __('Postal Code') }}" />
+                <x-jet-input-error for="zip" class="" />
                 <input type="text" placeholder="Postal Code" id="locality" wire:model="zip"/>
-                <x-jet-input-error for="zip" class="mt-2" />
 
-                <input type="text" placeholder="SSN (XXX-XX-XXXX)" id="locality" wire:model="ssn" pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}"/>
-                <x-jet-input-error for="ssn" class="mt-2" />
+                <x-jet-label class="mt-2" for="ssn" value="{{ __('SSN (XXX-XX-XXXX)') }}" />
+                <x-jet-input-error for="ssn" class="" />
+                <input type="text" id="locality" wire:model="ssn" pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}"/>
 
             </div>
         </div>

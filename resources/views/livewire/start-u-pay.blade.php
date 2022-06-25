@@ -75,7 +75,7 @@
             @else  */
 ?>
             <div> 
-                {{ __('Your amount available to spend is $') }}{{ $spending_amount }}
+                {{ __('Your amount available to spend is $XXX.XX') }}
 
             </div>
             <div>
