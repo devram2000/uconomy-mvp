@@ -73,11 +73,17 @@
             </div>
             
             @else  */
-?>
+?>          @if($profile_completed)
+            <div> 
+                {{ __('Your amount available to spend is $')  }}{{ $spending_amount }}
+
+            </div>
+            @else
             <div> 
                 {{ __('Your amount available to spend is $XXX.XX') }}
 
             </div>
+            @endif
             <div>
                 @if($profile_completed && $spending_amount >= 10)
                     @livewire('virtual-card') 

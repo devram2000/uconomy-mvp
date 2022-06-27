@@ -19,7 +19,7 @@
         <div id="card-container">
             <div class="panel">
                 <div class=""> 
-                    Connect your bank account with Plaid! <br>
+                    Connect your bank account with Plaid! <br><br>
                     In Plaid Sandbox mode, use the credentials at the bottom of of the screen in the grey footer to login.
                 </div>
             {{ $message }}

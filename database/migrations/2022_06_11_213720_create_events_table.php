@@ -17,6 +17,7 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->bigInteger('user')->unsigned();
             $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
+            $table->double('transaction')->unsigned()->nullable();
             $table->double('title')->unsigned();
             $table->date('start');
             $table->boolean('fee');
