@@ -9,6 +9,7 @@ use App\Http\Livewire\UserView;
 use App\Http\Livewire\Admin;
 use App\Http\Livewire\PaymentComponent;
 use App\Http\Livewire\RescheduleComponent;
+use App\Http\Livewire\NegotiateBill;
 use App\Http\Controllers\UPayController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\AutoAddressController;
@@ -95,4 +96,9 @@ Route::get('payment', PaymentComponent::class, 'render')
 Route::get('reschedule', RescheduleComponent::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
     ->name('reschedule');
+
+Route::get('bill', NegotiateBill::class, 'render')
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('bill');
+
 
