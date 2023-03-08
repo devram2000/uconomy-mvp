@@ -106,6 +106,16 @@
                             </div>
                         </div>
                         <div class ="mt-4" id="transactions-list-container">
+                            <h2 >{{ __('Latest Bills') }}</h2>
+                            <div id="user-list">
+                                @foreach($bills as $b)
+                                    <h4 class=""> 
+                                    {{ __('User ') }}{{ $b->user }}{{ __(': ') }}{{ $b->created_at }}
+                                    </h4>
+                                @endforeach
+                            </div>
+
+                        </div><div class ="mt-4" id="transactions-list-container">
                             <h2 >{{ __('Latest Transactions') }}</h2>
                             <div id="user-list">
                                 @foreach($transactions as $t)

@@ -12,7 +12,7 @@
         @if($phone_verify == NULL && $email_verify == NULL)
         <div id="profile-button">
             
-            <div> {{ __(' Please complete the verification section of your Profile before making your payment plan.') }} </div> </br>
+            <div> {{ __(' Please complete the verification section of your Profile before changing your bill date.') }} </div> </br>
 
             <x-jet-button id="upay-button" type="button" wire:click="redirectProfile">
                 {{ __('Profile') }}

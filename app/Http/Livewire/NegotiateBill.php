@@ -15,8 +15,10 @@ class NegotiateBill extends Component
 {
     use WithFileUploads;
     public $bill;
+    public $bill_object;
     public $comments;
     public $events;
+    public $submitted;
 
 
 
@@ -35,7 +37,7 @@ class NegotiateBill extends Component
         
         $this->bill->storeAs('bills',  $image1Name, 'public');
     
-        $bill = Bill::create([
+        $this->bill_object = Bill::create([
             'user' => Auth::id(),
             'bill' => $image1Name,
             'comments' => $this->comments,
@@ -49,16 +51,25 @@ class NegotiateBill extends Component
         foreach($this->events as $event) {
             BPayment::create([
                 'user' => Auth::id(),
-                'bill' => $bill->id,
+                'bill' => $this->bill_object['id'],
                 'amount' => $event['title'],
                 'date' => $event['start'],
             ]);
         }
 
         Event::where('user', Auth::id())->delete();
+        
+        $this->submitted = 1;
+        // return redirect('/home');
     
+    }
+
+    public function submitComment() {
+        $this->bill_object->update(
+            [
+                'comments' => $this->comments,
+            ]);
         return redirect('/home');
-    
     }
 
     public function mount()

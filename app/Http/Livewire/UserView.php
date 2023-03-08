@@ -9,6 +9,8 @@ use App\Models\Fee;
 use App\Models\Payment;
 use App\Models\Identification;
 use App\Models\Address;
+use App\Models\Bill;
+use App\Models\BPayment;
 
 use Livewire\Component;
 use Illuminate\Http\Request;
@@ -25,6 +27,9 @@ class UserView extends Component
     public $remaining_balance;
     public $spending_amount;
     public $events_and_fees;
+    public $bills;
+    public $bills_payments = [];
+
 
     public function render(Request $request)
     {
@@ -95,6 +100,24 @@ class UserView extends Component
             }
     
             $this->events_and_fees = array_merge($fees, $payments);
+
+
+            $this->bills = Bill::where('user', $this->user->id)
+            ->get(['id', 'bill', 'comments', 'status', 'created_at'])->toArray();
+
+            foreach ($this->bills as $bill) {
+                $bpayments = BPayment::where('bill', $bill['id'])
+                ->get(['id', 'amount', 'date'])->toArray();
+
+                for ($j = 0; $j < count($bpayments); $j++) {
+                    $bpayments[$j]["title"] = $bpayments[$j]["amount"];
+                    $bpayments[$j]["start"] = $bpayments[$j]["date"];
+
+                }
+
+                array_push($this->bills_payments, [$bill, $bpayments]);
+            }
+
     
     
 

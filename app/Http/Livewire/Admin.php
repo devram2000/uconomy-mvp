@@ -9,12 +9,14 @@ use App\Models\Fee;
 use App\Models\Payment;
 use App\Models\Identification;
 use App\Models\Transaction;
+use App\Models\Bill;
 
 
 class Admin extends Component
 {
     public $users; 
     public $transactions; 
+    public $bills; 
     public $events = [];
     public $ids = [];
     public $combined_events = [];
@@ -24,6 +26,7 @@ class Admin extends Component
         
         $this->users = User::where('email', '!=', "help@uconomy.com")->get();
         $this->transactions = Transaction::select('user', 'start_date')->orderByDesc('start_date')->get();
+        $this->bills = Bill::select('user', 'created_at')->orderByDesc('created_at')->get();
 
         foreach ($this->users as $u) {
             $fees = Fee::where('user', $u->id)

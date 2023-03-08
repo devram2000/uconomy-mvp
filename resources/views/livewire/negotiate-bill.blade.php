@@ -32,11 +32,12 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
             <div class="p-6 sm:px-20 bg-white border-b border-gray-200" id="dash">
-                <section id="upay">
-     
+
+                <section id="upay" class = "min-h-48">
+                    @if($submitted == NULL)
+
                     <div id="identity" x-data=""> 
                         <div id="identity-page" class="col-span-6 sm:col-span-4">
-                          
                             Please upload a picture of your bill.
                             <input type="file" class="hidden" class="mt-4" wire:model="bill" x-ref="pp1" >
                             </input>
@@ -198,6 +199,25 @@
 
                         <div id="identity-submit">
                             <x-jet-button id="identity-submit-button" class="mt-4" wire:click="submitBill" type="button" >
+                                {{ __('Upload') }}
+                            </x-jet-button>          
+                        <div>
+                    @endif
+                    @else
+                    <div id="identity" x-data=""> 
+                        <div id="identity-page" class="col-span-6 sm:col-span-4">
+
+                        Thank you for submitting your bill. </br> Our negotiations team will start once you send $7 to XXX-XXX-XXXX via Zelle for the reschedule fee. If we are not able to delay your dates, you will get a full refund.
+                        <div class="form-group">
+                            <label class="mt-8" for="comments">Would you like to make any additional comments for our negotiation team?</label>
+                            <x-jet-input-error for="comments" class="mt-2" />
+                            <textarea id="comments" class="form-control mt-2" wire:model="comments"></textarea>
+
+                        </div>
+                        </div>
+                        </div>
+                        <div id="identity-submit">
+                            <x-jet-button id="identity-submit-button" class="mt-4" wire:click="submitComment" type="button" >
                                 {{ __('Submit') }}
                             </x-jet-button>          
                         <div>
