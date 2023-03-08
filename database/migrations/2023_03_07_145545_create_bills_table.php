@@ -19,6 +19,7 @@ class CreateBillsTable extends Migration
             $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
             $table->string('bill', 2048);
             $table->string('comments', 555)->nullable();
+            $table->string('status', 555)->nullable();
             $table->timestamps();
         });
     }

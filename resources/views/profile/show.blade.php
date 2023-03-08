@@ -31,14 +31,20 @@
             @endif
 
             <div class="mt-10 sm:mt-0">
-                @livewire('onboarding')
+                @livewire('verification', ['user' => $user])
+            </div>
+            <x-jet-section-border />
+
+
+            <?php /* 
+
+            <div class="mt-10 sm:mt-0">
+            @livewire('onboarding')
             </div>
             <x-jet-section-border />
            
             @livewire('default-payments')
 
-
-            <?php /* 
 
              <div class="mt-10 sm:mt-0">
                 @livewire('k-y-c')

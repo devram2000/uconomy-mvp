@@ -14,6 +14,7 @@ class Bill extends Model
         'user',
         'bill',
         'comments',
+        'status',
     ];
 
 }

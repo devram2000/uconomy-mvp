@@ -32,7 +32,7 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
             <div class="p-6 sm:px-20 bg-white border-b border-gray-200" id="dash">
-                <section >
+                <section id="upay">
      
                     <div id="identity" x-data=""> 
                         <div id="identity-page" class="col-span-6 sm:col-span-4">
@@ -122,7 +122,7 @@
                                                         if (isNaN(title) || isNaN(float_title) 
                                                             || float_title.countDecimals() > 2) {
                                                             displayError("Please Enter a Valid Amount");
-                                                        } else if (float_title < 10 && document.getElementById("remaining-variable").innerHTML >= 10) {
+                                                        } else if (float_title < 10) {
                                                             displayError("Please Enter an Amount Over $10");
                                                         // } else if (document.getElementById("remaining-variable").innerHTML <= 10
                                                         //             && float_title != float_title) {
@@ -188,12 +188,12 @@
                                 
                             </script>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label class="mt-8" for="comments">Would you like to make any additional comments?</label>
                                 <x-jet-input-error for="comments" class="mt-2" />
                                 <textarea id="comments" class="form-control mt-2" wire:model="comments"></textarea>
 
-                            </div>
+                            </div> -->
 
 
                         <div id="identity-submit">

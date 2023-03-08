@@ -49,7 +49,7 @@
                 @endif
             </div>
 
-            <div class="p-2">
+            <!-- <div class="p-2">
                 @if(!$this->identity_verify) 
                     <x-jet-button type="button" wire:click="verifyIdentity">
                         Verify Identity
@@ -63,7 +63,7 @@
                         <p class="ml-2 text-medium">Identity Submitted!</p>
                     </div>
                 @endif
-            </div>
+            </div> -->
 
             
         </div>

@@ -39,6 +39,8 @@
             </div>
         </section>
     </section>
+@elseif($bill_pay)
+    @livewire('start-b-pay')
 @else
 <section id="upay">
     <section id="upay-buy">
@@ -142,7 +144,7 @@
             {{ __('Reschedule Payment Dates') }}
         </x-jet-secondary-button>
 </br>
-        @livewire('view-calendar', ['events_and_fees' => $events_and_fees])
+        @livewire('view-calendar', ['events_and_fees' => $events_and_fees, 'name' => 'mainCalendar'])
 
     </section>
 

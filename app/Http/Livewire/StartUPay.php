@@ -37,6 +37,7 @@ class StartUPay extends Component
     public $balance = 0;
     public $simulated_amount = null;
     public $submit_disabled = false;
+    public $bill_pay = true;
     public $transaction_info = [];
     public $categories = ['Retail', 'Service', 'Peer-to-Peer Marketplace', 'Bill', 'Other'];
 
@@ -398,8 +399,8 @@ class StartUPay extends Component
         $this->events_and_fees = array_merge($this->fees, $this->payments);
 
         $zelle = Auth::user()->zelle;
-        $phone_verify = Auth::user()->phone_verified_at;
-        $email_verify = Auth::user()->email_verified_at;
+        $this->phone_verify = Auth::user()->phone_verified_at;
+        $this->email_verify = Auth::user()->email_verified_at;
         $address = Address::where('user', Auth::id())->first();
         $date_of_birth = Auth::user()->date_of_birth;
         $kyc = Auth::user()->kyc;
@@ -504,6 +505,10 @@ class StartUPay extends Component
 
     public function redirectReschedule() {
         return redirect('/reschedule'); 
+    }
+
+    public function redirectBill() {
+        return redirect('/bill'); 
     }
 
 

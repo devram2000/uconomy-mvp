@@ -1,4 +1,4 @@
-<div class="calendar" id="mainCalendar"> 
+<div class="calendar" id="{{ $this->name }}"> 
                                     </div>
                                     <script>
                                         document.addEventListener('livewire:load', viewDates());
@@ -19,7 +19,7 @@
 
                                     
 
-                                        var calendar = $('#mainCalendar').fullCalendar({
+                                        var calendar = $('#{{ $this->name }}').fullCalendar({
                                                             // events: SITEURL + "/transact",
                                                             events: @json($events_and_fees),
                                                             editable: false,

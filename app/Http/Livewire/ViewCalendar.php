@@ -7,6 +7,7 @@ use Livewire\Component;
 class ViewCalendar extends Component
 {
     public $events_and_fees;
+    public $name;
 
     public function render()
     {
