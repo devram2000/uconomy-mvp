@@ -10,8 +10,8 @@ use App\Models\BPayment;
 class StartBPay extends Component
 {
     public $profile_completed = false;
-    public $phone_verify;
-    public $email_verify;
+    public $phone_verify = true;
+    public $email_verify = true;
     public $bills;
     public $bills_payments = [];
     

@@ -30,13 +30,22 @@
                 <x-jet-section-border />
             @endif
 
-            <div class="mt-10 sm:mt-0">
+           
+
+
+            <?php /* 
+
+             <div class="mt-10 sm:mt-0">
                 @livewire('verification', ['user' => $user])
             </div>
             <x-jet-section-border />
 
+            <x-jet-section-border />
 
-            <?php /* 
+           <div class="mt-10 sm:mt-0">
+                @livewire('default-payments')
+            </div>
+
 
             <div class="mt-10 sm:mt-0">
             @livewire('onboarding')

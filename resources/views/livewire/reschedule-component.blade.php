@@ -105,7 +105,7 @@
 
                                                             validRange: function(nowDate) {
                                                                 return {
-                                                                    start: nowDate.clone().subtract(1, 'days'),
+                                                                    start: nowDate.clone(),
                                                                     end: nowDate.clone().add(window, 'months')
                                                                 };
                                                             },

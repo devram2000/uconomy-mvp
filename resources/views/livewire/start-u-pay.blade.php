@@ -46,7 +46,7 @@
     <section id="upay-buy">
         
         <div id="upay-title"> 
-            {{ __('UPay') }}
+            {{ __('Uconomy') }}
         </div>
         <?php
     /* @if(!$is_approved)
