@@ -29,7 +29,7 @@ class NegotiateBill extends Component
     public function submitBill() {
     
         $validatedData = $this->validate([
-            'bill' => "required|mimes:jpeg,png,jpg,pdf|max:5048",
+            'bill' => "required|mimes:jpeg,png,jpg,pdf|max:50000",
         ]);
     
     
@@ -60,7 +60,7 @@ class NegotiateBill extends Component
         Event::where('user', Auth::id())->delete();
         
         $this->submitted = 1;
-        // return redirect('/home');
+        return redirect('/home');
     
     }
 

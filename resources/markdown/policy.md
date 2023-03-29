@@ -4,7 +4,7 @@
 
   
 
-**Last updated November 08, 2021**
+**Last updated March 28, 2023**
 
   
 
@@ -18,7 +18,7 @@ Thank you for choosing to be part of our community at Uconomy Inc. ("**Company**
 
 This privacy notice describes how we might use your information if you:
 
-* Visit our website at [http://uconomy.com](http://uconomy.com) or [http://transact.uconomy.com](http://transact.uconomy.com)
+* Visit our website at [http://uconomy.com](http://uconomy.com) or [http://test.uconomy.com](http://test.uconomy.com)
 
 * Engage with us in other related ways ― including any sales, marketing, or events
 

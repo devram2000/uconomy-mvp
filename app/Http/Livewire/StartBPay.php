@@ -10,8 +10,9 @@ use App\Models\BPayment;
 class StartBPay extends Component
 {
     public $profile_completed = false;
-    public $phone_verify = true;
-    public $email_verify = true;
+    public $phone_verify;
+    public $email_verify;
+    public $is_card_added;
     public $bills;
     public $bills_payments = [];
     
@@ -21,8 +22,11 @@ class StartBPay extends Component
     }
 
     public function mount() {
-        $this->phone_verify = Auth::user()->phone_verified_at;
-        $this->email_verify = Auth::user()->email_verified_at;
+        // $this->phone_verify = Auth::user()->phone_verified_at;
+        // $this->email_verify = Auth::user()->email_verified_at;
+        $this->is_card_added = Auth::user()->stripe_id;
+        $this->phone_verify = true;
+        $this->email_verify = true;
         $this->bills = Bill::where('user', Auth::id())
                                 ->get(['id', 'bill', 'comments', 'status', 'created_at'])->toArray();
 

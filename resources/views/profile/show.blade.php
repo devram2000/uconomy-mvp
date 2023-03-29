@@ -31,6 +31,10 @@
             @endif
 
            
+            <div class="mt-10 sm:mt-0">
+                @livewire('add-card')
+            </div>
+            <x-jet-section-border />
 
 
             <?php /* 

@@ -4,7 +4,7 @@
 
   
 
-**Last updated** **November 08, 2021**
+**Last updated** **March 28, 2023**
 
   
 
@@ -16,7 +16,7 @@
 
   
 
-These Terms of Use constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and Uconomy Inc ("**Company**", “**we**”, “**us**”, or “**our**”), concerning your access to and use of the [http://transact.uconomy.com](http://transact.uconomy.com) website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”). You agree that by accessing the Site, you have read, understood, and agree to be bound by all of these Terms of Use. IF YOU DO NOT AGREE WITH ALL OF THESE TERMS OF USE, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SITE AND YOU MUST DISCONTINUE USE IMMEDIATELY.
+These Terms of Use constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and Uconomy Inc ("**Company**", “**we**”, “**us**”, or “**our**”), concerning your access to and use of the [http://test.uconomy.com](http://test.uconomy.com) website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”). You agree that by accessing the Site, you have read, understood, and agree to be bound by all of these Terms of Use. IF YOU DO NOT AGREE WITH ALL OF THESE TERMS OF USE, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SITE AND YOU MUST DISCONTINUE USE IMMEDIATELY.
 
   
 
@@ -84,20 +84,26 @@ We accept the following forms of payment:
 
   
 
-\-  Zelle 
+\- Debit Card 
+
+\- Credit Card 
 
   
 
 You may be required to purchase or pay a fee to access some of our services. You agree to provide current, complete, and accurate purchase and account information for all purchases made via the Site. You further agree to promptly update account and payment information, including email address, payment method, and payment card expiration date, so that we can complete your transactions and contact you as needed. We bill you through an online billing account for purchases made via the Site. Sales tax will be added to the price of purchases as deemed required by us. We may change prices at any time. All payments shall be in U.S. dollars.
 
-You agree to pay all charges or fees at the prices then in effect for your purchases, and you authorize us to charge your chosen payment provider for any such amounts upon making your purchase. If your purchase is subject to recurring charges, then you consent to our charging your payment method on a recurring basis without requiring your prior approval for each recurring charge, until you notify us of your cancellation. 
+You agree to pay all charges or fees at the prices then in effect for your purchases, and you authorize us to charge your chosen payment provider for any such amounts upon making your purchase. Once you upload your bill and add your payment method, you agree to the terms outlined for your purchase in changing bill due dates.
+<!-- 
+If your purchase is subject to recurring charges, then you consent to our charging your payment method on a recurring basis without requiring your prior approval for each recurring charge, until you notify us of your cancellation.  -->
 
 We reserve the right to correct any errors or mistakes in pricing, even if we have already requested or received payment. We also reserve the right to refuse any order placed through the Site.
 
-**TRANSACTIONS** Before completing any transaction on your behalf through any Uconomy Services, Uconomy will secure your promise to pay by disclosing the terms and conditions applicable to that transaction and securing your affirmative consent to those terms for that transaction, including your promise to pay the Total Payments amount to Lender or its assigns, by asking you to click the button to confirm your loan.
+<!-- **TRANSACTIONS** Before completing any transaction on your behalf through any Uconomy Services, Uconomy will secure your promise to pay by disclosing the terms and conditions applicable to that transaction and securing your affirmative consent to those terms for that transaction, including your promise to pay the Total Payments amount to Lender or its assigns, by asking you to click the button to confirm your loan. -->
 
 
-**COLLECTIONS** You agree to allow Uconomy to send you payment reminders from time-to-time. Notwithstanding whether you have consented or withdrawn your consent to the Uconomy E-Sign Consent, you agree that payment reminders may take the form of any available communication, subject to applicable law. You also agree that if you fail to pay an amount owed to Uconomy pursuant to this Agreement, Uconomy may engage in collection efforts to recover such amounts from you. Uconomy may negotiate a grace period with you on a case-by-case basis, if you default to pay in this period, Uconomy may engage in collection efforts. These collection efforts may involve contacting you directly, submitting your information to a collections agency, or taking legal action. 
+**Reminders** You agree to allow Uconomy to send you payment reminders from time-to-time. Notwithstanding whether you have consented or withdrawn your consent to the Uconomy E-Sign Consent, you agree that payment reminders may take the form of any available communication, subject to applicable law. 
+
+<!-- You also agree that if you fail to pay an amount owed to Uconomy pursuant to this Agreement, Uconomy may engage in collection efforts to recover such amounts from you. Uconomy may negotiate a grace period with you on a case-by-case basis, if you default to pay in this period, Uconomy may engage in collection efforts. These collection efforts may involve contacting you directly, submitting your information to a collections agency, or taking legal action.  -->
 
   
 
@@ -105,11 +111,11 @@ We reserve the right to correct any errors or mistakes in pricing, even if we ha
 
   
 
-All purchases are non-refundable. You can cancel your subscription at any time by contacting us using the contact information provided below. Your cancellation will take effect at the end of the current paid term. 
+All purchases are non-refundable. You will only be charged in the case that your bill due date is moved, and will be charged 3% of the total amount of the bill that was moved.
 
   
 
-If you are unsatisfied with our services, please email us at help@uconomy.com or call us at (+1)4015000798.
+If you are unsatisfied with our services, please email us at help@uconomy.com.
 
   
 
@@ -267,7 +273,7 @@ We reserve the right, but not the obligation, to: (1) monitor the Site for viola
 
   
 
-We care about data privacy and security. Please review our Privacy Policy: **[https://transact.uconomy.com/privacy-policy](https://transact.uconomy.com/privacy-policy)**. By using the Site, you agree to be bound by our Privacy Policy, which is incorporated into these Terms of Use. Please be advised the Site is hosted in the United States. If you access the Site from any other region of the world with laws or other requirements governing personal data collection, use, or disclosure that differ from applicable laws in the United States, then through your continued use of the Site, you are transferring your data to the United States, and you agree to have your data transferred to and processed in the United States.
+We care about data privacy and security. Please review our Privacy Policy: **[https://test.uconomy.com/privacy-policy](https://test.uconomy.com/privacy-policy)**. By using the Site, you agree to be bound by our Privacy Policy, which is incorporated into these Terms of Use. Please be advised the Site is hosted in the United States. If you access the Site from any other region of the world with laws or other requirements governing personal data collection, use, or disclosure that differ from applicable laws in the United States, then through your continued use of the Site, you are transferring your data to the United States, and you agree to have your data transferred to and processed in the United States.
 
   
 

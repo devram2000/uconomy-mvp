@@ -34,14 +34,14 @@
             <div class="p-6 sm:px-20 bg-white border-b border-gray-200" id="dash">
 
                 <section id="upay" class = "min-h-48">
-                    @if($submitted == NULL)
+                    <!-- @if($submitted == NULL) -->
 
                     <div id="identity" x-data=""> 
                         <div id="identity-page" class="col-span-6 sm:col-span-4">
                             Please upload a picture of your bill.
-                            <input type="file" class="hidden" class="mt-4" wire:model="bill" x-ref="pp1" >
-                            </input>
                             @if ($bill == NULL )
+                            <input type="file" class="hidden" wire:loading.attr="disabled" class="mt-4" wire:model="bill" x-ref="pp1" >
+                            </input>
                             <x-jet-secondary-button class="mt-2" type="button" x-on:click.prevent="$refs.pp1.click()">
                                 {{ __('Add File') }}
                             </x-jet-secondary-button>
@@ -62,7 +62,7 @@
                     <div id="payment-description" class="mt-2 text-center"> 
                                 {{ __('Enter your preferred payment date(s):') }} 
                             </div> 
-                            <div class="mt-2 calendar" id="calendar"> 
+                            <div class="mt-2 calendar" id="calendar" wire:ignore> 
                                         </div>
                             <script>
                                 $(document).ready(viewCalendar());
@@ -203,15 +203,15 @@
                             </x-jet-button>          
                         <div>
                     @endif
-                    @else
+                    <!-- @else
                     <div id="identity" x-data=""> 
                         <div id="identity-page" class="col-span-6 sm:col-span-4">
-
-                        Thank you for submitting your bill. </br> Our negotiations team will start once you send $7 to XXX-XXX-XXXX via Zelle for the reschedule fee. If we are not able to delay your dates, you will get a full refund.
+                            Thank you for submitting your bill.
+Thank you for submitting your bill. </br> Our negotiations team will start once you send $7 to XXX-XXX-XXXX via Zelle for the reschedule fee. If we are not able to delay your dates, you will get a full refund.
                         <div class="form-group">
                             <label class="mt-8" for="comments">Would you like to make any additional comments for our negotiation team?</label>
                             <x-jet-input-error for="comments" class="mt-2" />
-                            <textarea id="comments" class="form-control mt-2" wire:model="comments"></textarea>
+                            <textarea id="comments" class="form-control mt-2" wire:model="comments"></textarea> 
 
                         </div>
                         </div>
@@ -221,7 +221,7 @@
                                 {{ __('Submit') }}
                             </x-jet-button>          
                         <div>
-                    @endif
+                    @endif -->
                 </section>
 
             </div>
