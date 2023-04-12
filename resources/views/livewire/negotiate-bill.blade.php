@@ -42,9 +42,12 @@
                             @if ($bill == NULL )
                             <input type="file" class="hidden" wire:loading.attr="disabled" class="mt-4" wire:model="bill" x-ref="pp1" >
                             </input>
-                            <x-jet-secondary-button class="mt-2" type="button" x-on:click.prevent="$refs.pp1.click()">
+                            <x-jet-secondary-button class="mt-2" type="button" wire:loading.remove x-on:click.prevent="$refs.pp1.click()">
                                 {{ __('Add File') }}
                             </x-jet-secondary-button>
+                            <div class="mt-2" wire:loading>
+                                {{ __('Uploading...') }}
+                            </div>
                             @else
                                 <div class="mt-2">
                                     {{ __('File Uploaded!') }}

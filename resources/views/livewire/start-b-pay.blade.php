@@ -65,7 +65,7 @@
 
             @livewire('view-calendar', ['events_and_fees' => $bill[1], 'name' => $bill[0]['id']])
 
-            <div class="transaction-sub mt-2"><b>Additional Comments:</b> {{ $bill[0]['comments'] }}</div>
+            <!-- <div class="transaction-sub mt-2"><b>Additional Comments:</b> {{ $bill[0]['comments'] }}</div> -->
 
         </div>
         @endforeach

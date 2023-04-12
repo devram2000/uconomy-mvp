@@ -18,6 +18,7 @@
         "livewire/livewire": "^2.5",
         "nexmo/client": "^2.4",
         "nexmo/laravel": "^2.4",
+        "paypal/rest-api-sdk-php": "^1.14",
         "stripe/stripe-php": "^7.105",
         "vonage/client": "^2.4"
     },
