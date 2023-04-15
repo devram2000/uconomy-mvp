@@ -7,7 +7,7 @@
         </section>
         <section id="heading-form">            
 
-            <button wire:click="redirectSignup" href="/register" class="button2 button-text" id="submit" name="join">Join Today</button>
+            <button href="" class="button2 button-text" id="submit" name="join">Join Today</button>
         
 
 
@@ -70,7 +70,7 @@
         <div class="b3">Still have questions? <a href="mailto:help@uconomy.com"><i>Contact us</i></a>!</div>
         <section id="footer-buttons">
              
-        <button wire:click="redirectSignup" href="/register" class="button2 button-text" id="submit" name="join">Join Today</button>
+        <button href="" class="button2 button-text" id="submit" name="join">Join Today</button>
              
 
 
