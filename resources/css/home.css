@@ -13,11 +13,12 @@ html {
     display: flex;
     align-items: center;
     font-size: 14px;
-    font-weight: bold;
+    /* font-weight: bold; */
     margin-right: 10px;
 }
 
-.login a {
+
+/* .login a {
     color: #471AFF;
     text-decoration: none;
     transition: color 0.3s;
@@ -25,7 +26,7 @@ html {
 
 .login a:hover {
     color: #5C33FF;
-}
+} */
 
 .header-right {
     display: flex;
