@@ -11,6 +11,7 @@ use App\Http\Livewire\PaymentComponent;
 use App\Http\Livewire\RescheduleComponent;
 use App\Http\Livewire\PaypalController;
 use App\Http\Livewire\NegotiateBill;
+use App\Http\Livewire\LandingPage;
 use App\Http\Controllers\UPayController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\AutoAddressController;
@@ -28,9 +29,12 @@ use App\Http\Controllers\AutoAddressController;
 |
 */
 
-Route::get('/', function () {
-    return redirect('/home');
-});
+// Route::get('/', function () {
+//     return redirect('/home');
+// });
+
+Route::get('/', LandingPage::class, 'render');
+
 
 Route::get('/payment', function () {
     return redirect('/debit_verification');

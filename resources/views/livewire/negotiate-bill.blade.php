@@ -201,10 +201,10 @@
 
 
                         <div id="identity-submit">
-                            <x-jet-button id="identity-submit-button" class="mt-4" wire:click="submitBill" type="button" >
+                            <x-jet-button id="identity-submit-button" class="mt-4" wire:click="submitBill" type="button">
                                 {{ __('Upload') }}
-                            </x-jet-button>          
-                        <div>
+                            </x-jet-button>
+                        </div>
                     @endif
                     <!-- @else
                     <div id="identity" x-data=""> 
