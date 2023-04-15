@@ -31,13 +31,15 @@
             @endif
 
            
-            <div class="mt-10 sm:mt-0">
-                @livewire('add-card')
-            </div>
-            <x-jet-section-border />
+           
 
 
             <?php /* 
+
+             <div class="mt-10 sm:mt-0">
+                @livewire('add-card')
+            </div>
+            <x-jet-section-border />
 
              <div class="mt-10 sm:mt-0">
                 @livewire('verification', ['user' => $user])

@@ -14,8 +14,6 @@ use PayPal\Api\ExecutePayment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Exception\PayPalConnectionException;
 
-
-
 class PaypalController extends Component
 {
     private $apiContext;
@@ -60,44 +58,59 @@ class PaypalController extends Component
             $payment->create($this->apiContext);
         } catch (\PayPal\Exception\PayPalConnectionException $ex) {
             session()->flash('error', 'Payment failed. Please try again later.');
+            \Log::error($ex->getMessage());
             return;
         }
 
-        // Redirect to the PayPal payment page
-        return redirect($payment->getApprovalLink());
-        // Redirect to the PayPal payment page
+        // Emit the 'paymentApproved' event
         $this->emit('paymentApproved', $payment->getApprovalLink());
-
     }
 
-
-public function executePayment($paymentId, $payerId) {
-        if (!$paymentId || !$payerId) {
+    public static function executePayment(\Illuminate\Http\Request $request)
+    {
+        $apiContext = new ApiContext(
+            new OAuthTokenCredential(
+                config('paypal.client_id'),
+                config('paypal.secret')
+            )
+        );
+        $apiContext->setConfig(config('paypal.settings'));
+    
+        if (!$request->has('paymentId') || !$request->has('PayerID')) {
             session()->flash('error', 'Payment failed. Please try again later.');
-            return;
+            return redirect()->route('paypal');
         }
-
-        $payment = Payment::get($paymentId, $this->apiContext);
-
+    
+        $paymentId = $request->input('paymentId');
+        $payerId = $request->input('PayerID');
+    
+        $payment = Payment::get($paymentId, $apiContext);
+    
         $execution = new PaymentExecution();
         $execution->setPayerId($payerId);
-
+    
         try {
-            $result = $payment->execute($execution, $this->apiContext);
+            $result = $payment->execute($execution, $apiContext);
         } catch (PayPalConnectionException $ex) {
             session()->flash('error', 'Payment failed. Please try again later.');
-            return;
+            \Log::error($ex->getMessage());
+            return redirect()->route('paypal');
         }
-
+    
         // Get the sale details
         $sale = $result->getTransactions()[0]->getRelatedResources()[0]->getSale();
-
+    
         // Save the sale details to your database
         // ...
-
+    
         session()->flash('success', 'Payment successful!');
+        return redirect()->route('paypal');
     }
-
+    
+    public function redirectHome() {
+        return redirect('home'); 
+    }
+    
     public function render()
     {
         return view('livewire.paypal-controller');

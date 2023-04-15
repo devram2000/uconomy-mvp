@@ -16,10 +16,8 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->bigInteger('user')->unsigned();
-            $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
-            $table->double('transaction')->unsigned()->nullable();
-            $table->foreign('transaction')->references('id')->on('transactions')->onDelete('cascade');
+            $table->foreignId('user')->constrained()->onDelete('cascade');
+            $table->foreignId('transaction')->constrained()->onDelete('cascade');
             $table->integer('amount')->unsigned();
             $table->boolean('completed');
             $table->date('date');

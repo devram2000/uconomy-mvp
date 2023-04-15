@@ -106,12 +106,7 @@ Route::get('paypal', PaypalController::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
     ->name('paypal');
 
-Route::get('/execute-payment', function (\Illuminate\Http\Request $request) {
-    return \App\Http\Livewire\PaypalController::executePayment(
-        $request->get('paymentId'),
-        $request->get('PayerID')
-    );
-})->name('execute-payment');
+Route::get('/execute-payment', [PaypalController::class, 'executePayment'])->name('execute-payment');
 
 Route::get('bill', NegotiateBill::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])

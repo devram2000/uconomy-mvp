@@ -60,7 +60,7 @@
                 <img class="logo" src="/storage/home-photos/Logo.svg" alt="Uconomy Logo" width="196" height="45.5">
                 </a>
                 <div class="header-right">
-                    <div class="login"><a  href=""><b>Login</b></a></div>
+                    <div class="login"><a wire:click="redirectLogin" href="/login"><b>Login</b></a></div>
                     <div><button class="button1 button-text" id="homenav" onclick="location.href='mailto:help@uconomy.com'" type="button">Contact Us</button></div>
                 </div>
             </nav>
