@@ -28,9 +28,41 @@ class UserView extends Component
     public $spending_amount;
     public $events_and_fees;
     public $bills;
+    public $newMessage;
     public $bills_payments = [];
 
+    public function updateBillStatus($billId, $status)
+    {
+        $bill = Bill::find($billId);
+        if (!$bill) {
+            return;
+        }
+    
+        $bill->status = $status;
+        $bill->save();
+    
+        $this->dispatchBrowserEvent('bill-status-updated', [
+            'billId' => $billId,
+            'status' => $status,
+        ]);
+    
+        // Show a success message to the user
+        // Toastr::success(__('Bill status updated successfully.'), __('Success'));
+        return redirect("/admin-user/" . $this->userID);
+    }
 
+
+    public function updateBillMessage($id)
+    {
+        $bill = Bill::findOrFail($id);
+        $bill->comments = $this->newMessage;
+        $bill->save();
+        return redirect("/admin-user/" . $this->userID);
+
+    }
+
+
+    
     public function render(Request $request)
     {
         $url = $request->path();

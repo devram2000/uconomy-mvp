@@ -51,11 +51,21 @@
                         Waiting on Payment
                     </a>
 
-                @else 
-                    {{ $bill[0]['status'] }}
+                @elseif($bill[0]['status'] == 0)
+                    Payment Confirmed - Processing
+                @elseif($bill[0]['status'] == 1)
+                    Complete
+                @elseif($bill[0]['status'] == 2)
+                    Refunded
+                @else
+                    Other
                 @endif
             </div>
-           
+
+            @if($bill[0]['comments'])
+            <div class="transaction-sub mt-2"><b>Status Comments:</b> {{ $bill[0]['comments'] }}</div>
+            @endif
+
             <div class="transaction-sub mt-2"><b>Request Creation Date</b>: {{ date('m/d/Y h:i:s', strtotime($bill[0]['created_at'])) }}</div>
 
             <div class="transaction-sub mt-2"><b>Picture:</b></div>

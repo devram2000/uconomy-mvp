@@ -29,15 +29,15 @@
                         <button wire:click="redirectHome" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Home
                         </button>
+                    
+                    @endif
 
-                    @else
                     <button wire:click="createPayment" wire:loading.remove @if($isButtonDisabled) style="display:none;" @endif class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Pay with PayPal
                     </button>
                     <div class="mt-2 text-gray-700" wire:loading>
                         {{ __('Loading...') }}
                     </div>
-                    @endif
 
                 </div>
 

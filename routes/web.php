@@ -106,7 +106,7 @@ Route::get('reschedule', RescheduleComponent::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
     ->name('reschedule');
 
-Route::get('/execute-payment', [PaypalController::class, 'executePayment'])->name('execute-payment');
+Route::get('/execute-payment/{id}', [PaypalController::class, 'executePayment'])->name('execute-payment');
 
 Route::get('bill', NegotiateBill::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])

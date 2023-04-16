@@ -10,6 +10,10 @@ use App\Models\Event;
 use App\Models\BPayment;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
+use Imagick;
+
 
 
 
@@ -51,17 +55,40 @@ class NegotiateBill extends Component
             return;
         }
     
-    
+        // Delete bills with a status of NULL for the user
+        $billsToDelete = Bill::where('user', Auth::id())
+        ->whereNull('status')
+        ->get();
+
+        foreach ($billsToDelete as $bill) {
+            // Delete the bill image from storage
+            Storage::disk('public')->delete('bills/' . $bill['bill']);
+            
+            // Delete the bill
+            $bill->delete();
+        }
+
         $image1Name = Auth::id()."_".date('Y-m-d H:i:s').'.'.$this->bill->extension();  
-        
-        $this->bill->storeAs('bills',  $image1Name, 'public');
     
+        // Check if the file is an image
+        if (in_array($this->bill->extension(), ['jpeg', 'png', 'jpg'])) {
+            // Compress the image before saving
+            $compressedImage = Image::make($this->bill->getRealPath());
+            $compressedImage->resize(null, 800, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            $compressedImage->save(public_path('storage/bills/' . $image1Name));
+        } elseif ($this->bill->extension() === 'pdf') {
+            // Save PDF file without compressing
+            $this->bill->storeAs('bills',  $image1Name, 'public');
+        }
+        
         $this->bill_object = Bill::create([
             'user' => Auth::id(),
             'bill' => $image1Name,
             'comments' => $this->comments,
         ]);
-
 
         $bill_total = 0;
         foreach($this->events as $event) {

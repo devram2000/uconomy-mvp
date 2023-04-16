@@ -65,13 +65,30 @@
 
                     
                         <div class="transaction-sub mt-2"><b>Status</b>: 
-                            @if($bill[0]['status'] == NULL)
-                                Submitted
-                            @else 
-                                {{ $bill[0]['status'] }}
-                            @endif
+                        @if($bill[0]['status'] == NULL)
+                            Waiting on Payment
+                        @elseif($bill[0]['status'] == 0)
+                            Payment Confirmed - Processing
+                        @elseif($bill[0]['status'] == 1)
+                            Complete
+                        @elseif($bill[0]['status'] == 2)
+                            Refunded
+                        @else
+                            Other
+                        @endif
                         </div>
-                    
+                        <b>Change this Bill's Status: </b>
+                        <button wire:click="updateBillStatus({{ $bill[0]['id'] }}, null)" class="dropdown-item">Waiting on Payment</button>
+                        <button wire:click="updateBillStatus({{ $bill[0]['id'] }}, 0)" class="dropdown-item">Payment Received - Processing</button>
+                        <button wire:click="updateBillStatus({{ $bill[0]['id'] }}, 1)" class="dropdown-item">Completed</button>
+                        <button wire:click="updateBillStatus({{ $bill[0]['id'] }}, 2)" class="dropdown-item">Refunded</button>
+                        <button wire:click="updateBillStatus({{ $bill[0]['id'] }}, 3)" class="dropdown-item">Other</button>
+
+                        <div class="transaction-sub mt-2">
+                            <b>(Optional) Status Message to Display for User:</b>
+                            <textarea wire:model.defer="newMessage" placeholder="{{ $bill[0]['comments']}}" class="form-control"></textarea>
+                            <button class="btn btn-primary mt-2" wire:click.prevent="updateBillMessage({{ $bill[0]['id'] }})">Update</button>
+                        </div>
                         <div class="transaction-sub mt-2"><b>Request Creation Date</b>: {{ date('m/d/Y h:i:s', strtotime($bill[0]['created_at'])) }}</div>
 
                         <div class="transaction-sub mt-2"><b>Picture:</b></div>
@@ -81,8 +98,6 @@
                         <div class="transaction-sub mt-2"><b>Preferred Dates:</b></div>
 
                         @livewire('view-calendar', ['events_and_fees' => $bill[1], 'name' => $bill[0]['id']])
-
-                        <div class="transaction-sub mt-2"><b>Additional Comments:</b> {{ $bill[0]['comments'] }}</div>
 
                     </div>
                     @endforeach
