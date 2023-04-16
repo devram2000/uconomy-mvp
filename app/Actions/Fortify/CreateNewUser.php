@@ -35,7 +35,7 @@ class CreateNewUser implements CreatesNewUsers
 
 
 
-        $person_id = SyncteraCalls::createPerson($input['first_name'], $input['last_name'], $input['date_of_birth'], $input['email'], "+1" . $input['phone_number']);
+        // $person_id = SyncteraCalls::createPerson($input['first_name'], $input['last_name'], $input['date_of_birth'], $input['email'], "+1" . $input['phone_number']);
 
         return User::create([
             'first_name' => $input['first_name'],

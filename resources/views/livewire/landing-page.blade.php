@@ -58,7 +58,7 @@
           <a class="scroll" href="#top"><img class="logo" src="/storage/home-photos/Logo.svg" alt="Uconomy Logo" width="196" height="45.5"></a>
           <div id="agreements" >
             <div><a wire:click="redirectPrivacy" href="/privacy-policy"><div class="b1">Privacy Policy</div></a></div>
-            <div><a wire:click="redirectTerms" href="/terms-of-service"><div class="b1">Cookie Policy</div></a></div>
+            <div><a wire:click="redirectTerms" href="/terms-of-service"><div class="b1">Terms of Service</div></a></div>
           </div>
         </div>
         <div class="s1" >

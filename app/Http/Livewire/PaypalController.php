@@ -13,10 +13,17 @@ use PayPal\Api\Payment;
 use PayPal\Api\ExecutePayment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Exception\PayPalConnectionException;
+use \Illuminate\Http\Request;
+use App\Models\Bill;
+use App\Models\BPayment;
+
+
 
 class PaypalController extends Component
 {
     private $apiContext;
+    public $service_fee;
+    public $fee_percentage = 0.03;
 
     public function __construct()
     {
@@ -30,15 +37,18 @@ class PaypalController extends Component
         $this->apiContext->setConfig(config('paypal.settings'));
     }
 
+    public $isButtonDisabled = false;
+
     public function createPayment()
     {
-        // Set up payment details
+        $this->isButtonDisabled = true;
+            // Set up payment details
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
 
         $amount = new Amount();
         $amount->setCurrency('USD')
-            ->setTotal(10); // Replace with the actual amount
+            ->setTotal($this->service_fee); 
 
         $transaction = new Transaction();
         $transaction->setAmount($amount)
@@ -46,7 +56,7 @@ class PaypalController extends Component
 
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl(route('execute-payment'))
-            ->setCancelUrl(route('paypal'));
+            ->setCancelUrl(route('paypal', ['id' => $this->bill_id]));
 
         $payment = new Payment();
         $payment->setIntent('sale')
@@ -66,7 +76,7 @@ class PaypalController extends Component
         $this->emit('paymentApproved', $payment->getApprovalLink());
     }
 
-    public static function executePayment(\Illuminate\Http\Request $request)
+    public static function executePayment(Request $request)
     {
         $apiContext = new ApiContext(
             new OAuthTokenCredential(
@@ -94,7 +104,7 @@ class PaypalController extends Component
         } catch (PayPalConnectionException $ex) {
             session()->flash('error', 'Payment failed. Please try again later.');
             \Log::error($ex->getMessage());
-            return redirect()->route('paypal');
+            return redirect()->route('home');
         }
     
         // Get the sale details
@@ -104,15 +114,33 @@ class PaypalController extends Component
         // ...
     
         session()->flash('success', 'Payment successful!');
-        return redirect()->route('paypal');
+        return redirect()->route('home');
     }
     
     public function redirectHome() {
         return redirect('home'); 
     }
-    
+
+    public function mount(Request $request)
+    {
+        $this->bill_id = $request->route('id');
+
+        $bill = Bill::find($this->bill_id);
+
+        if (!$bill || $bill->user != auth()->id() || $bill->status != NULL) {
+            return $this->redirect(route('home'));
+        }
+
+        $bill = Bill::find($this->bill_id);
+        $totalAmount = $bill->bpayments()->sum('amount');
+        $this->service_fee = $totalAmount * $this->fee_percentage;
+
+
+    }
+
     public function render()
     {
         return view('livewire.paypal-controller');
     }
+
 }

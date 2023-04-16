@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\BPayment;
+
 
 class Bill extends Model
 {
@@ -16,5 +18,10 @@ class Bill extends Model
         'comments',
         'status',
     ];
+
+    public function bpayments()
+    {
+        return $this->hasMany(BPayment::class, 'bill');
+    }
 
 }

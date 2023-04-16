@@ -8,6 +8,9 @@ use App\Models\Bill;
 use Livewire\WithFileUploads;
 use App\Models\Event;
 use App\Models\BPayment;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
+
 
 
 
@@ -19,6 +22,7 @@ class NegotiateBill extends Component
     public $comments;
     public $events;
     public $submitted;
+    public $service_fee = 0;
 
 
 
@@ -27,10 +31,25 @@ class NegotiateBill extends Component
     }
     
     public function submitBill() {
-    
-        $validatedData = $this->validate([
+        $this->events = Event::where('user', Auth::id())
+        ->where('fee', false)
+        ->get(['id', 'title', 'start'])->toArray();
+
+        $validator = Validator::make(
+            ['bill' => $this->bill, 'events' => $this->events],
+            [
             'bill' => "required|mimes:jpeg,png,jpg,pdf|max:50000",
-        ]);
+            'events' => 'required'
+            ],
+            [
+            'events.required' => 'At least one payment date is required.'
+            ]
+        );
+
+        if ($validator->fails()) {
+            $this->addError('events', $validator->errors()->first('events'));
+            return;
+        }
     
     
         $image1Name = Auth::id()."_".date('Y-m-d H:i:s').'.'.$this->bill->extension();  
@@ -43,12 +62,10 @@ class NegotiateBill extends Component
             'comments' => $this->comments,
         ]);
 
-        $this->events = Event::where('user', Auth::id())
-                                ->where('fee', false)
-                                ->get(['id', 'title', 'start'])->toArray();
 
-
+        $bill_total = 0;
         foreach($this->events as $event) {
+            $bill_total += floatval($event['title']);
             BPayment::create([
                 'user' => Auth::id(),
                 'bill' => $this->bill_object['id'],
@@ -56,11 +73,16 @@ class NegotiateBill extends Component
                 'date' => $event['start'],
             ]);
         }
+        // $this->service_fee = 10;
+        // $this->service_fee = $bill_total * 0.03;
 
         Event::where('user', Auth::id())->delete();
         
         $this->submitted = 1;
-        return redirect('/home');
+        // $someVariable = 'value'; // This can be any value you want to pass
+        // $this->emit('redirectToPage', $this->service_fee);
+
+        return redirect('/paypal/' . $this->bill_object['id']);
     
     }
 

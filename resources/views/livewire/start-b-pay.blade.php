@@ -46,10 +46,11 @@
 
            
             <div class="transaction-sub mt-2"><b>Status</b>: 
-                @if($is_card_added == NULL)
-                    Waiting on Payment Method
-                @elseif($bill[0]['status'] == NULL)
-                    Submitted
+                @if($bill[0]['status'] == NULL)
+                    <a href="/paypal/{{$bill[0]['id']}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Waiting on Payment
+                    </a>
+
                 @else 
                     {{ $bill[0]['status'] }}
                 @endif

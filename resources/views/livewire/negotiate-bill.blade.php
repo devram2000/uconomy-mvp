@@ -18,8 +18,19 @@
   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
 
 
+@endpush
+
+<x-slot name="header">
+    <div class="font-semibold text-xl text-gray-800 leading-tight">
+        {{ __('Uconomy') }}
+    </div>
+</x-slot>
+
+@push('styles')
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
 @endpush
 
 <x-slot name="header">
@@ -32,42 +43,38 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
             <div class="p-6 sm:px-20 bg-white border-b border-gray-200" id="dash">
-
-                <section id="upay" class = "min-h-48">
-                    <!-- @if($submitted == NULL) -->
-
-                    <div id="identity" x-data=""> 
+                <section id="upay" class="min-h-48">
+                    @if($submitted == NULL)
+                    <div id="identity" x-data="" class="container mx-auto"> 
                         <div id="identity-page" class="col-span-6 sm:col-span-4">
-                            Please upload a picture of your bill.
+                            <div class="text-lg font-semibold mb-4">Please upload a picture of your bill.</div>
                             @if ($bill == NULL )
-                            <input type="file" class="hidden" wire:loading.attr="disabled" class="mt-4" wire:model="bill" x-ref="pp1" >
+                            <input type="file" class="hidden" wire:loading.attr="disabled" class="mt-4" wire:model="bill" x-ref="pp1">
                             </input>
-                            <x-jet-secondary-button class="mt-2" type="button" wire:loading.remove x-on:click.prevent="$refs.pp1.click()">
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2" type="button" wire:loading.remove x-on:click.prevent="$refs.pp1.click()">
                                 {{ __('Add File') }}
-                            </x-jet-secondary-button>
-                            <div class="mt-2" wire:loading>
+                            </button>
+                            <div class="mt-2 text-gray-700" wire:loading>
                                 {{ __('Uploading...') }}
                             </div>
                             @else
-                                <div class="mt-2">
+                                <div class="mt-2 text-gray-700">
                                     {{ __('File Uploaded!') }}
                                 </div>
-                                <x-jet-button class="" id="remove-bill-button" wire:click="removeBill" onclick="this.disabled=true" type="button">
+                                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2" id="remove-bill-button" wire:click="removeBill" onclick="this.disabled=true" type="button">
                                     {{ __('Remove Bill File') }}
-                                </x-jet-button>
+                                </button>
 
                             @endif
                             <x-jet-input-error for="bill" class="mt-2" />
+                        </div>
 
-                    </div>
-
-                    @if($bill != NULL)
-                    <div id="payment-description" class="mt-2 text-center"> 
-                                {{ __('Enter your preferred payment date(s):') }} 
-                            </div> 
-                            <div class="mt-2 calendar" id="calendar" wire:ignore> 
-                                        </div>
-                            <script>
+                        @if($bill != NULL)
+                        <div id="payment-description" class="mt-4 text-lg font-semibold"> 
+                            {{ __('Enter your preferred payment date(s):') }} 
+                        </div> 
+                        <div class="mt-4 calendar" id="calendar" wire:ignore></div>
+                        <script>
                                 $(document).ready(viewCalendar());
             
                                 function viewCalendar() {
@@ -192,41 +199,18 @@
                                 
                             </script>
 
-                            <!-- <div class="form-group">
-                                <label class="mt-8" for="comments">Would you like to make any additional comments?</label>
-                                <x-jet-input-error for="comments" class="mt-2" />
-                                <textarea id="comments" class="form-control mt-2" wire:model="comments"></textarea>
-
-                            </div> -->
-
-
-                        <div id="identity-submit">
-                            <x-jet-button id="identity-submit-button" class="mt-4" wire:click="submitBill" type="button">
+                        <div id="identity-submit" class="mt-4">
+                            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" id="identity-submit-button" wire:click="submitBill" type="button">
                                 {{ __('Upload') }}
-                            </x-jet-button>
+                            </button>
                         </div>
+                        <x-jet-input-error for="events" class="mt-2" />
+
+                        @endif
+                    @else
+                        @livewire('paypal-controller')
                     @endif
-                    <!-- @else
-                    <div id="identity" x-data=""> 
-                        <div id="identity-page" class="col-span-6 sm:col-span-4">
-                            Thank you for submitting your bill.
-Thank you for submitting your bill. </br> Our negotiations team will start once you send $7 to XXX-XXX-XXXX via Zelle for the reschedule fee. If we are not able to delay your dates, you will get a full refund.
-                        <div class="form-group">
-                            <label class="mt-8" for="comments">Would you like to make any additional comments for our negotiation team?</label>
-                            <x-jet-input-error for="comments" class="mt-2" />
-                            <textarea id="comments" class="form-control mt-2" wire:model="comments"></textarea> 
-
-                        </div>
-                        </div>
-                        </div>
-                        <div id="identity-submit">
-                            <x-jet-button id="identity-submit-button" class="mt-4" wire:click="submitComment" type="button" >
-                                {{ __('Submit') }}
-                            </x-jet-button>          
-                        <div>
-                    @endif -->
                 </section>
-
             </div>
         </div>
     </div>

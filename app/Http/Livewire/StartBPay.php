@@ -24,9 +24,10 @@ class StartBPay extends Component
     public function mount() {
         // $this->phone_verify = Auth::user()->phone_verified_at;
         // $this->email_verify = Auth::user()->email_verified_at;
-        $this->is_card_added = Auth::user()->stripe_id;
+        // $this->is_card_added = Auth::user()->stripe_id;
         $this->phone_verify = true;
         $this->email_verify = true;
+        $this->is_card_added = true;
         $this->bills = Bill::where('user', Auth::id())
                                 ->get(['id', 'bill', 'comments', 'status', 'created_at'])->toArray();
 

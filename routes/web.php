@@ -89,6 +89,10 @@ Route::get('/admin-user/{id}', UserView::class, 'render')
     ->middleware('admin')
     ->name('userView'); 
 
+Route::get('/paypal/{id}', PaypalController::class, 'render')
+    ->middleware(['auth:'.config('fortify.guard')])
+    ->name('paypal');
+
 Route::get('waitlist', Waitlist::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
     ->middleware('admin')
@@ -101,10 +105,6 @@ Route::get('payment', PaymentComponent::class, 'render')
 Route::get('reschedule', RescheduleComponent::class, 'render')
     ->middleware(['auth:'.config('fortify.guard')])
     ->name('reschedule');
-
-Route::get('paypal', PaypalController::class, 'render')
-    ->middleware(['auth:'.config('fortify.guard')])
-    ->name('paypal');
 
 Route::get('/execute-payment', [PaypalController::class, 'executePayment'])->name('execute-payment');
 
