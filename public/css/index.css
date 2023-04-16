@@ -387,6 +387,18 @@
     }
 }
 
+@media (max-width: 640px) {
+    .fc-toolbar .fc-left,
+    .fc-toolbar .fc-right {
+        float: none;
+        text-align: center;
+    }
+    .fc-toolbar .fc-left>.fc-button-group,
+    .fc-toolbar .fc-right>.fc-button-group {
+        display: inline-block;
+    }
+}
+
 @media screen and (max-width: 600px) {
     .transaction-heading {
         width: 100vw;
@@ -403,5 +415,24 @@
     #waitlist-data {
         font-size: 9px;
         justify-content: space-between;
+    }
+    .fc-day-header {
+        font-size: 8px;
+        width: 14%;
+    }
+    .fc-row {
+        height: 20px;
+    }
+    .fc-left {
+        padding-bottom: 4px;
+    }
+    .fc-toolbar-title {
+        font-size: 12px;
+    }
+    .fc-day-top {
+        height: 40px;
+    }
+    .fc-widget-content {
+        height: 40px;
     }
 }

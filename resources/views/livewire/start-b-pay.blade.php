@@ -41,14 +41,13 @@
         @endif
         
         @foreach($bills_payments as $bill)
-        <div class="mt-4">
-            <div class="font-bold text-xl">Bill Reference #: {{ 1000 + $bill[0]['id'] }}</div>
+        <div class="mt-4 p-2 bg-gray-100 rounded-md">
+            <div class="font-bold text-xl mb-2">Bill Reference #: {{ 1000 + $bill[0]['id'] }}</div>
 
-           
-            <div class="transaction-sub mt-2"><b>Status</b>: 
+            <div class="transaction-sub mb-2"><b>Status</b>: 
                 @if($bill[0]['status'] == NULL)
                     <a href="/paypal/{{$bill[0]['id']}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Waiting on Payment
+                    Pending Payment
                     </a>
 
                 @elseif($bill[0]['status'] == 0)
@@ -63,16 +62,16 @@
             </div>
 
             @if($bill[0]['comments'])
-            <div class="transaction-sub mt-2"><b>Status Comments:</b> {{ $bill[0]['comments'] }}</div>
+            <div class="transaction-sub mb-2"><b>Status Comments:</b> {{ $bill[0]['comments'] }}</div>
             @endif
 
-            <div class="transaction-sub mt-2"><b>Request Creation Date</b>: {{ date('m/d/Y h:i:s', strtotime($bill[0]['created_at'])) }}</div>
+            <div class="transaction-sub mb-2"><b>Request Creation Date</b>: {{ date('m/d/Y h:i:s', strtotime($bill[0]['created_at'])) }}</div>
 
-            <div class="transaction-sub mt-2"><b>Picture:</b></div>
+            <div class="transaction-sub mb-2"><b>Picture:</b></div>
 
-            <iframe class="mt-2" src="/storage/bills/{{ $bill[0]['bill'] }}" width="100%"></iframe>
+            <iframe class="mt-2 mb-4" src="/storage/bills/{{ $bill[0]['bill'] }}" width="100%"></iframe>
 
-            <div class="transaction-sub mt-2"><b>Preferred Dates:</b></div>
+            <div class="transaction-sub mb-2"><b>Preferred Dates:</b></div>
 
             @livewire('view-calendar', ['events_and_fees' => $bill[1], 'name' => $bill[0]['id']])
 

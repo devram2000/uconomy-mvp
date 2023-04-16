@@ -42,7 +42,7 @@
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-            <div class="p-6 sm:px-20 bg-white border-b border-gray-200" id="dash">
+            <div class="pt-6 pb-6 md:p-6 sm:px-20 bg-white border-b border-gray-200" id="dash">
                 <section id="upay" class="min-h-48">
                     @if($submitted == NULL)
                     <div id="identity" x-data="" class="container mx-auto"> 
@@ -185,6 +185,17 @@
                                                     }
                                 
                                                 });
+                                                var buttonStyles = 'font-size: 12px; padding-left: 2px; padding-right: 2px;';
+                                                var buttonStylesLargerScreens = '@media (min-width: 640px) { font-size: 16px; padding-left: 8px; padding-right: 8px; }';
+                                                var cellStyles = '.fc-event-container { white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }';
+
+                                                $('.fc-today-button').attr('style', buttonStyles);
+                                                $('.fc-month-button').attr('style', buttonStyles);
+                                                $('.fc-basicWeek-button').attr('style', buttonStyles);
+
+                                                $('head').append('<style>' + buttonStylesLargerScreens + '</style>');
+                                                $('head').append('<style>' + cellStyles + '</style>');
+
                                 
                                 }
                                 
@@ -198,6 +209,71 @@
                                 }
                                 
                             </script>
+
+<div class="mt-4 calendar" id="calendar" wire:ignore></div>
+<script>
+    $(document).ready(viewCalendar());
+
+    function viewCalendar() {
+        var SITEURL = "{{ url('/') }}";
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        var calendar = $('#calendar').fullCalendar({
+            events: @json($events),
+            editable: false,
+            height: 'auto',
+            longPressDelay: 0,
+            eventColor: '#7cd9edff',
+            defaultView: 'month',
+            header: {
+                left: 'title',
+                center: '',
+                right: 'today prev,next month basicWeek'
+            },
+            validRange: function(nowDate) {
+                return {
+                    start: nowDate.clone().subtract(1, 'days'),
+                    end: nowDate.clone().add(3, 'months')
+                };
+            },
+            eventRender: function (event, element, view) {
+                if (event.allDay === 'true') {
+                    event.allDay = true;
+                } else {
+                    event.allDay = false;
+                }
+            },
+            selectable: true,
+            selectHelper: true,
+            selectOverlap: false,
+            // ... (rest of the code)
+
+        });
+
+        var buttonStyles = 'font-size: 12px; padding-left: 4px; padding-right: 4px;';
+        var buttonStylesLargerScreens = '@media (min-width: 640px) { font-size: 16px; padding-left: 8px; padding-right: 8px; }';
+
+        $('.fc-today-button').attr('style', buttonStyles);
+        $('.fc-month-button').attr('style', buttonStyles);
+        $('.fc-basicWeek-button').attr('style', buttonStyles);
+
+        $('head').append('<style>' + buttonStylesLargerScreens + '</style>');
+    }
+
+    function displayMessage(message) {
+        toastr.success(message, 'Action Successful');
+    }
+
+    function displayError(message) {
+        toastr.warning(message, 'Action Unsuccessful');
+    }
+</script>
+
 
                         <div id="identity-submit" class="mt-4">
                             <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" id="identity-submit-button" wire:click="submitBill" type="button">
